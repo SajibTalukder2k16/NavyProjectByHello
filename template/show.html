@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <br>
+    {% for row in rows%}
+        <a href="{{url_for('profile', id = row['O_No'])}}">{{row['O_No']}}</a>
+    {% endfor%}
+{% endblock%}
