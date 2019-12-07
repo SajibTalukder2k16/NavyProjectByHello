@@ -37,7 +37,7 @@ Marital_Status = ['Single', 'Married', 'Divorced']
 User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot']
 
 
-Column = [ 'O.No' , 'usertype' , 'password' , 'name' , 'slist1' , 'slist2' , 'MobileNo-1' , 'MobileNo-2' , 'DateofBith' , 'PresentAddress' , 'PermanentAddress' , 'marrital_status' , 'DateofMarriage' , 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo' , 'BloodGroup' , 'Height' , 'Weight' , 'StateofOverWeight' , 'FacebookAccount' , 'Emailaddress' , 'home_district' , 'NextofKin' , 'Relationship' , 'ContactNumberofNextofKin' , 'NameofWife' , 'AddressofWife' , 'MobileNo' , 'Anyspecialinfowife' , 'ChildrenNumber' , 'ChildrenName' , 'DOBofChildren' , 'Anyspecialinfochildren' , 'FathersName' , 'FathersMobileNo' , 'FathersAddress' , 'MothersName' , 'MothersMobileNo' , 'MothersAddress' , 'FamilyCrisis' , 'SiblingNumber' , 'BrothersName' , 'BrothersMobileNo' , 'BrothersAddress' , 'highestEducation' , 'OngoingcivilEducation' , 'DateofJoiningService' , 'ServiceCategory' , 'Medicalcategory' , 'DateofLastPromotion' , 'DateofNextPromotion' , 'PresentEngagement' , 'NextREEngagementDue' , 'DateofNextIncrement' , 'NumberofGCB' , 'EffectivedateofexistingGCB' , 'DateofNextGCB' , 'DateofJoiningShip' , 'NameofShip' , 'UNMission' , 'GoodWillMission' , 'DAONumber' , 'PLeaveAvailed' , 'LastDateofPL' , 'PLeaveDue' , 'RecreationLeaveDue' , 'CLeaveAvailed' , 'CLeaveDue' , 'SickLeave' , 'ExBangladeshLeave' , 'Rl' , 'Sourceofdebt' , 'Amountofdebt' , 'ChoiceofAreaForPosting' , 'ChoiceofNextAppointment' , 'NameofImportantCourses' , 'NameofNextCourse' , 'ForeignCourse' , 'SpecialQualification' , 'ChoiceofNextCourse' , 'DateoflastSecurityClearance' , 'ExtraCurricularActivities' , 'GamesAndSports','DateofProceedinginTyDuty' , 'TyBillet' ,'PurposetofTy' ,'TyDuration' ,'DateofreturnfromTY', 'IfNotReturn' ,'TotalTyDuration' , 'TyHistorySummary','ADOsRemark','DivisionalOfficersRemark','COsSpecialRemark','AreaCommanderRemark' ]
+Column = [ 'O_No' , 'usertype' , 'password' , 'name' , 'slist1' , 'slist2' , 'MobileNo_1' , 'MobileNo_2' , 'DateofBith' , 'PresentAddress' , 'PermanentAddress' , 'marrital_status' , 'DateofMarriage' , 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo' , 'BloodGroup' , 'Height' , 'Weight' , 'StateofOverWeight' , 'FacebookAccount' , 'Emailaddress' , 'home_district' , 'NextofKin' , 'Relationship' , 'ContactNumberofNextofKin' , 'NameofWife' , 'AddressofWife' , 'MobileNo' , 'Anyspecialinfowife' , 'ChildrenNumber' , 'ChildrenName' , 'DOBofChildren' , 'Anyspecialinfochildren' , 'FathersName' , 'FathersMobileNo' , 'FathersAddress' , 'MothersName' , 'MothersMobileNo' , 'MothersAddress' , 'FamilyCrisis' , 'SiblingNumber' , 'BrothersName' , 'BrothersMobileNo' , 'BrothersAddress' , 'highestEducation' , 'OngoingcivilEducation' , 'DateofJoiningService' , 'ServiceCategory' , 'Medicalcategory' , 'DateofLastPromotion' , 'DateofNextPromotion' , 'PresentEngagement' , 'NextREEngagementDue' , 'DateofNextIncrement' , 'NumberofGCB' , 'EffectivedateofexistingGCB' , 'DateofNextGCB' , 'DateofJoiningShip' , 'NameofShip' , 'UNMission' , 'GoodWillMission' , 'DAONumber' , 'PLeaveAvailed' , 'LastDateofPL' , 'PLeaveDue' , 'RecreationLeaveDue' , 'CLeaveAvailed' , 'CLeaveDue' , 'SickLeave' , 'ExBangladeshLeave' , 'Rl' , 'Sourceofdebt' , 'Amountofdebt' , 'ChoiceofAreaForPosting' , 'ChoiceofNextAppointment' , 'NameofImportantCourses' , 'NameofNextCourse' , 'ForeignCourse' , 'SpecialQualification' , 'ChoiceofNextCourse' , 'DateoflastSecurityClearance' , 'ExtraCurricularActivities' , 'GamesAndSports','DateofProceedinginTyDuty' , 'TyBillet' ,'PurposetofTy' ,'TyDuration' ,'DateofreturnfromTY', 'IfNotReturn' ,'TotalTyDuration' , 'TyHistorySummary','ADOsRemark','DivisionalOfficersRemark','COsSpecialRemark','AreaCommanderRemark' ]
 
 
 
@@ -80,23 +80,26 @@ def login():
         con = sql.connect("database.db")
         con.row_factory = sql.Row
         cur = con.cursor()
-        #return "SELECT password from user where userid=" + result['username']
         cur.execute('SELECT * from UserInfo where O_No = ?' , [result['O_No']])
         rows = cur.fetchall()
-        
         for row in rows:
             if row['password'] == result['password']:
                 session['usertype'] = row['usertype']
                 session['O_No'] = result['O_No']
                 break
-
     return redirect(url_for('signin'))
 
 @app.route('/profile/<string:id>')
 def profile(id):
+    con = sql.connect("database.db")
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    #cur.execute('SELECT * from UserInfo where O_No = ?' , [result['O_No']])
+    cur.execute('SELECT * from UserInfo where O_No = ?' , [id])
+    rows = cur.fetchall()
     if 'O_No' in session:
         usertype = int(session['usertype'])
-        return render_template('profile.html', id = id,usertype = usertype)
+        return render_template('profile.html',Column = Column,usertype = usertype,rows=rows)
     else:
         return redirect(url_for('signin'))
 
@@ -121,58 +124,62 @@ def adding_user():
                     dic[col] = val
             try:
                 dic['StateofOverWeight']=0
-                cur.execute("INSERT INTO UserInfo (O_No, name, usertype) VALUES (?, ?, ?)",("blaa","ala", "sfjs"))
+                #nextreengagement calculation
+                dateofjoiningship = dic['DateofJoiningShip']
+                presentengagement = int(dic['PresentEngagement'])
+                servicecategory = int(dic['ServiceCategory'])
+                dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
+                dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
+
+                #calculation of EffectivedateofexistingGCB
+                effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
+                effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
+                dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
+                #print(dic['DateofNextGCB'])
+
+                #pleave due calculation
+                PLeaveAvailed = dic['PLeaveAvailed']
+                PLeaveDue = 60 - int(PLeaveAvailed)
+                dic['PLeaveDue'] = PLeaveDue
+
+                #print(dic['PLeaveDue'])
+
+                #RL Due Calculation
+                DateofJoiningService = dic['DateofJoiningService']
+                DateofJoiningService = datetime.strptime(DateofJoiningService,'%Y-%m-%d')
+                dic['RecreationLeaveDue'] = addyearmonth(DateofJoiningService,3,0)
+                #print(dic['RecreationLeaveDue'])
+
+                #C leave due
+                CLeaveAvailed = dic['CLeaveAvailed']
+                dic['CLeaveDue'] = 20 - int(CLeaveAvailed)
+                #print(dic['CLeaveDue'])
+
+                #Date of return from ty
+                DateofProceedinginTyDuty = dic['DateofProceedinginTyDuty']
+                dic['DateofreturnfromTY'] = datetime.strptime(DateofProceedinginTyDuty,'%Y-%m-%d').date() + timedelta(days=int(dic['TyDuration']))
+                #print(dic['DateofreturnfromTY'])
+                
+                tyduration = int(dic['TyDuration'])
+                ifnotreturn = dic['IfNotReturn']
+                if(ifnotreturn=="0"):
+                    tyduration+=1
+                dic['TyDuration']=tyduration
+                #print(dic['TyDuration'])
+
+                #date of next increment
+                DateofJoiningShip = dic['DateofJoiningShip']
+                DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
+                dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
+                #print(dic['DateofJoiningShip'])
+                cur.execute("INSERT INTO UserInfo (O_No , usertype , password , name , slist1 , slist2 , MobileNo_1 , MobileNo_2 , DateofBith , PresentAddress , PermanentAddress , marrital_status , DateofMarriage , ServiceIdCardNo , NIDCardNo , DrivingLicenseNo , BloodGroup , Height , Weight , StateofOverWeight , FacebookAccount , Emailaddress , home_district , NextofKin , Relationship , ContactNumberofNextofKin , NameofWife , AddressofWife , MobileNo , Anyspecialinfowife , ChildrenNumber , ChildrenName , DOBofChildren , Anyspecialinfochildren , FathersName , FathersMobileNo , FathersAddress , MothersName , MothersMobileNo , MothersAddress , FamilyCrisis , SiblingNumber , BrothersName , BrothersMobileNo , BrothersAddress , highestEducation , OngoingcivilEducation , DateofJoiningService , ServiceCategory , Medicalcategory , DateofLastPromotion , DateofNextPromotion , PresentEngagement , NextREEngagementDue , DateofNextIncrement , NumberofGCB , EffectivedateofexistingGCB , DateofNextGCB , DateofJoiningShip , NameofShip , UNMission , GoodWillMission , DAONumber , PLeaveAvailed , LastDateofPL , PLeaveDue , RecreationLeaveDue , CLeaveAvailed , CLeaveDue , SickLeave , ExBangladeshLeave , Rl , Sourceofdebt , Amountofdebt , ADOsRemark , DivisionalOfficersRemark , COsSpecialRemark , AreaCommanderRemark , ChoiceofAreaForPosting , ChoiceofNextAppointment , NameofImportantCourses , NameofNextCourse , ForeignCourse , SpecialQualification , ChoiceofNextCourse , DateofProceedinginTyDuty , TyBillet , PurposetofTy , TyDuration , IfNotReturn , DateofreturnfromTY, TotalTyDuration , TyHistorySummary , DateoflastSecurityClearance , ExtraCurricularActivities , GamesAndSports) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (dic['O_No'],dic['usertype'],dic['password'],dic['name'],dic['slist1'],dic['slist2'],dic['MobileNo_1'],dic['MobileNo_2'],dic['DateofBith'],dic['PresentAddress'],dic['PermanentAddress'],dic['marrital_status'],dic['DateofMarriage'],dic['ServiceIdCardNo'],dic['NIDCardNo'],dic['DrivingLicenseNo'],dic['BloodGroup'],dic['Height'],dic['Weight'],dic['StateofOverWeight'],dic['FacebookAccount'],dic['Emailaddress'],dic['home_district'],dic['NextofKin'],dic['Relationship'],dic['ContactNumberofNextofKin'],dic['NameofWife'],dic['AddressofWife'],dic['MobileNo'],dic['Anyspecialinfowife'],dic['ChildrenNumber'],dic['ChildrenName'],dic['DOBofChildren'],dic['Anyspecialinfochildren'],dic['FathersName'],dic['FathersMobileNo'],dic['FathersAddress'],dic['MothersName'],dic['MothersMobileNo'],dic['MothersAddress'],dic['FamilyCrisis'],dic['SiblingNumber'],dic['BrothersName'],dic['BrothersMobileNo'],dic['BrothersAddress'],dic['highestEducation'],dic['OngoingcivilEducation'],dic['DateofJoiningService'],dic['ServiceCategory'],dic['Medicalcategory'],dic['DateofLastPromotion'],dic['DateofNextPromotion'],dic['PresentEngagement'],dic['NextREEngagementDue'],dic['DateofNextIncrement'],dic['NumberofGCB'],dic['EffectivedateofexistingGCB'],dic['DateofNextGCB'],dic['DateofJoiningShip'],dic['NameofShip'],dic['UNMission'],dic['GoodWillMission'],dic['DAONumber'],dic['PLeaveAvailed'],dic['LastDateofPL'],dic['PLeaveDue'],dic['RecreationLeaveDue'],dic['CLeaveAvailed'],dic['CLeaveDue'],dic['SickLeave'],dic['ExBangladeshLeave'],dic['Rl'],dic['Sourceofdebt'],dic['Amountofdebt'],dic['ADOsRemark'],dic['DivisionalOfficersRemark'],dic['COsSpecialRemark'],dic['AreaCommanderRemark'],dic['ChoiceofAreaForPosting'],dic['ChoiceofNextAppointment'],dic['NameofImportantCourses'],dic['NameofNextCourse'],dic['ForeignCourse'],dic['SpecialQualification'],dic['ChoiceofNextCourse'],dic['DateofProceedinginTyDuty'],dic['TyBillet'],dic['PurposetofTy'],dic['TyDuration'],dic['DateofreturnfromTY'] ,dic['IfNotReturn'],dic['TotalTyDuration'],dic['TyHistorySummary'],dic['DateoflastSecurityClearance'],dic['ExtraCurricularActivities'],dic['GamesAndSports']))
+                #cur.execute("INSERT INTO UserInfo (O_No, name, usertype) VALUES (?, ?, ?)",(dic['O_No'],dic['name'], dic['usertype']))
                 conn.commit()
                 #print("ok")
             except:
                 print("Error in inserting")
             #return dic
-            #nextreengagement calculation
-            dateofjoiningship = dic['DateofJoiningShip']
-            presentengagement = int(dic['PresentEngagement'])
-            servicecategory = int(dic['ServiceCategory'])
-            dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
-            dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
-
-            #calculation of EffectivedateofexistingGCB
-            effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
-            effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
-            dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
-            #print(dic['DateofNextGCB'])
-
-            #pleave due calculation
-            PLeaveAvailed = dic['PLeaveAvailed']
-            PLeaveDue = 60 - int(PLeaveAvailed)
-            dic['PLeaveDue'] = PLeaveDue
-
-            #print(dic['PLeaveDue'])
-
-            #RL Due Calculation
-            DateofJoiningService = dic['DateofJoiningService']
-            DateofJoiningService = datetime.strptime(DateofJoiningService,'%Y-%m-%d')
-            dic['RecreationLeaveDue'] = addyearmonth(DateofJoiningService,3,0)
-            #print(dic['RecreationLeaveDue'])
-
-            #C leave due
-            CLeaveAvailed = dic['CLeaveAvailed']
-            dic['CLeaveDue'] = 20 - int(CLeaveAvailed)
-            #print(dic['CLeaveDue'])
-
-            #Date of return from ty
-            DateofProceedinginTyDuty = dic['DateofProceedinginTyDuty']
-            dic['DateofreturnfromTY'] = datetime.strptime(DateofProceedinginTyDuty,'%Y-%m-%d').date() + timedelta(days=int(dic['TyDuration']))
-            #print(dic['DateofreturnfromTY'])
-            
-            tyduration = int(dic['TyDuration'])
-            ifnotreturn = dic['IfNotReturn']
-            if(ifnotreturn=="0"):
-                tyduration+=1
-                dic['TyDuration']=tyduration
-            print(dic['TyDuration'])
-
     return redirect(url_for('profile', id = session['O_No']))
-    #return render_template("signin.html")
-    #return redirect(url_for(signin))
 
 def addyearmonth(joindate,addyear,addmonth):
     year = joindate.year
@@ -238,13 +245,19 @@ def adduser():
 def show():
     con = sql.connect("database.db")
     con.row_factory = sql.Row
-    #ustype = int(session['usertype'])
     cur = con.cursor()
-    #'SELECT * from UserInfo where O_No = ?' , [result['O_No']]
-    cur.execute('SELECT O_No from UserInfo where usertype >= ?' , session['usertype'])
-    #cur.execute('select O_No from UserInfo where usertype > ',[int(session['usertype'])])
+    usertype = int(session['usertype'])
+    if(usertype == 0 or usertype == 1 or usertype==4 or usertype==4 or usertype==5):
+        cur.execute('SELECT O_No from UserInfo')
+    elif(usertype==3):
+        cur.execute('SELECT NameofShip from UserInfo where O_No = ?',[session['O_No']])
+        temp = cur.fetchall()
+        ans = 0 
+        for row in temp:
+            ans = row['NameofShip']
+        cur.execute('SELECT O_No from UserInfo where NameofShip = ? ',[ans])
     rows = cur.fetchall(); 
-
+    #cur.execute('SELECT O_No from UserInfo where usertype >= ?' , session['usertype'])
     return render_template("show.html", rows = rows)
 
 if __name__ == '__main__':

@@ -4,6 +4,18 @@
 {% endblock %}
 
 {% block body %}
-    <br><p>This is page for O Id = {{id}}</p>
+
+    {% for row in rows %}
+    <table>
+        {% for col in Column%}
+            <!-- {%print(col+"    ", row[col])%} -->
+            <tr>
+            <td>{{col}}</td>
+            <td>{{row[col]}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+
 
 {% endblock %}
