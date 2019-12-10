@@ -1,21 +1,26 @@
 {% extends 'base.html'%}
 
 {% block head %}
+
 {% endblock %}
 
 {% block body %}
-
+<body>
     {% for row in rows %}
-    <table>
+    <table style="width:70%;margin-left:15%;background-color:white;"class="table-bordered table table-hover ">
+        <tr>
+            <th style="padding: 2%;" ><h2>Contents</h2></th>
+            <th style="padding: 2%;"><h2>Contents data</h2></th>
+        </tr>
         {% for col in Column%}
             <!-- {%print(col+"    ", row[col])%} -->
             <tr>
-            <td>{{col}}</td>
-            <td>{{row[col]}}</td>
+            <td style="padding: 2%;">{{col}}</td>
+            <td style="padding: 2%;">{{row[col]}}</td>
             </tr>
         {% endfor %}
     </table>
     {% endfor %}
 
-
+</body>
 {% endblock %}

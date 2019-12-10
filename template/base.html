@@ -1,20 +1,95 @@
 <html>
 <head>
+    <style>
+        body {
+                background-image: linear-gradient(rgba(236, 251, 254,0.3),rgba(236, 251, 254,0.3)), url("{{ url_for('static', filename = 'navyvecbg.png') }}");
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-size: cover;
+                overflow: scroll;
+                
+            }
+    .example::-webkit-scrollbar
+     {
+        display: none;
+     }
+     .btn-group a {
+            justify-content: center;
+            background-color: #4CAF50; 
+            border: 2px solid black; 
+            border-radius: 3px;
+            color: white; 
+            padding: 10px 24px; 
+            cursor: pointer; 
+            width: 200%; 
+            display: block; 
+    }
+          
+    .btn-group a:not(:last-child) {
+             border-bottom: none; 
+    }
+          
+    .btn-group a:hover {
+            background-color: #3e8e41;
+    }
+    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/bootstrap-theme.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/bootstrap-theme.min.css') }}">
     {%block head%}
     {%endblock%}
 </head>
+<body style="margin-top: 5%;">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{url_for('profile', id = session['O_No'])}}">Bangladesh Navy</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                    {% if usertype == 0 %}
+                    <li><a href="{{url_for('adduser')}}">Add User</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for('profile', id = session['O_No'])}}">Profile</a></li>
+                    <li><a href="{{url_for('show')}}">Show</a></li>
+                    <li><a href="">Notification</a></li>
+                    <li><a href="{{url_for('search')}}">Search</a></li>
+                    <li><a href="{{url_for('logout')}}">logout</a></li>
 
-<body>
-    {% if usertype == 0 %}
-        <a href="{{url_for('adduser')}}">Add User</a>
-    {% endif %}
-    <a href="{{url_for('profile', id = session['O_No'])}}">Profile</a>
-    <a href="{{url_for('show')}}">Show</a>
-    <a href="">Notification</a>
-    <a href="">Search</a>
-    <a href="{{url_for('logout')}}"> Log out </a>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+      <img src="{{ url_for('static', filename = 'navylogo.png') }}" alt="logo" style="height: 150px;position: fixed;">
+    </body>
+ <!-- <nav class="navbar navbar-inverse navbar-fixed-top"> 
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{url_for('profile', id = session['O_No'])}}">Bangladesh Navy</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    {% if usertype == 0 %}
+                    <li><a href="{{url_for('adduser')}}">Add User</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for('profile', id = session['O_No'])}}">Profile</a></li>
+                    <li><a href="{{url_for('show')}}">Show</a></li>
+                    <li><a href="">Notification</a></li>
+                    <li><a href="{{url_for('search')}}">Search</a></li>
+                </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 1%;">
+                <li><a href="{{url_for('logout')}}"><span class="glyphicon-glyphicon-log-in"></span>logout</a></li>
+            </ul>
+        </nav>  -->
     {%block body%}
     {% endblock %}
+    <script src="static/js/bootstrap.min.js"></script>
 </body>
     
 </html>

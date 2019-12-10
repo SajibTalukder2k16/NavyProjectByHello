@@ -5,7 +5,7 @@ import sqlite3 as sql
 import json
 
 app = Flask(__name__, template_folder='template')
-app.secret_key = "27041984"
+app.secret_key = "123456"
 
 Blood_Group = ['O+Ve','O-Ve','A+Ve','A-Ve','AB+Ve','AB-Ve','B+Ve','B-Ve']
 Home_District = [ 'Bagerhat','Bandarban','Barguna','Barisal','Bhola','Bogra','Brahmanbaria','Chandpur','Chittagong','Chuadanga','Comilla','Cox\'\s Bazar','Dhaka','Dinajpur','Faridpur','Feni','Gaibandha','Gazipur','Gopalganj','Habiganj','Jaipurhat','Jamalpur','Jessore','Jhalakati','Jhenaidah','Khagrachari','Khulna','Kishoreganj','Kurigram','Kushtia','Lakshmipur','Lalmonirhat','Madaripur','Magura','Manikganj','Meherpur','Moulvibazar','Munshiganj','Mymensingh','Naogaon','Narail','Narayanganj','Narsingdi','Natore','Nawabganj','Netrakona','Nilphamari','Noakhali','Pabna','Panchagarh','Parbattya Chattagram','Patuakhali','Pirojpur','Rajbari','Rajshahi','Rangpur','Satkhira','Shariatpur','Sherpur','Sirajganj','Sunamganj','Sylhet','Tangail','Thakurgaon']
@@ -54,7 +54,7 @@ def signin():
         return "There is an error (i.e. Read Only file system)"
     try:
         cur = conn.cursor()
-        cur.execute("INSERT INTO UserInfo (O_No, password, usertype) VALUES (?, ?, ?)",('admin', '27041984', 0))
+        cur.execute("INSERT INTO UserInfo (O_No, password, usertype) VALUES (?, ?, ?)",('admin', '123456', 0))
         cur.execute("INSERT INTO UserInfo (O_No, password, usertype) VALUES (?, ?, ?)",('temp', 'temp', 1))
         conn.commit() 
     except:
@@ -66,6 +66,13 @@ def signin():
     else:
         return render_template("signin.html")
 
+@app.route('/search')
+def search():
+    if 'O_No' in session:
+        return render_template("search.html")
+    else:
+        return "false page"
+    
 @app.route('/logout')
 def logout():
     if 'O_No' in session:
@@ -259,6 +266,48 @@ def show():
     rows = cur.fetchall(); 
     #cur.execute('SELECT O_No from UserInfo where usertype >= ?' , session['usertype'])
     return render_template("show.html", rows = rows)
+@app.route('/search_result',methods=['POST','GET'])
+def search_result():
+    if request.method == 'POST':
+        result = request.form
+        con = sql.connect("database.db")
+        con.row_factory = sql.Row
+        cur = con.cursor()
 
+        usertype = int(session['usertype'])
+    
+        if(usertype == 0 or usertype == 1 or usertype==4 or usertype==4 or usertype==5):
+            cur.execute('SELECT * from UserInfo')
+        elif(usertype==3):
+            cur.execute('SELECT NameofShip from UserInfo where O_No = ?',[session['O_No']])
+            temp = cur.fetchall()
+            ans = 0 
+            for row in temp:
+                ans = row['NameofShip']
+            cur.execute('SELECT * from UserInfo where NameofShip = ? ',[ans])
+        temp = cur.fetchall()
+        name = result['name']
+        shipname = result['shipname']
+        O_No = result['O_No']
+        #print(temp)
+        l = []
+        for row in temp:
+            ans_ship_name=row['NameofShip']
+            ans_name = row['name']
+            ans_O_No = row['O_No']
+            print(ans_O_No,O_No)
+            print(ans_name,name)
+            print(ans_ship_name,shipname)
+            if(ans_ship_name==shipname or ans_name == name or O_No == ans_O_No):
+                l.append(row['O_No'])
+
+        #     print(ans_name)
+        #     print(row)
+        #     cur.execute('SELECT O_No from UserInfo where NameofShip = ? or name = ? or O_No = ?',([shipname,name,O_No]))
+        # rows = cur.fetchall()
+        print(l)
+
+    return render_template("search_result.html", rows = l)
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)

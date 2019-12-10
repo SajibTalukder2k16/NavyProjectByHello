@@ -1,0 +1,20 @@
+
+                {% extends 'base.html'%}
+
+                {% block head %}
+                <style>
+                        
+                </style>
+                {% endblock %}
+                
+                {% block body %}
+                <body>
+                    <div style="margin-left:15%;padding-top: 5%;">
+                        <div class="btn-group">
+                                {% for row in rows%}
+                                <a style="text-align: center;text-decoration: none;" href="{{url_for('profile', id = row)}}">{{row}}</a>
+                            {% endfor%}
+                        </div>
+                    </div>
+                </body>
+                {% endblock%}

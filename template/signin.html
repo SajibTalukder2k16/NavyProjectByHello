@@ -2,11 +2,69 @@
 <html>
 
     <head>
+        <style>
+            body {
+                    background-image: linear-gradient(rgba(236, 251, 254,0.3),rgba(236, 251, 254,0.3)), url("{{ url_for('static', filename = 'navyvecbg.png') }}");
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    background-size: cover;
+                }
+.box{
+  width: 300px;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background:whitesmoke;
+  text-align: center;
+}
+.box h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.box input[type = "text"],.box input[type = "password"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  width: 200px;
+  outline: none;
+  color:black;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+.box input[type = "text"]:focus,.box input[type = "password"]:focus{
+  width: 280px;
+  border-color: #2ecc71;
+}
+.box input[type = "submit"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 5px auto;
+  text-align: center;
+  border: 2px solid #2ecc71;
+  padding: 14px 40px;
+  outline: none;
+  color:blue;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.box input[type = "submit"]:hover{
+  background: #2ecc71;
+}
 
+        </style>
     </head>
 
     <body>
-        <form action="{{url_for('login')}}" method="POST">
+        <form class="box" action="{{url_for('login')}}" method="POST">
             <input type="text" name="O_No" placeholder="O No"><br>
             <input type="password" name="password" placeholder="Password"><br><br>
             <input type="submit" value="Sign In">
