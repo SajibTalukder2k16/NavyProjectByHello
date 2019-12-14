@@ -1,26 +1,38 @@
-{% extends 'base.html'%}
+{%extends 'base.html'%}
 
-{% block head %}
+{%block pagebody%}
 
-{% endblock %}
+<style>
+    /* Coded with love by Mutiullah Samim */
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: aliceblue !important;
+    }
+</style>
 
-{% block body %}
-<body>
-    {% for row in rows %}
-    <table style="width:70%;margin-left:15%;background-color:white;"class="table-bordered table table-hover ">
+<div style="position: relative; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; text-align: center;">
+    <h2 style="color: black; margin-bottom: 5%;"><u>Details of user : {{rows[0]['name']}} office number : {{rows[0]['O_No']}}</u></h2>
+        <table class="table table-sm table-bordered table-hover" style="text-align: left ;">
+    <thead>
         <tr>
-            <th style="padding: 2%;" ><h2>Contents</h2></th>
-            <th style="padding: 2%;"><h2>Contents data</h2></th>
+            <th scope="col">SER</th>
+            <th scope="col">Name of Field</th>
+            <th scope="col">Contents of Field</th>
         </tr>
-        {% for col in Column%}
-            <!-- {%print(col+"    ", row[col])%} -->
-            <tr>
-            <td style="padding: 2%;">{{col}}</td>
-            <td style="padding: 2%;">{{row[col]}}</td>
-            </tr>
-        {% endfor %}
-    </table>
-    {% endfor %}
+    </thead>
+    <tbody>
+       {% for i in range(Column|length):%}
+        <tr>
+            <td>{{i+1}}</td>
+            <td>{{Column[i]}}</td>
+            <td>{{rows[0][i]}}</td>
+        </tr>
+       {%endfor%}
+    </tbody>
+</table>
+</div>
 
-</body>
-{% endblock %}
+{%endblock%}

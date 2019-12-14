@@ -1,20 +1,41 @@
+{%extends 'base.html'%}
 
-                {% extends 'base.html'%}
+{%block pagebody%}
 
-                {% block head %}
-                <style>
-                        
-                </style>
-                {% endblock %}
-                
-                {% block body %}
-                <body>
-                    <div style="margin-left:15%;padding-top: 5%;">
-                        <div class="btn-group">
-                                {% for row in rows%}
-                                <a style="text-align: center;text-decoration: none;" href="{{url_for('profile', id = row)}}">{{row}}</a>
-                            {% endfor%}
-                        </div>
-                    </div>
-                </body>
-                {% endblock%}
+<style>
+    /* Coded with love by Mutiullah Samim */
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: aliceblue !important;
+    }
+</style>
+
+<div style="position: relative; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%; text-align: center;">
+    <h2 style="color: black; margin-bottom: 5%;"><u>Search Results</u></h2>
+
+
+    <table class="table table-hover table-bordered" style="text-align: center;">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Ser</th>
+            <th scope="col">Office Number</th>
+          </tr>
+        </thead>
+            
+        <tbody>
+            {% for i in range(rows|length):%}
+            <tr>
+                <td style="color: black;">{{i+1}}</td>
+                <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile', id = rows[i])}}">{{rows[i]}}</a></td>
+                <!-- <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i]['O_No'])}}">{{rows[i]['name']}}</a></td> -->
+            </tr>
+            {%endfor%}
+        </tbody>
+      </table>
+
+</div>
+
+{%endblock%}

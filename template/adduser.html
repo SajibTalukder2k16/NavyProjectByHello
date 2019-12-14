@@ -1,525 +1,533 @@
-{% extends 'base.html'%}
+{%extends 'base.html'%}
 
-{% block head %}
+{%block pagebody%}
 <style>
-    body{
-        margin-top: 5%;
-    }
-
-</style>
-
-<script>
-var SList = new Object(); 
-
-
-var txtsl2 = '';
-
-
-SList.slist2 = JSON.parse('{{ Branch|safe }}')
-SList.getSelect = function(slist, option) {
-  document.getElementById('scontent').innerHTML = '';           // empty option-content
-
-  if(SList[slist][option]) {
-    // if option from the last Select, add text-content, else, set dropdown list
-    if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
-    else if(slist == 'slist2') {
-      var addata = '<option>- - -</option>';
-      for(var i=0; i<SList[slist][option].length; i++) {
-        addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
-      }
-
-      document.getElementById('slist2').innerHTML = txtsl2+' <select required class="form-control mr-sm-2" name="slist2" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
-    }
-  }
-  else if(slist == 'slist2') {
-    document.getElementById('slist2').innerHTML = '';
-  }
-}
-
-</script>
-{% endblock %}
-
-{% block body %}
-<body>
+        /* Coded with love by Mutiullah Samim */
+        body,
+        html {
+            height: 100%;
+            background: aliceblue !important;
+        }
+        h2{
+            color:rgb(80, 72, 68);
+        }
+        td{
+            color:black;
+        }
+    </style>
     
-<form method="POST" action="{{url_for('adding_user')}}">
-    <table style="width:70%;margin-left:15%;background-color:white;"class="table-bordered table table-hover ">
-        <tr>
-          <td style="padding: 2%;"><h2>Basic Particulars</h2></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">O. No</td>
-            <td style="padding: 2%;"><input class=" temp form-control mr-sm-2" type="text" name="O_No" required></td>
-        </tr>
-        <tr>
-          <td style="padding: 2%;">Name</td>
-          <td style="padding: 2%;"><input type="text" class="form-control mr-sm-2" name="name" required></td>
-        </tr>
-        <tr>
-          <td style="padding: 2%;">Branch & Rank</td>
-          <td style="padding: 2%;">
-            <select  name="slist1" class="form-control mr-sm-2" required onchange="SList.getSelect('slist2', this.value);">
-            <option>- - -</option>
-            {%for key in Branch_key %}
-                <option value={{key}}>{{key}}</option>
-            {%endfor%}
+    <script>
+            var SList = new Object(); 
+            
+            
+            var txtsl2 = '';
+            
+            
+            SList.slist2 = JSON.parse('{{ Branch|safe }}')
+            SList.getSelect = function(slist, option) {
+              document.getElementById('scontent').innerHTML = '';           // empty option-content
+            
+              if(SList[slist][option]) {
+                // if option from the last Select, add text-content, else, set dropdown list
+                if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
+                else if(slist == 'slist2') {
+                  var addata = '<option>- - -</option>';
+                  for(var i=0; i<SList[slist][option].length; i++) {
+                    addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
+                  }
+            
+                  document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="slist2" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
+                }
+              }
+              else if(slist == 'slist2') {
+                document.getElementById('slist2').innerHTML = '';
+              }
+            }
+            
+            </script>
 
-           </select>  
-           <span id="slist2"></span> <div id="scontent"></div></td>
-        </tr>
-
-        <tr>
-            <td style="padding: 2%;">Mobile No - 1</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="MobileNo_1"></td>
-        </tr>
-        <tr>
-        <td style="padding: 2%;">Mobile No - 2</td>
-            <td style="padding: 2%;"><input  class="form-control mr-sm-2" required type="text" name="MobileNo_2"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Date of Birth</td>
-            <td style="padding: 2%;"><input  class="form-control mr-sm-2" required type="date" name="DateofBith"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Present Address</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="PresentAddress"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Permanent Address</td>
-            <td style="padding: 2%;"><input  class="form-control mr-sm-2" required type="text" name="PermanentAddress"></td>
-        </tr>
-
-        <tr>
-            <td style="padding: 2%;">Marital Status</td>
-            <td style="padding: 2%;">
-                <select required='true' class="form-control mr-sm-2" name="marrital_status">{%for i in range(Marital_Status|length) %}
-                        <option  value={{i}}>{{Marital_Status[i]}}</option>
-                    {%endfor%}
-                        
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Date of Marriage</td>
-            <td style="padding: 2%;"><input  class="form-control mr-sm-2" required type="date" name="DateofMarriage"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Service Id Card No</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ServiceIdCardNo"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">NID Card No</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NIDCardNo"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Driving License No</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="DrivingLicenseNo"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Blood Group</td>
-            <td style="padding: 2%;">
-                <select required class="form-control mr-sm-2" name="BloodGroup">{%for i in range(Blood_Group|length) %}
-                        <option  value={{i}}>{{Blood_Group[i]}}</option>
-                    {%endfor%}
-                        
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Height</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Height"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Weight</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Weight"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Facebook Account</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="FacebookAccount"></td>
-        </tr>
-        <tr>
-            <td style="padding: 2%;">Email Address</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="email" name="Emailaddress  "></td>
-        </tr>
-
-        <tr>
-          <td style="padding: 2%;">Home District</td>
-          <td style="padding: 2%;">
-              <select  class="form-control mr-sm-2" name="home_district">{%for i in range(Home_District|length) %}
-                      <option  value={{i}}>{{Home_District[i]}}</option>
-                  {%endfor%}
-                      
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;"><h2>Family Particulars</h2></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Next of Kin</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NextofKin"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;" >Relationship</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Relationship"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Contact Number of Next of Kin</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ContactNumberofNextofKin"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Name of Wife</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NameofWife"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Address of Wife</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="AddressofWife"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Mobile No</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="MobileNo"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Any special info(related to wife)</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Anyspecialinfowife"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Children Number</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="ChildrenNumber"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Children Name</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ChildrenName"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">DOB of Children</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DOBofChildren"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Any special info(related to Children)</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Anyspecialinfochildren"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Father's Name</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="FathersName"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Father's Mobile No</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="FathersMobileNo"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Father's Address</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="FathersAddress"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Mother's Name</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="MothersName"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Mother's Mobile No</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="MothersMobileNo"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Mother's Address</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="MothersAddress"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Family Crisis(If any)</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="FamilyCrisis"></td>
-      </tr>
-    
-      <tr>
-          <td style="padding: 2%;"><h2>Sibling Information</h2></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Sibling Number</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="SiblingNumber"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Brother's Name</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="BrothersName"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Brother's Mobile No</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="BrothersMobileNo"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Brother's Address</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="BrothersAddress"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;"><h2>Educational Information</h2></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Highest Education</td>
-          <td style="padding: 2%;">
-              <select required class="form-control mr-sm-2" name="highestEducation">{%for i in range(Highest_Education|length) %}
-                      <option  value={{i}}>{{Highest_Education[i]}}</option>
-                  {%endfor%}
-                      
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Ongoing civil Education</td>
-          <td style="padding: 2%;">
-              <select required class="form-control mr-sm-2" name="OngoingcivilEducation">{%for i in range(Ongoing_Education|length) %}
-                      <option  value={{i}}>{{Ongoing_Education[i]}}</option>
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;"><h2>Service Information</h2></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Date of Joining Service</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateofJoiningService"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Service Category</td>
-          <td style="padding: 2%;">
-              <select required class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
-                      <option  value={{i}}>{{Service_Category[i]}}</option>
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Medical category</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Medicalcategory"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Date of Last Promotion</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateofLastPromotion"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Date of Next Promotion</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateofNextPromotion"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Present Engagement</td>
-          <td style="padding: 2%;">
-              <select required class="form-control mr-sm-2" name="PresentEngagement">{%for i in range(Present_Engagement|length) %}
-                      <option  value={{i}}>{{Present_Engagement[i]}}</option>
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Number of GCB</td>
-          <td style="padding: 2%;">
-              <select required  class="form-control mr-sm-2" name="NumberofGCB">{%for i in range(Number_of_GCB|length) %}
-                      <option  value={{i}}>{{Number_of_GCB[i]}}</option>
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Effective date of existing GCB</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="EffectivedateofexistingGCB"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Date of Joining Ship</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateofJoiningShip"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Name of Ship</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NameofShip"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">UN Mission</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="UNMission"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Good Will Mission</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="GoodWillMission"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">DAO Number</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="DAONumber"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;"><h2>Leave Particulars</h2></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">P Leave Availed</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="PLeaveAvailed"></td>
-      </tr>
-      <tr>
-          <td style="padding: 2%;">Last Date of PL</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="LastDateofPL"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">C Leave Availed</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="CLeaveAvailed"></td>
-      </tr>
-
-      <tr>
-        <td style="padding: 2%;">Sick Leave</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="SickLeave"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Ex Bangladesh Leave</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ExBangladeshLeave"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">RL</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Rl"></td>
-      </tr>
-
-      <tr><td style="padding: 2%;"><h2>Financial Section</h2></td></tr>
-      <tr>
-          <td style="padding: 2%;">Source of debt.</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="Sourceofdebt"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Amount of debt.</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required  type="number" name="Amountofdebt"></td>
-      </tr>
-
-      <tr><td style="padding: 2%;"><h2>Remarks Section</h2></td></tr>
-      <tr>
-        <td style="padding: 2%;" >ADO's Remark</td>
-        <td style="padding: 2%;" ><input class="form-control mr-sm-2" required type="text" name="ADOsRemark"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;" >Divisional Officer's Remark</td>
-        <td style="padding: 2%;" ><input class="form-control mr-sm-2" required type="text" name="DivisionalOfficersRemark"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;" >CO's Special Remark(if any)</td>
-        <td style="padding: 2%;" ><input class="form-control mr-sm-2"required  type="text" name="COsSpecialRemark"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Area Commander/CO's recommendation/remarks</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="AreaCommanderRemark"></td>
-      </tr>
-
-      <tr><td style="padding: 2%;"><h2>Personal Preferences</h2></td></tr>
-      <tr>
-          <td style="padding: 2%;">Choice of Area for Posting</td>
-          <td style="padding: 2%;">
-            <select required class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
-                    <option  value={{i}}>{{Choice_of_Area_for_drafting [i]}}</option>
-                {%endfor%}
-                    
-            </select>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Choice of Next Appointment</td>
-        <td style="padding: 2%;">
-          <select required class="form-control mr-sm-2" name="ChoiceofNextAppointment">{%for i in range(Choice_of_Next_Appointment|length) %}
-                  <option  value={{i}}>{{Choice_of_Next_Appointment [i]}}</option>
-              {%endfor%}
+    <div style="position: relative; width: 70%; margin-left: 15%; margin-right: 15%; margin-top: 5%; text-align: center;">
+        <h2 style="color: black; margin-bottom: 5%;"><u>Add Information</u></h2>
+        
+        <form method="POST" action="{{url_for('adding_user')}}">
+                <table style="width:70%;margin-left:15%;background-color:white;"class="table-bordered table-sm table-hover ">
+                    <tr>
+                      <td ><h2>Basic Particulars</h2></td>
+                    </tr>
+                    <tr>
+                        <td >O. No</td>
+                        <td ><input class=" form-control mr-sm-2" type="text" name="O_No" ></td>
+                    </tr>
+                    <tr>
+                      <td >Name</td>
+                      <td ><input type="text" class="form-control mr-sm-2" name="name" ></td>
+                    </tr>
+                    <tr>
+                      <td >Branch & Rank</td>
+                      <td >
+                        <select  name="slist1" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
+                        <option>- - -</option>
+                        {%for key in Branch_key %}
+                            <option value={{key}}>{{key}}</option>
+                        {%endfor%}
+            
+                       </select>  
+                       <span id="slist2"></span> <div id="scontent"></div></td>
+                    </tr>
+            
+                    <tr>
+                        <td >Mobile No - 1</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo_1"></td>
+                    </tr>
+                    <tr>
+                    <td >Mobile No - 2</td>
+                        <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2"></td>
+                    </tr>
+                    <tr>
+                        <td >Date of Birth</td>
+                        <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth"></td>
+                    </tr>
+                    <tr>
+                        <td >Present Address</td>
+                        <td ><input class="form-control mr-sm-2" type="text" name="PresentAddress"></td>
+                    </tr>
+                    <tr>
+                        <td >Permanent Address</td>
+                        <td ><input  class="form-control mr-sm-2" type="text" name="PermanentAddress"></td>
+                    </tr>
+            
+                    <tr>
+                        <td >Marital Status</td>
+                        <td >
+                            <select  class="form-control mr-sm-2" name="marrital_status">{%for i in range(Marital_Status|length) %}
+                                    <option  value={{i}}>{{Marital_Status[i]}}</option>
+                                {%endfor%}
+                                    
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Date of Marriage</td>
+                        <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage"></td>
+                    </tr>
+                    <tr>
+                        <td >Service Id Card No</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="ServiceIdCardNo"></td>
+                    </tr>
+                    <tr>
+                        <td >NID Card No</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="NIDCardNo"></td>
+                    </tr>
+                    <tr>
+                        <td >Driving License No</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="DrivingLicenseNo"></td>
+                    </tr>
+                    <tr>
+                        <td >Blood Group</td>
+                        <td >
+                            <select  class="form-control mr-sm-2" name="BloodGroup">{%for i in range(Blood_Group|length) %}
+                                    <option  value={{i}}>{{Blood_Group[i]}}</option>
+                                {%endfor%}
+                                    
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Height</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="Height"></td>
+                    </tr>
+                    <tr>
+                        <td >Weight</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="Weight"></td>
+                    </tr>
+                    <tr>
+                        <td >Facebook Account</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="FacebookAccount"></td>
+                    </tr>
+                    <tr>
+                        <td >Email Address</td>
+                        <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress  "></td>
+                    </tr>
+            
+                    <tr>
+                      <td >Home District</td>
+                      <td >
+                          <select  class="form-control mr-sm-2" name="home_district">{%for i in range(Home_District|length) %}
+                                  <option  value={{i}}>{{Home_District[i]}}</option>
+                              {%endfor%}
+                                  
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td ><h2>Family Particulars</h2></td>
+                  </tr>
+                  <tr>
+                      <td >Next of Kin</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="NextofKin"></td>
+                  </tr>
+                  <tr>
+                      <td  >Relationship</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="Relationship"></td>
+                  </tr>
+                  <tr>
+                      <td >Contact Number of Next of Kin</td>
+                      <td ><input class="form-control mr-sm-2" type="text" name="ContactNumberofNextofKin"></td>
+                  </tr>
+                  <tr>
+                      <td >Name of Wife</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="NameofWife"></td>
+                  </tr>
+                  <tr>
+                      <td >Address of Wife</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="AddressofWife"></td>
+                  </tr>
+                  <tr>
+                      <td >Mobile No</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo"></td>
+                  </tr>
+                  <tr>
+                      <td >Any special info(related to wife)</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfowife"></td>
+                  </tr>
+                  <tr>
+                      <td >Children Number</td>
+                      <td ><input class="form-control mr-sm-2"  type="number" name="ChildrenNumber"></td>
+                  </tr>
+                  <tr>
+                      <td >Children Name</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="ChildrenName"></td>
+                  </tr>
+                  <tr>
+                      <td >DOB of Children</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="DOBofChildren"></td>
+                  </tr>
+                  <tr>
+                      <td >Any special info(related to Children)</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren"></td>
+                  </tr>
+                  <tr>
+                      <td >Father's Name</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="FathersName"></td>
+                  </tr>
+                  <tr>
+                      <td >Father's Mobile No</td>
+                      <td ><input class="form-control mr-sm-2" type="text" name="FathersMobileNo"></td>
+                  </tr>
+                  <tr>
+                      <td >Father's Address</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="FathersAddress"></td>
+                  </tr>
+                  <tr>
+                    <td >Mother's Name</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="MothersName"></td>
+                  </tr>
+                  <tr>
+                      <td >Mother's Mobile No</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="MothersMobileNo"></td>
+                  </tr>
+                  <tr>
+                      <td >Mother's Address</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="MothersAddress"></td>
+                  </tr>
+                  <tr>
+                      <td >Family Crisis(If any)</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="FamilyCrisis"></td>
+                  </tr>
+                
+                  <tr>
+                      <td ><h2>Sibling Information</h2></td>
+                  </tr>
+                  <tr>
+                      <td >Sibling Number</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="SiblingNumber"></td>
+                  </tr>
+                  <tr>
+                      <td >Brother's Name</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="BrothersName"></td>
+                  </tr>
+                  <tr>
+                      <td >Brother's Mobile No</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="BrothersMobileNo"></td>
+                  </tr>
+                  <tr>
+                      <td >Brother's Address</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="BrothersAddress"></td>
+                  </tr>
+                  <tr>
+                      <td ><h2>Educational Information</h2></td>
+                  </tr>
+                  <tr>
+                      <td >Highest Education</td>
+                      <td >
+                          <select  class="form-control mr-sm-2" name="highestEducation">{%for i in range(Highest_Education|length) %}
+                                  <option  value={{i}}>{{Highest_Education[i]}}</option>
+                              {%endfor%}
+                                  
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td >Ongoing civil Education</td>
+                      <td >
+                          <select class="form-control mr-sm-2" name="OngoingcivilEducation">{%for i in range(Ongoing_Education|length) %}
+                                  <option  value={{i}}>{{Ongoing_Education[i]}}</option>
+                              {%endfor%}
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td ><h2>Service Information</h2></td>
+                  </tr>
+                  <tr>
+                      <td >Date of Joining Service</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService"></td>
+                  </tr>
+                  <tr>
+                      <td >Service Category</td>
+                      <td >
+                          <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
+                                  <option  value={{i}}>{{Service_Category[i]}}</option>
+                              {%endfor%}
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td >Medical category</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="Medicalcategory"></td>
+                  </tr>
+                  <tr>
+                      <td >Date of Last Promotion</td>
+                      <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion"></td>
+                  </tr>
+                  <tr>
+                      <td >Date of Next Promotion</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion"></td>
+                  </tr>
+                  <tr>
+                      <td >Present Engagement</td>
+                      <td >
+                          <select  class="form-control mr-sm-2" name="PresentEngagement">{%for i in range(Present_Engagement|length) %}
+                                  <option  value={{i}}>{{Present_Engagement[i]}}</option>
+                              {%endfor%}
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td >Number of GCB</td>
+                      <td >
+                          <select  class="form-control mr-sm-2" name="NumberofGCB">{%for i in range(Number_of_GCB|length) %}
+                                  <option  value={{i}}>{{Number_of_GCB[i]}}</option>
+                              {%endfor%}
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td >Effective date of existing GCB</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB"></td>
+                  </tr>
+                  <tr>
+                      <td >Date of Joining Ship</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningShip"></td>
+                  </tr>
+                  <tr>
+                      <td >Name of Ship</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="NameofShip"></td>
+                  </tr>
+                  <tr>
+                      <td >UN Mission</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="UNMission"></td>
+                  </tr>
+                  <tr>
+                      <td >Good Will Mission</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="GoodWillMission"></td>
+                  </tr>
+                  <tr>
+                      <td >DAO Number</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="DAONumber"></td>
+                  </tr>
+                  <tr>
+                      <td ><h2>Leave Particulars</h2></td>
+                  </tr>
+                  <tr>
+                      <td >P Leave Availed</td>
+                      <td ><input class="form-control mr-sm-2"  type="number" name="PLeaveAvailed"></td>
+                  </tr>
+                  <tr>
+                      <td >Last Date of PL</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofPL"></td>
+                  </tr>
+                  <tr>
+                    <td >C Leave Availed</td>
+                    <td ><input class="form-control mr-sm-2"  type="number" name="CLeaveAvailed"></td>
+                  </tr>
+            
+                  <tr>
+                    <td >Sick Leave</td>
+                    <td ><input class="form-control mr-sm-2"  type="number" name="SickLeave"></td>
+                  </tr>
+                  <tr>
+                    <td >Ex Bangladesh Leave</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="ExBangladeshLeave"></td>
+                  </tr>
+                  <tr>
+                    <td >RL</td>
+                    <td ><input class="form-control mr-sm-2" type="text" name="Rl"></td>
+                  </tr>
+            
+                  <tr><td ><h2>Financial Section</h2></td></tr>
+                  <tr>
+                      <td >Source of debt.</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="Sourceofdebt"></td>
+                  </tr>
+                  <tr>
+                    <td >Amount of debt.</td>
+                    <td ><input class="form-control mr-sm-2"   type="number" name="Amountofdebt"></td>
+                  </tr>
+            
+                  <tr><td ><h2>Remarks Section</h2></td></tr>
+                  <tr>
+                    <td  >ADO's Remark</td>
+                    <td  ><input class="form-control mr-sm-2"  type="text" name="ADOsRemark"></td>
+                  </tr>
+                  <tr>
+                    <td  >Divisional Officer's Remark</td>
+                    <td  ><input class="form-control mr-sm-2"  type="text" name="DivisionalOfficersRemark"></td>
+                  </tr>
+                  <tr>
+                    <td  >CO's Special Remark(if any)</td>
+                    <td  ><input class="form-control mr-sm-2"  type="text" name="COsSpecialRemark"></td>
+                  </tr>
+                  <tr>
+                    <td >Area Commander/CO's recommendation/remarks</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="AreaCommanderRemark"></td>
+                  </tr>
+            
+                  <tr><td ><h2>Personal Preferences</h2></td></tr>
+                  <tr>
+                      <td >Choice of Area for Posting</td>
+                      <td >
+                        <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
+                                <option  value={{i}}>{{Choice_of_Area_for_drafting [i]}}</option>
+                            {%endfor%}
+                                
+                        </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td >Choice of Next Appointment</td>
+                    <td >
+                      <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">{%for i in range(Choice_of_Next_Appointment|length) %}
+                              <option  value={{i}}>{{Choice_of_Next_Appointment [i]}}</option>
+                          {%endfor%}
+                              
+                      </select>
+                  </td>
+                  </tr>
+                  <tr><td ><h2>Course Information</h2></td></tr>
+                  <tr>
+                      <td >Name of important courses</td>
+                      <td ><input class="form-control mr-sm-2"  type="text" name="NameofImportantCourses"></td>
+                  </tr>
+                  <tr>
+                    <td >Name of Next courses</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="NameofNextCourse"></td>
+                  </tr>
+                  <tr>
+                    <td >Foreign course</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="ForeignCourse"></td>
+                  </tr>
+                  <tr>
+                    <td >Special qualification</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="SpecialQualification"></td>
+                  </tr>
+                  <tr>
+                    <td >Choice of next course</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="ChoiceofNextCourse"></td>
+                  </tr>
+                  <tr><td ><h2>TY Movement History</h2></td></tr>
+                  <tr>
+                      <td >Date of proceeding in ty duty</td>
+                      <td ><input class="form-control mr-sm-2"  type="date" name="DateofProceedinginTyDuty"></td>
+                  </tr>
+                  <tr>
+                    <td >Ty billet</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="TyBillet"></td>
+                  </tr>
+                  <tr>
+                    <td >Purpose of Ty</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="PurposetofTy"></td>
+                  </tr>
+                  <tr>
+                    <td >Ty Duration</td>
+                    <td ><input class="form-control mr-sm-2"  type="number" name="TyDuration"></td>
+                  </tr>
+                  <tr>
+                    <td >If Not Return</td>
+                    <td >
+                            <select  class="form-control mr-sm-2" name="IfNotReturn">{%for i in range(YesNo|length) %}
+                                    <option  value={{i}}>{{YesNo[i]}}</option>
+                                {%endfor%}
+                                    
+                            </select>
+                        </td>
+                  </tr>
+                  <tr>
+                    <td >Total Ty Duration</td>
+                    <td ><input class="form-control mr-sm-2"  type="number" name="TotalTyDuration"></td>
+                  </tr>
+                  <tr>
+                    <td >Ty History Summary</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="TyHistorySummary"></td>
+                  </tr>
+            
+                  <tr><td ><h2>Optional Data</h2></td></tr>
+                  <tr>
+                    <td >Date of last Security clearance</td>
+                    <td ><input class="form-control mr-sm-2"  type="date" name="DateoflastSecurityClearance"></td>
+                  </tr>
+                  <tr>
+                    <td >Extra Curricular Activities</td>
+                    <td ><input class="form-control mr-sm-2"  type="text" name="ExtraCurricularActivities"></td>
+                  </tr>
+                  <tr>
+                        <td >Games and Sports</td>
+                        <td ><input class="form-control mr-sm-2"   type="text" name="GamesAndSports"></td>
+                      </tr>
+            
+            
+                      <tr>
+                            <td ><h2>Sign Up Information</h2></td>
+                        </tr>
+                  <tr>
+                        <td >User Type</td>
+                        <td >
+                          <select class="form-control mr-sm-2" name="usertype">{%for i in range(User_Type|length) %}
+                                  <option  value={{i}}>{{User_Type[i]}}</option>
+                              {%endfor%}
+                                  
+                          </select>
+                      </td>
+                </tr>
+                  <tr>
+                    <td >User Password</td>
+                    <td ><input class="form-control mr-sm-2"   type="password" name="password"></td>
+                   </tr>
                   
-          </select>
-      </td>
-      </tr>
-      <tr><td style="padding: 2%;"><h2>Course Information</h2></td></tr>
-      <tr>
-          <td style="padding: 2%;">Name of important courses</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NameofImportantCourses"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Name of Next courses</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="NameofNextCourse"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Foreign course</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ForeignCourse"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Special qualification</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="SpecialQualification"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Choice of next course</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ChoiceofNextCourse"></td>
-      </tr>
-      <tr><td style="padding: 2%;"><h2>TY Movement History</h2></td></tr>
-      <tr>
-          <td style="padding: 2%;">Date of proceeding in ty duty</td>
-          <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateofProceedinginTyDuty"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Ty billet</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="TyBillet"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Purpose of Ty</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="PurposetofTy"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Ty Duration</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="TyDuration"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">If Not Return</td>
-        <td style="padding: 2%;">
-                <select required class="form-control mr-sm-2" name="IfNotReturn">{%for i in range(YesNo|length) %}
-                        <option  value={{i}}>{{YesNo[i]}}</option>
-                    {%endfor%}
-                        
-                </select>
-            </td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Total Ty Duration</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="number" name="TotalTyDuration"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Ty History Summary</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="TyHistorySummary"></td>
-      </tr>
+            
+            
+            
+            
+            
+            
+                  
+            
+                  <tr>
+                      <td></td>
+                      <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
+                  </tr>
+                </table>
+            </form>
 
-      <tr><td style="padding: 2%;"><h2>Optional Data</h2></td></tr>
-      <tr>
-        <td style="padding: 2%;">Date of last Security clearance</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="date" name="DateoflastSecurityClearance"></td>
-      </tr>
-      <tr>
-        <td style="padding: 2%;">Extra Curricular Activities</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required type="text" name="ExtraCurricularActivities"></td>
-      </tr>
-      <tr>
-            <td style="padding: 2%;">Games and Sports</td>
-            <td style="padding: 2%;"><input class="form-control mr-sm-2" required  type="text" name="GamesAndSports"></td>
-          </tr>
-
-
-          <tr>
-                <td style="padding: 2%;"><h2>Sign Up Information</h2></td>
-            </tr>
-      <tr>
-            <td style="padding: 2%;">User Type</td>
-            <td style="padding: 2%;">
-              <select required class="form-control mr-sm-2" name="usertype">{%for i in range(User_Type|length) %}
-                      <option  value={{i}}>{{User_Type[i]}}</option>
-                  {%endfor%}
-                      
-              </select>
-          </td>
-    </tr>
-      <tr>
-        <td style="padding: 2%;">User Password</td>
-        <td style="padding: 2%;"><input class="form-control mr-sm-2" required  type="password" name="password"></td>
-       </tr>
-      
-
-
-
-
-
-
-      
-
-      <tr>
-          <td></td>
-          <td style="padding: 2%;width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
-      </tr>
-    </table>
-</form>
-</body>
-{% endblock %}
+    </div>
+{%endblock%}

@@ -1,48 +1,46 @@
-{% extends 'base.html'%}
+{%extends 'base.html'%}
 
-{% block head %}
+{%block pagebody%}
 
-{% endblock %}
+<style>
+    /* Coded with love by Mutiullah Samim */
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: rgb(79, 80, 80) !important;
+    }
+</style>
 
-{% block body %}
-<body>
-        <!-- <div style="margin-left:10%;padding-top: 5%;">
-                        <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-                          <div class="input-group">
-                            <input type="search" placeholder="Search Sailor's data by Ships name or O.No or Name or rank" aria-describedby="button-addon1" class="form-control border-0 bg-light">
-                            <div class="input-group-append">
-                              <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
-                            </div>
-                          </div>
-                        </div>
-        </div> -->
-        <form action="{{url_for('search_result')}}" method="POST">
-            <div class="container">
-                <br/>
-                <div class="row justify-content-center">
-                        <div class="col-12 col-md-10 col-lg-8">
-                                <form class="card card-sm">
-                                     <div class="card-body row no-gutters align-items-center">
-                                          <div class="col-auto">
-                                               <i class="fas fa-search h4 text-body"></i>
-                                           </div>
-                                                <div class="col">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="shipname" placeholder="Search Sailor's data by Ships name">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
-                                                    <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
-                                                </div>
-
-                                                <div class="col-auto" style="padding-top: 2%;">
-                                                    <button class="btn btn-lg btn-success" type="submit">Search</button>
-                                                </div>
+<div style="position: relative; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%;text-align: center;">
+    <h2 style="color: rgb(255, 255, 255); margin-bottom: 5%;"><u>Search</u></h2>
+    <form action="{{url_for('search_result')}}" method="POST">
+        <div class="container">
+            <br/>
+            <div class="row justify-content-center">
+                    <div class="col-12 col-md-10 col-lg-8">
+                            <form class="card card-sm">
+                                 <div class="card-body row no-gutters align-items-center">
+                                      <div class="col-auto">
+                                           <i class="fas fa-search h4 text-body"></i>
+                                       </div>
+                                            <div class="col">
+                                                <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
+                                                <input class="form-control form-control-lg form-control-borderless" type="search" name="shipname" placeholder="Search Sailor's data by Ships name">
+                                                <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
+                                                <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
                                             </div>
-                                        </form>
-                                    </div>
+
+                                            <div class="col-auto" style="padding-top: 2%;">
+                                                <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-            </div>
-        </form>
-</body>
+                            </div>
+        </div>
+    </form>
+</div>
 
-
-{% endblock %}
+{%endblock%}
