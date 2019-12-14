@@ -36,7 +36,7 @@
                     addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
                   }
             
-                  document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="slist2" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
+                  document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
                 }
               }
               else if(slist == 'slist2') {
@@ -65,7 +65,7 @@
                     <tr>
                       <td >Branch & Rank</td>
                       <td >
-                        <select  name="slist1" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
+                        <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
                         <option>- - -</option>
                         {%for key in Branch_key %}
                             <option value={{key}}>{{key}}</option>
@@ -293,8 +293,13 @@
                       </td>
                   </tr>
                   <tr>
-                      <td >Medical category</td>
-                      <td ><input class="form-control mr-sm-2"  type="text" name="Medicalcategory"></td>
+                    <td >Medical category</td>
+                    <td >
+                        <select  class="form-control mr-sm-2" name="Medicalcategory">{%for i in range(Medical_Category|length) %}
+                                <option  value={{i}}>{{Medical_Category[i]}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
                   </tr>
                   <tr>
                       <td >Date of Last Promotion</td>
@@ -330,10 +335,16 @@
                       <td >Date of Joining Ship</td>
                       <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningShip"></td>
                   </tr>
+
                   <tr>
-                      <td >Name of Ship</td>
-                      <td ><input class="form-control mr-sm-2"  type="text" name="NameofShip"></td>
-                  </tr>
+                    <td >Name of Ship</td>
+                    <td >
+                        <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
+                                <option  value={{i}}>{{Name_of_Ship[i]}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                   </tr>
                   <tr>
                       <td >UN Mission</td>
                       <td ><input class="form-control mr-sm-2"  type="text" name="UNMission"></td>
