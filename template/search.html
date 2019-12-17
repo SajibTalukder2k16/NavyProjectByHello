@@ -2,7 +2,177 @@
 
 {%block pagebody%}
 
+
 <style>
+    * {box-sizing: border-box}
+    
+    /* Set height of body and the document to 100% */
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial;
+    }
+    
+    /* Style tab links */
+    .tablink {
+      background-color: #555;
+      color: white;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-size: auto;
+      width: 20%;
+    
+    }
+    .tablink:hover {
+      background-color: #777;
+    }
+    
+    /* Style the tab content (and add height:100% for full page content) */
+    .tabcontent {
+      color: white;
+      display: none;
+      padding: 100px 20px;
+      height: 100%;
+    }
+    
+    #SailorDataSearch {background-color: red;}
+    #SailorDataForTy {background-color: green;}
+    #SailorDataBloodDonation {background-color: blue;}
+    #NoOfDaysatSea {background-color: orange;}
+    #TYMovement {background-color: red;}
+</style>
+
+    <button class="tablink" onclick="openPage('SailorDataSearch', this, 'grey')" id="defaultOpen">Sailor's Data Search</button>
+    <button class="tablink" onclick="openPage('SailorDataForTy', this, 'grey')">Select a Sailor for TY</button>
+    <button class="tablink" onclick="openPage('SailorDataBloodDonation', this, 'grey')">For Blood Donation</button>
+    <button class="tablink" onclick="openPage('NoOfDaysatSea', this, 'grey')">No. of days at sea for AB/OD</button>
+    <button class="tablink" onclick="openPage('TYMovement', this, 'grey')">TY Movement of all sailors in the area</button>
+    
+    <div id="SailorDataSearch" class="tabcontent">
+      <form >
+            <div class="container">
+                <br/>
+                <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                                <form class="card card-sm">
+                                     <div class="card-body row no-gutters align-items-center">
+                                          <div class="col-auto">
+                                               <i class="fas fa-search h4 text-body"></i>
+                                           </div>
+                                                <div class="col">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="shipname" placeholder="Search Sailor's data by Ships name">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
+                                                    <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
+                                                </div>
+    
+                                                <div class="col-auto" style="padding-top: 2%;">
+                                                    <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                                </div>
+                                      </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+        </form>
+    </div>
+    
+    <div id="SailorDataForTy" class="tabcontent">
+      <form method="POST">
+            <div class="container">
+                <br/>
+                <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                                <form class="card card-sm">
+                                     <div class="card-body row no-gutters align-items-center">
+                                          <div class="col-auto">
+                                               <i class="fas fa-search h4 text-body"></i>
+                                           </div>
+                                                <div class="col">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="Height" placeholder="Height">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="MedicalCategory" placeholder="Medical Category">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="DateoflastTY"placeholder="Date of last TY">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="Exclusion"placeholder="Exclusion">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofSecurityClearance "placeholder="Last Date of Security Clearance">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="Branch" placeholder="Branch">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="Rank"placeholder="Rank">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="Course"placeholder="Course">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="SpecialQualification"placeholder="Special Qualification">
+                                                    <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
+                                                </div>
+    
+                                                <div class="col-auto" style="padding-top: 2%;">
+                                                    <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                                </div>
+                                      </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+        </form>
+    </div>
+    
+    <div id="SailorDataBloodDonation" class="tabcontent">
+      <form  method="POST">
+            <div class="container">
+                <br/>
+                <div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                                <form class="card card-sm">
+                                     <div class="card-body row no-gutters align-items-center">
+                                          <div class="col-auto">
+                                               <i class="fas fa-search h4 text-body"></i>
+                                           </div>
+                                                <div class="col">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofBloodDonation" placeholder="Last Date of Blood Donation">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="MedicalCategory" placeholder="Medical Category">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="BloodGroup"placeholder="Blood Group">
+                                                    <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
+                                                </div>
+    
+                                                <div class="col-auto" style="padding-top: 2%;">
+                                                    <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                                </div>
+                                      </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+        </form>
+    </div>
+    
+    <div id="NoOfDaysatSea" class="tabcontent">
+      <h3>About</h3>
+      <p>Who we are and what we do.</p>
+    </div>
+    <div id="TYMovement" class="tabcontent">
+      <h3>Home</h3>
+      <p>blafjk</p>
+    </div>
+    
+    <script>
+    function openPage(pageName,elmnt,color) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+      document.getElementById(pageName).style.display = "block";
+      elmnt.style.backgroundColor = color;
+    }
+    
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+    </script>
+    
+<!-- <style>
     /* Coded with love by Mutiullah Samim */
     body,
     html {
@@ -11,9 +181,9 @@
         height: 100%;
         background: rgb(79, 80, 80) !important;
     }
-</style>
+</style> -->
 
-<div style="position: relative; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%;text-align: center;">
+<!-- <div style="position: relative; width: 40%; margin-left: 30%; margin-right: 30%; margin-top: 5%;text-align: center;">
     <h2 style="color: rgb(255, 255, 255); margin-bottom: 5%;"><u>Search</u></h2>
     <form action="{{url_for('search_result')}}" method="POST">
         <div class="container">
@@ -29,7 +199,7 @@
                                                 <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
                                                 <input class="form-control form-control-lg form-control-borderless" type="search" name="shipname" placeholder="Search Sailor's data by Ships name">
                                                 <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
-                                                <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
+                                                
                                             </div>
 
                                             <div class="col-auto" style="padding-top: 2%;">
@@ -41,6 +211,6 @@
                             </div>
         </div>
     </form>
-</div>
+</div> -->
 
 {%endblock%}

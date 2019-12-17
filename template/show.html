@@ -28,8 +28,8 @@
         {% for i in range(rows|length):%}
         <tr>
             <td style="color: black;">{{i+1}}</td>
-            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i]['O_No'])}}">{{rows[i]['O_No']}}</a></td>
-            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i]['O_No'])}}">{{rows[i]['name']}}</a></td>
+            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][0]}}</a></td>
+            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][3]}}</a></td>
         </tr>
         {%endfor%}
     </tbody>
