@@ -1,4 +1,38 @@
 {%extends 'base.html'%}
+{%block head%}
+
+<script>
+    var SList = new Object(); 
+    
+    
+    var txtsl2 = '';
+    
+    
+    SList.slist2 = JSON.parse('{{ Branch|safe }}')
+    SList.getSelect = function(slist, option) {
+      document.getElementById('scontent').innerHTML = '';           // empty option-content
+    
+      if(SList[slist][option]) {
+        // if option from the last Select, add text-content, else, set dropdown list
+        if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
+        else if(slist == 'slist2') {
+          var addata = '<option>- - -</option>';
+          for(var i=0; i<SList[slist][option].length; i++) {
+            addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
+          }
+    
+          document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
+        }
+      }
+      else if(slist == 'slist2') {
+        document.getElementById('slist2').innerHTML = '';
+      }
+    }
+    
+    </script>
+
+{%endblock%}
+
 
 {%block pagebody%}
 
@@ -52,7 +86,7 @@
     <button class="tablink" onclick="openPage('TYMovement', this, 'grey')">TY Movement of all sailors in the area</button>
     
     <div id="SailorDataSearch" class="tabcontent">
-      <form >
+      <form method="POST" action="{{url_for('SailorDataSearch')}}">
             <div class="container">
                 <br/>
                 <div class="row justify-content-center">
@@ -64,8 +98,16 @@
                                            </div>
                                                 <div class="col">
                                                     <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="shipname" placeholder="Search Sailor's data by Ships name">
+                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="NameofShip" placeholder="Search Sailor's data by Ships name">
                                                     <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
+                                                    <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
+                                                        <option>- - -</option>
+                                                        {%for key in Branch_key %}
+                                                            <option value={{key}}>{{key}}</option>
+                                                        {%endfor%}
+                                            
+                                                    </select>  
+                                                   <span id="slist2"></span> <div id="scontent"></div>
                                                     <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
                                                 </div>
     
@@ -116,7 +158,7 @@
     </div>
     
     <div id="SailorDataBloodDonation" class="tabcontent">
-      <form  method="POST">
+      <form  method="POST" action="{{url_for('BloodDonationSearch')}}">
             <div class="container">
                 <br/>
                 <div class="row justify-content-center">
@@ -128,9 +170,18 @@
                                            </div>
                                                 <div class="col">
                                                     <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofBloodDonation" placeholder="Last Date of Blood Donation">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="MedicalCategory" placeholder="Medical Category">
-                                                    <input class="form-control form-control-lg form-control-borderless" type="search" name="BloodGroup"placeholder="Blood Group">
-                                                    <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
+                                                    
+                                                    <select  class="form-control mr-sm-2" name="Medicalcategory">
+                                                        {%for key in Medical_Category %}
+                                                            <option value={{key}}>{{key}}</option>
+                                                        {%endfor%}
+                                                    </select>
+                                                    
+                                                    <select  class="form-control mr-sm-2" name="BloodGroup">
+                                                        {%for key in Blood_Group %}
+                                                            <option value={{key}}>{{key}}</option>
+                                                        {%endfor%}
+                                                    </select>
                                                 </div>
     
                                                 <div class="col-auto" style="padding-top: 2%;">

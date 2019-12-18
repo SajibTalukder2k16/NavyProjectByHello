@@ -100,7 +100,7 @@
                         <td >Marital Status</td>
                         <td >
                             <select  class="form-control mr-sm-2" name="marrital_status">{%for i in range(Marital_Status|length) %}
-                                    <option  value={{i}}>{{Marital_Status[i]}}</option>
+                                    <option  value={{Marital_Status[i]}}>{{Marital_Status[i]}}</option>
                                 {%endfor%}
                                     
                             </select>
@@ -126,11 +126,15 @@
                         <td >Blood Group</td>
                         <td >
                             <select  class="form-control mr-sm-2" name="BloodGroup">{%for i in range(Blood_Group|length) %}
-                                    <option  value={{i}}>{{Blood_Group[i]}}</option>
+                                    <option  value={{Blood_Group[i]}}>{{Blood_Group[i]}}</option>
                                 {%endfor%}
                                     
                             </select>
                         </td>
+                    </tr>
+                    <tr>
+                        <td >Last Date of BloodDonation</td>
+                        <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation"></td>
                     </tr>
                     <tr>
                         <td >Height</td>
@@ -153,7 +157,7 @@
                       <td >Home District</td>
                       <td >
                           <select  class="form-control mr-sm-2" name="home_district">{%for i in range(Home_District|length) %}
-                                  <option  value={{i}}>{{Home_District[i]}}</option>
+                                  <option  value={{Home_District[i]}}>{{Home_District[i]}}</option>
                               {%endfor%}
                                   
                           </select>
@@ -261,7 +265,7 @@
                       <td >Highest Education</td>
                       <td >
                           <select  class="form-control mr-sm-2" name="highestEducation">{%for i in range(Highest_Education|length) %}
-                                  <option  value={{i}}>{{Highest_Education[i]}}</option>
+                                  <option  value={{Highest_Education[i]}}>{{Highest_Education[i]}}</option>
                               {%endfor%}
                                   
                           </select>
@@ -271,7 +275,7 @@
                       <td >Ongoing civil Education</td>
                       <td >
                           <select class="form-control mr-sm-2" name="OngoingcivilEducation">{%for i in range(Ongoing_Education|length) %}
-                                  <option  value={{i}}>{{Ongoing_Education[i]}}</option>
+                                  <option  value={{Ongoing_Education[i]}}>{{Ongoing_Education[i]}}</option>
                               {%endfor%}
                           </select>
                       </td>
@@ -287,7 +291,7 @@
                       <td >Service Category</td>
                       <td >
                           <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
-                                  <option  value={{i}}>{{Service_Category[i]}}</option>
+                                  <option  value={{Service_Category[i]}}>{{Service_Category[i]}}</option>
                               {%endfor%}
                           </select>
                       </td>
@@ -296,7 +300,7 @@
                     <td >Medical category</td>
                     <td >
                         <select  class="form-control mr-sm-2" name="Medicalcategory">{%for i in range(Medical_Category|length) %}
-                                <option  value={{i}}>{{Medical_Category[i]}}</option>
+                                <option  value={{Medical_Category[i]}}>{{Medical_Category[i]}}</option>
                             {%endfor%}
                         </select>
                     </td>
@@ -313,7 +317,7 @@
                       <td >Present Engagement</td>
                       <td >
                           <select  class="form-control mr-sm-2" name="PresentEngagement">{%for i in range(Present_Engagement|length) %}
-                                  <option  value={{i}}>{{Present_Engagement[i]}}</option>
+                                  <option  value={{Present_Engagement[i]}}>{{Present_Engagement[i]}}</option>
                               {%endfor%}
                           </select>
                       </td>
@@ -322,7 +326,7 @@
                       <td >Number of GCB</td>
                       <td >
                           <select  class="form-control mr-sm-2" name="NumberofGCB">{%for i in range(Number_of_GCB|length) %}
-                                  <option  value={{i}}>{{Number_of_GCB[i]}}</option>
+                                  <option  value={{Number_of_GCB[i]}}>{{Number_of_GCB[i]}}</option>
                               {%endfor%}
                           </select>
                       </td>
@@ -340,7 +344,7 @@
                     <td >Name of Ship</td>
                     <td >
                         <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
-                                <option  value={{i}}>{{Name_of_Ship[i]}}</option>
+                                <option  value={{Name_of_Ship[i]}}>{{Name_of_Ship[i]}}</option>
                             {%endfor%}
                         </select>
                     </td>
@@ -419,7 +423,7 @@
                       <td >Choice of Area for Posting</td>
                       <td >
                         <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
-                                <option  value={{i}}>{{Choice_of_Area_for_drafting [i]}}</option>
+                                <option  value={{Choice_of_Area_for_drafting[i]}}>{{Choice_of_Area_for_drafting [i]}}</option>
                             {%endfor%}
                                 
                         </select>
@@ -429,7 +433,7 @@
                     <td >Choice of Next Appointment</td>
                     <td >
                       <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">{%for i in range(Choice_of_Next_Appointment|length) %}
-                              <option  value={{i}}>{{Choice_of_Next_Appointment [i]}}</option>
+                              <option  value={{Choice_of_Next_Appointment[i]}}>{{Choice_of_Next_Appointment [i]}}</option>
                           {%endfor%}
                               
                       </select>
@@ -477,7 +481,7 @@
                     <td >If Not Return</td>
                     <td >
                             <select  class="form-control mr-sm-2" name="IfNotReturn">{%for i in range(YesNo|length) %}
-                                    <option  value={{i}}>{{YesNo[i]}}</option>
+                                    <option  value={{YesNo[i]}}>{{YesNo[i]}}</option>
                                 {%endfor%}
                                     
                             </select>
