@@ -2,7 +2,6 @@
 
 {%block pagebody%}
 <style>
-        /* Coded with love by Mutiullah Samim */
         body,
         html {
             height: 100%;
@@ -25,10 +24,9 @@
             
             SList.slist2 = JSON.parse('{{ Branch|safe }}')
             SList.getSelect = function(slist, option) {
-              document.getElementById('scontent').innerHTML = '';           // empty option-content
+              document.getElementById('scontent').innerHTML = '';
             
               if(SList[slist][option]) {
-                // if option from the last Select, add text-content, else, set dropdown list
                 if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
                 else if(slist == 'slist2') {
                   var addata = '<option>- - -</option>';
@@ -44,7 +42,7 @@
               }
             }
             
-            </script>
+    </script>
 
     <div style="position: relative; width: 70%; margin-left: 15%; margin-right: 15%; margin-top: 5%; text-align: center;">
         <h2 style="color: black; margin-bottom: 5%;"><u>Add Information</u></h2>
@@ -60,7 +58,7 @@
                     </tr>
                     <tr>
                       <td >Name</td>
-                      <td ><input type="text" class="form-control mr-sm-2" name="name" ></td>
+                      <td ><input type="text" class="form-control mr-sm-2" name="name"  ></td>
                     </tr>
                     <tr>
                       <td >Branch & Rank</td>
@@ -480,7 +478,8 @@
                   <tr>
                     <td >If Not Return</td>
                     <td >
-                            <select  class="form-control mr-sm-2" name="IfNotReturn">{%for i in range(YesNo|length) %}
+                            <select  class="form-control mr-sm-2" name="IfNotReturn">
+                                {%for i in range(YesNo|length) %}
                                     <option  value={{YesNo[i]}}>{{YesNo[i]}}</option>
                                 {%endfor%}
                                     
@@ -528,21 +527,13 @@
                     <td >User Password</td>
                     <td ><input class="form-control mr-sm-2"   type="password" name="password"></td>
                    </tr>
-                  
-            
-            
-            
-            
-            
-            
-                  
             
                   <tr>
                       <td></td>
                       <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
                   </tr>
                 </table>
-            </form>
+        </form>
 
     </div>
 {%endblock%}

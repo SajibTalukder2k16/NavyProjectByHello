@@ -26,7 +26,6 @@ Choice_of_Next_Appointment = ['-','Instructor','Sea Service','Shore Service']
 Medical_Category = ['-','A','B','C']
 YesNo = ['-','No','Yes']
 Name_of_Ship = ['-','ALI HAIDER','DURGAM','NISHAN','SANGU','GOMATI','ABU BAKR','SHAH AMANAT']
-
 Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Electrical' : ['EN-II', 'EN-I', 'LEN', 'EA-IV', 'EA-III', 'EA-II', 'EA-I', 'CEA', 'MCPO(L)'],
             'RadioElectrical' : ['REN-II','REN-I','LREN','REA-IV','REA-III','REA-II','REA-I','CREA','MCPO(R)'],
@@ -41,11 +40,8 @@ Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Provost':['PM-II','PM-I','LPN','PO(R)','MAA','SCPO(REG)','MCPO(REG)'],
             'Steward':['STWD-II','STWD-I','LSTWD','PO(STWD)','CPO(STWD)','SCPO(STWD)','MCPO(STWD)']
             }
-
 Marital_Status = ['-','Single', 'Married', 'Divorced']
 User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot']
-
-
 Column = ['O_No' , 'usertype' , 'pass' , 'name' , 'Branch' , 'Rank' , 'MobileNo_1' , 'MobileNo_2' , 'DateofBirth' , 'PresentAddress' , 'PermanentAddress' , 'marrital_status' , 'DateofMarriage' , 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo' , 'BloodGroup' ,'LastDateofBloodDonation', 'Height' , 'Weight' , 'StateofOverWeight' , 'FacebookAccount' , 'Emailaddress' , 'home_district' , 'NextofKin' , 'Relationship' , 'ContactNumberofNextofKin' , 'NameofWife' , 'AddressofWife' , 'MobileNo' , 'Anyspecialinfowife' , 'ChildrenNumber' , 'ChildrenName' , 'DOBofChildren' , 'Anyspecialinfochildren' , 'FathersName' , 'FathersMobileNo' , 'FathersAddress' , 'MothersName' , 'MothersMobileNo' , 'MothersAddress' , 'FamilyCrisis' , 'SiblingNumber' , 'BrothersName' , 'BrothersMobileNo' , 'BrothersAddress' , 'highestEducation' , 'OngoingcivilEducation' , 'DateofJoiningService' , 'ServiceCategory' , 'Medicalcategory' , 'DateofLastPromotion' , 'DateofNextPromotion' , 'PresentEngagement' , 'NextREEngagementDue' , 'DateofNextIncrement' , 'NumberofGCB' , 'EffectivedateofexistingGCB' , 'DateofNextGCB' , 'DateofJoiningShip' , 'NameofShip' , 'UNMission' , 'GoodWillMission' , 'DAONumber' , 'PLeaveAvailed' , 'LastDateofPL' , 'PLeaveDue' , 'RecreationLeaveDue' , 'CLeaveAvailed' , 'CLeaveDue' , 'SickLeave' , 'ExBangladeshLeave' , 'Rl' , 'Sourceofdebt' , 'Amountofdebt' , 'ChoiceofAreaForPosting' , 'ChoiceofNextAppointment' , 'NameofImportantCourses' , 'NameofNextCourse' , 'ForeignCourse' , 'SpecialQualification' , 'ChoiceofNextCourse' , 'DateoflastSecurityClearance' , 'ExtraCurricularActivities' , 'GamesAndSports' , 'DateofProceedinginTyDuty' , 'TyBillet' , 'PurposetofTy' , 'TyDuration' , 'DateofreturnfromTY' , 'IfNotReturn' , 'TotalTyDuration' , 'TyHistorySummary' , 'ADOsRemark' , 'DivisionalOfficersRemark' , 'COsSpecialRemark' , 'AreaCommanderRemark']
 
 
@@ -167,27 +163,10 @@ def login():
             for row in rows:
                 for i in range(len(row)):
                     dic[Column[i]] = row[i]
-            if dic['password'] == result['password']:
+            if dic['pass'] == result['password']:
                 session['usertype'] = dic['usertype']
                 session['O_No'] = result['O_No']
                 return redirect(url_for('home'))
-
-
-
-
-        
-        # con = sql.connect("database.db")
-        # con.row_factory = sql.Row
-        # cur = con.cursor()
-        # cur.execute('SELECT * from UserInfo where O_No = ?' , [result['O_No']])
-        # rows = cur.fetchall()
-        # cur.close()
-        # con.close()
-        # for row in rows:
-        #     if row['password'] == result['password']:
-        #         session['usertype'] = row['usertype']
-        #         session['O_No'] = result['O_No']
-        #         return redirect(url_for('home'))
     return redirect(url_for('login_page'))
 
 @app.route('/logout')
@@ -275,12 +254,11 @@ def profile(id):
                 rows = cur.fetchall()
                 cur.close()
         usertype = int(session['usertype'])
-        temprow = []
+        temprow = {}
         for i in range(len(rows[0])):
-            temprow.append(rows[0][i])
-        if int(temprow[1]) == 0:
-            temprow[1] = 'admin'
-        return render_template('profile.html',Column = Column,usertype = usertype,rows=temprow,login_status=login_status)
+            #temprow.append(rows[0][i])
+            temprow[Column[i]] = rows[0][i]
+        return render_template('profile.html',Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
     else:
         return redirect(url_for('home'))
 
@@ -524,6 +502,7 @@ def search_result():
         login_status = True
     else:
         login_status = False
+        return redirect(url_for('home'))
     if request.method == 'POST':
         result = request.form
         con = sql.connect("database.db")
@@ -575,9 +554,12 @@ def search_result():
             elif(name=='' and shipname=='' and O_No!=''):
                 if(O_No==ans_O_No):
                     l.append(row['O_No'])
-        #print(l)
 
     return render_template("search_result.html", rows = l,login_status=login_status)
+
+@app.route('/debug')
+def debug():
+    return render_template('debug.html')
 
 if __name__ == '__main__':
     app.secret_key = '123456'

@@ -1,0 +1,23 @@
+{%extends 'base.html'%}
+{%block head%}
+<script type="text/javascript">
+
+    $(document).ready(function(){
+  
+
+      $("#country").val("China");
+          
+
+      
+
+    });
+  </script>
+{%endblock%}
+{%block pagebody%}
+<select id="country">
+    <option value="None">-- Select --</option>
+    <option value="China" selected='selected'>China</option>
+    <option value="United State">United State</option>
+    <option value="Malaysia">Malaysia</option>
+ </select>
+{%endblock%}
