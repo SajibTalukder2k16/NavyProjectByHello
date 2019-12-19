@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+{%block head%}
+{%endblock%}
+{%block pagebody%}
+<form action="{{url_for('adding_ty', id = id)}}" method="POST">
+    <table border="5px">
+    <tr>
+        <th scope="col">TY Billet</th>
+        <th scope="col">Purposeof TY</th>
+        <th scope="col">From</th>
+        <th scope="col">To</th>
+        <th scope="col">Duration</th>
+
+    </tr>
+    {%for row in rows%}
+        <tr>
+            <td>{{row['TYBillet']}}</td>
+            <td>{{row['PurposeofTY']}}</td>
+            <td>{{row['TYfrom']}}</td>
+            <td>{{row['TYto']}}</td>
+            <td>{{row['Duration']}}</td>    
+        </tr>
+    {%endfor%}
+    <tr>
+        <td><input type="text" name="TYBillet"></td>
+        <td><input type="text" name="PurposeofTY"></td>
+        <td><input type="date" name="TYfrom"></td>
+        <td><input type="date" name="TYto"></td>
+        <td><input  type="submit" value="Add TY"></td>
+    </tr>
+    </table>
+    
+
+    </form>
+
+{%endblock%}

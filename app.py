@@ -5,6 +5,7 @@ import MySQLdb
 from flask_fontawesome import FontAwesome
 from datetime import datetime, timedelta
 import time
+import datetime
 import csv
 import os
 import json
@@ -55,11 +56,9 @@ with app.app_context():
     app.config['MYSQL_HOST'] = 'localhost'
     app.config['MYSQL_DB'] = 'navy'
     cur.execute('use navy')
-    #cur.execute('CREATE TABLE IF NOT EXISTS UserInfo ( O_No varchar(30) PRIMARY KEY, usertype int, pass text, name text, Branch int, Rank int, MobileNo_1 text, MobileNo_2 text, DateofBirth date, PresentAddress text, PermanentAddress text, marrital_status int, DateofMarriage date, ServiceIdCardNo text, NIDCardNo text, DrivingLicenseNo text, BloodGroup int, Height int, Weight int, StateofOverWeight text, FacebookAccount text, Emailaddress text, home_district int, NextofKin text, Relationship text, ContactNumberofNextofKin text, NameofWife text, AddressofWife text, MobileNo text, Anyspecialinfowife text, ChildrenNumber int, ChildrenName text, DOBofChildren date, Anyspecialinfochildren text, FathersName text, FathersMobileNo text, FathersAddress text, MothersName text, MothersMobileNo text, MothersAddress text, FamilyCrisis text, SiblingNumber int, BrothersName text, BrothersMobileNo text, BrothersAddress text, highestEducation int, OngoingcivilEducation int, DateofJoiningService date, ServiceCategory int, Medicalcategory int, DateofLastPromotion date, DateofNextPromotion date, PresentEngagement int, NextREEngagementDue date, DateofNextIncrement date, NumberofGCB int, EffectivedateofexistingGCB date, DateofNextGCB date, DateofJoiningShip date, NameofShip int, UNMission text, GoodWillMission text, DAONumber text, PLeaveAvailed int, LastDateofPL date, PLeaveDue int, RecreationLeaveDue date, CLeaveAvailed int, CLeaveDue int, SickLeave text, ExBangladeshLeave text, Rl text, Sourceofdebt text, Amountofdebt int, ChoiceofAreaForPosting int, ChoiceofNextAppointment int, NameofImportantCourses text, NameofNextCourse text, ForeignCourse text, SpecialQualification text, ChoiceofNextCourse text, DateoflastSecurityClearance date, ExtraCurricularActivities text, GamesAndSports text, DateofProceedinginTyDuty date, TyBillet text, PurposetofTy text, TyDuration int, DateofreturnfromTY date, IfNotReturn int, TotalTyDuration int, TyHistorySummary text, ADOsRemark text, DivisionalOfficersRemark text, COsSpecialRemark text, AreaCommanderRemark text ) ')
-    #cur.execute('')
-
-
     cur.execute('CREATE TABLE IF NOT EXISTS UserInfo ( O_No varchar(30) PRIMARY KEY, usertype text, pass text, name text, Branch text, Rank text, MobileNo_1 text, MobileNo_2 text, DateofBirth text, PresentAddress text, PermanentAddress text, marrital_status text, DateofMarriage text, ServiceIdCardNo text, NIDCardNo text, DrivingLicenseNo text, BloodGroup text,LastDateofBloodDonation text, Height text, Weight text, StateofOverWeight text, FacebookAccount text, Emailaddress text, home_district text, NextofKin text, Relationship text, ContactNumberofNextofKin text, NameofWife text, AddressofWife text, MobileNo text, Anyspecialinfowife text, ChildrenNumber text, ChildrenName text, DOBofChildren text, Anyspecialinfochildren text, FathersName text, FathersMobileNo text, FathersAddress text, MothersName text, MothersMobileNo text, MothersAddress text, FamilyCrisis text, SiblingNumber text, BrothersName text, BrothersMobileNo text, BrothersAddress text, highestEducation text, OngoingcivilEducation text, DateofJoiningService text, ServiceCategory text, Medicalcategory text, DateofLastPromotion text, DateofNextPromotion text, PresentEngagement text, NextREEngagementDue text, DateofNextIncrement text, NumberofGCB text, EffectivedateofexistingGCB text, DateofNextGCB text, DateofJoiningShip text, NameofShip text, UNMission text, GoodWillMission text, DAONumber text, PLeaveAvailed text, LastDateofPL text, PLeaveDue text, RecreationLeaveDue text, CLeaveAvailed text, CLeaveDue text, SickLeave text, ExBangladeshLeave text, Rl text, Sourceofdebt text, Amountofdebt text, ChoiceofAreaForPosting text, ChoiceofNextAppointment text, NameofImportantCourses text, NameofNextCourse text, ForeignCourse text, SpecialQualification text, ChoiceofNextCourse text, DateoflastSecurityClearance text, ExtraCurricularActivities text, GamesAndSports text, DateofProceedinginTyDuty text, TyBillet text, PurposetofTy text, TyDuration text, DateofreturnfromTY text, IfNotReturn text, TotalTyDuration text, TyHistorySummary text, ADOsRemark text, DivisionalOfficersRemark text, COsSpecialRemark text, AreaCommanderRemark text ) ')
+    cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No))')
+
     try:
         cur.execute("INSERT INTO UserInfo(O_No, usertype , pass) VALUES (%s, %s, %s)", ("admin",0,'123456'))
     except:
@@ -472,6 +471,44 @@ def updating_user(id):
     else:
         return redirect(url_for('home'))
 
+@app.route('/profile/<string:id>/TyHistory')
+def tyhistory(id):
+    if('O_No' in session):
+        login_status = True
+        cur = mysql.connection.cursor()
+        cur.execute('select * from TYHistory where O_No = %s',(id, ))
+        rows = cur.fetchall()
+        ret = []
+        for row in rows:
+            temp = {}
+            temp['O_No'] = row[0]
+            temp['TYBillet'] = row[1]
+            temp['PurposeofTY'] = row[2]
+            temp['TYfrom'] = row[3]
+            temp['TYto'] = row[4]
+            temp['Duration'] = '0'
+            ret.append(temp)
+
+        return render_template('tyhistory.html', rows = ret, login_status = login_status, id = id )
+    else:
+        login_status = False
+        return redirect(url_for('home'))
+    
+@app.route('/profile/<string:id>/TyHistory/adding_ty', methods = ['POST', 'GET'])
+def adding_ty(id):
+    if 'O_No' in session:
+        login_status = True
+        if request.method =='POST':
+                req = request.form.to_dict(flat=False)
+                for row in req:
+                    req[row] = req[row][0]
+                mcur = mysql.connection.cursor()
+                mcur.execute("insert into TYhistory (O_No, TYBillet, PurposeofTY, TYfrom, TYto) values (%s, %s, %s, %s, %s)", (id, req['TYBillet'], req['PurposeofTY'], req['TYfrom'], req['TYto']))
+                mysql.connection.commit()
+                mcur.close()
+                return redirect(url_for('tyhistory', id = id))
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/search/SailorDataSearch', methods = ['POST', 'GET'])
 def SailorDataSearch():
