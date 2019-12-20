@@ -1,49 +1,56 @@
-{%extends 'base.html'%}
+{%extends 'templatebase.html'%}
+{% set active_page = "profile" %}
 
-{%block pagebody%}
+{% block head %}
 <style>
-        .tablink {
-            background-color: #555;
-            color: white;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 12px 12px;
-            font-size: auto;
-            width: 9.09%;
-        }
+  .tablink {
+      background-color: #555;
+      color: white;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 12px 12px;
+      font-size: auto;
+      width: 9.09%;
+  }
 
-        .tablink:hover {
-        background-color: #bfb391;
-        }
+  .tablink:hover {
+  background-color: #bfb391;
+  }
 
-        /* Style the tab content (and add height:100% for full page content) */
-        .tabcontent {
-        display: none;
-        padding: 100px 20px;
-        width: 65%;
-        margin-left: 15%;
-        }
-        body,
-        html {
-            height: 100%;
-            background-color: white;
-        }
-        h1{
-            font-size: 400%;
-            text-align: center;
-            color:rgb(80, 72, 68);
-        }
-        td{
-            text-align: center;
-            /* padding: 1%;; */
-            /* color:white; */
-        }
-    </style>
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+  display: none;
+  padding: 100px 20px;
+  width: 65%;
+  margin-left: 15%;
+  }
+  body,
+  html {
+      height: 100%;
+      background-color: white;
+  }
+  h1{
+      font-size: 400%;
+      text-align: center;
+      color:rgb(80, 72, 68);
+  }
+  td{
+      text-align: center;
+      /* padding: 1%;; */
+      /* color:white; */
+  }
+</style>
+{% endblock %}
 
-<div style="position: fixed;">
-    <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic Particulars</button>
+{%block body%}
+<div class="row" style="margin-left: 5%;">
+  <div class="span12">
+
+
+<div>
+    <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic <br>Particulars</button>
     <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
     <button class="tablink" onclick="openPage('SiblingInformation', this, 'grey')">Sibling Information</button>
     <button class="tablink" onclick="openPage('EducationalInformation', this, 'grey')">Educational Information</button>
@@ -629,7 +636,7 @@
       </tr>
       <tr>
         <td >User Password</td>
-        <td ><input class="form-control mr-sm-2"   type="password" name="password" value="{{rows['pass']}}"></td>
+        <td ><input class="form-control"   type="password" name="password" value="{{rows['pass']}}"></td>
        </tr>
        <tr>
            <td></td>
@@ -684,4 +691,6 @@
         }
 
 </script>
+</div>
+</div>
 {%endblock%}

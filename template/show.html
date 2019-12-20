@@ -1,21 +1,27 @@
-{%extends 'base.html'%}
+{%extends 'templatebase.html'%}
+{% set active_page = "show" %}
 
-{%block pagebody%}
-
+{% block head %}
 <style>
-    /* Coded with love by Mutiullah Samim */
-    body,
-    html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        background: aliceblue !important;
-    }
+  /* Coded with love by Mutiullah Samim */
+  body,
+  html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: aliceblue !important;
+  }
 </style>
+{% endblock %}
 
-<div style="position: relative; width: 60%; margin-left: 20%; margin-right: 20%; margin-top: 7%;">
-    <h2 style="color: black; margin-bottom: 5%; text-align: center;"><u>Accessible data of user : {{session['O_No']}}</u></h2>
-<table class="table table-hover table-bordered" style="text-align: center;">
+{%block body%}
+
+<div class="row" style="margin-left: 5%;">
+  <div class="span12">
+
+<div style="position: relative; width: 60%; margin-left: 20%; margin-right: 20%;">
+    <h2 style="color: black; margin-bottom: 5%; text-align: center;">Accessible data</h2>
+<table style="margin-bottom: 100px;" class="table table-hover table-bordered" style="text-align: center;">
     <thead class="thead-light">
       <tr>
         <th scope="col">Ser</th>
@@ -24,7 +30,7 @@
       </tr>
     </thead>
         
-    <tbody>
+    <tbody">
         {% for i in range(rows|length):%}
         <tr>
             <td style="color: black;">{{i+1}}</td>
@@ -35,4 +41,9 @@
     </tbody>
   </table>
 </div>
+
+</div>
+</div>
+
+
 {%endblock%}
