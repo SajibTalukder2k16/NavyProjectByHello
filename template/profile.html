@@ -11,7 +11,7 @@
             cursor: pointer;
             padding: 12px 12px;
             font-size: auto;
-            width: 7.69%;
+            width: 9.09%;
         }
 
         .tablink:hover {
@@ -50,11 +50,9 @@
     <button class="tablink" onclick="openPage('ServiceInformation', this, 'grey')">Service Information</button>
     <button class="tablink" onclick="openPage('LeaveParticulars', this, 'grey')">Leave Particulars</button>
     <button class="tablink" onclick="openPage('FinancialSection', this, 'grey')">Financial Section</button>
-    <button class="tablink" onclick="openPage('RemarksSection', this, 'grey')">Remarks Section</button>
     <button class="tablink" onclick="openPage('PersonalPreferences', this, 'grey')">Personal Preferences</button>
     <button class="tablink" onclick="openPage('CourseInformation', this, 'grey')">Course Information</button>
-    <button class="tablink" onclick="openPage('TYMovementHistory', this, 'grey')">TY Movement History</button>
-    <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Optional Data</button>
+    <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Optional<br> Data</button>
     <button class="tablink" onclick="openPage('SignUpInformation', this, 'grey')">Sign Up Information</button>
 </div>
 <form method="POST" action="{{url_for('updating_user', id = id)}}">
@@ -522,27 +520,7 @@
     </table>
   </div>
 
-  <div id="RemarksSection" class="tabcontent">
-    <h1>Remarks Section</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-        <td  >ADO's Remark</td>
-        <td  ><input class="form-control mr-sm-2"  type="text" name="ADOsRemark" value="{{rows['ADOsRemark']}}"></td>
-      </tr>
-      <tr>
-        <td  >Divisional Officer's Remark</td>
-        <td  ><input class="form-control mr-sm-2"  type="text" name="DivisionalOfficersRemark" value="{{rows['DivisionalOfficersRemark']}}"></td>
-      </tr>
-      <tr>
-        <td  >CO's Special Remark(if any)</td>
-        <td  ><input class="form-control mr-sm-2"  type="text" name="COsSpecialRemark" value="{{rows['COsSpecialRemark']}}"></td>
-      </tr>
-      <tr>
-        <td >Area Commander/CO's recommendation/remarks</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="AreaCommanderRemark" value="{{rows['AreaCommanderRemark']}}"></td>
-      </tr>
-    </table>
-  </div>
+
 
   <div id="PersonalPreferences" class="tabcontent">
     <h1>Personal Preferences</h1>
@@ -610,58 +588,7 @@
     </table>
   </div>
 
-  <div id="TYMovementHistory" class="tabcontent">
-    <h1>TY Movement History</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Date of proceeding in ty duty</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofProceedinginTyDuty" value="{{rows['DateofProceedinginTyDuty']}}"></td>
-      </tr>
-      <tr>
-        <td >Ty billet</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="TyBillet" value="{{rows['TyBillet']}}"></td>
-      </tr>
-      <tr>
-        <td >Purpose of Ty</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="PurposetofTy" value="{{rows['PurposetofTy']}}"></td>
-      </tr>
-      <tr>
 
-        <td >Ty Duration</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="TyDuration" value="{{rows['TyDuration']}}"></td>
-      </tr>
-
-      <tr>
-          <td>Date of return from TY</td>
-          <td>{{rows['DateofreturnfromTY']}}</td>
-      </tr>
-      <tr>
-        <td >If Not Return</td>
-        <td >
-                <select  class="form-control mr-sm-2" name="IfNotReturn">
-
-                    {%for i in range(YesNo|length) %}
-                    {%if YesNo[i] == rows['IfNotReturn']%}
-                    <option  value={{YesNo[i]}} selected = "selected">{{YesNo[i]}}</option>
-                    {% else %}
-                    <option  value={{YesNo[i]}}>{{YesNo[i]}}</option>
-                    {%endif%}
-
-                    {%endfor%}
-
-                </select>
-            </td>
-      </tr>
-      <tr>
-        <td >Total Ty Duration</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="TotalTyDuration" value="{{rows['TotalTyDuration']}}"></td>
-      </tr>
-      <tr>
-        <td >Ty History Summary</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="TyHistorySummary" value="{{rows['TyHistorySummary']}}"></td>
-      </tr>
-    </table>
-  </div>
 
   <div id="OptionalData" class="tabcontent">
     <h1>Optional Data</h1>
