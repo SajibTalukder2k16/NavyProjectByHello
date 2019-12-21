@@ -5,7 +5,7 @@ import MySQLdb
 from flask_fontawesome import FontAwesome
 from datetime import datetime, timedelta
 import time
-import datetime
+from datetime import date
 import csv
 import os
 import json
@@ -57,7 +57,7 @@ with app.app_context():
     app.config['MYSQL_DB'] = 'navy'
     cur.execute('use navy')
     cur.execute('CREATE TABLE IF NOT EXISTS UserInfo ( O_No varchar(30) PRIMARY KEY, usertype text, pass text, name text, Branch text, Rank text, MobileNo_1 text, MobileNo_2 text, DateofBirth text, PresentAddress text, PermanentAddress text, marrital_status text, DateofMarriage text, ServiceIdCardNo text, NIDCardNo text, DrivingLicenseNo text, BloodGroup text,LastDateofBloodDonation text, Height text, Weight text, StateofOverWeight text, FacebookAccount text, Emailaddress text, home_district text, NextofKin text, Relationship text, ContactNumberofNextofKin text, NameofWife text, AddressofWife text, MobileNo text, Anyspecialinfowife text, ChildrenNumber text, ChildrenName text, DOBofChildren text, Anyspecialinfochildren text, FathersName text, FathersMobileNo text, FathersAddress text, MothersName text, MothersMobileNo text, MothersAddress text, FamilyCrisis text, SiblingNumber text, BrothersName text, BrothersMobileNo text, BrothersAddress text, highestEducation text, OngoingcivilEducation text, DateofJoiningService text, ServiceCategory text, Medicalcategory text, DateofLastPromotion text, DateofNextPromotion text, PresentEngagement text, NextREEngagementDue text, DateofNextIncrement text, NumberofGCB text, EffectivedateofexistingGCB text, DateofNextGCB text, DateofJoiningShip text, NameofShip text, UNMission text, GoodWillMission text, DAONumber text, PLeaveAvailed text, LastDateofPL text, PLeaveDue text, RecreationLeaveDue text, CLeaveAvailed text, CLeaveDue text, SickLeave text, ExBangladeshLeave text, Rl text, Sourceofdebt text, Amountofdebt text, ChoiceofAreaForPosting text, ChoiceofNextAppointment text, NameofImportantCourses text, NameofNextCourse text, ForeignCourse text, SpecialQualification text, ChoiceofNextCourse text, DateoflastSecurityClearance text, ExtraCurricularActivities text, GamesAndSports text) ')
-    cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (idx int NOT NULL AUTO_INCREMENT, O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No), PRIMARY KEY (idx))')
 
     try:
         cur.execute("INSERT INTO UserInfo(O_No, usertype , pass) VALUES (%s, %s, %s)", ("admin",0,'123456'))
@@ -236,6 +236,41 @@ def profile(id):
         login_status = True
     else:
         login_status = False
+        return redirect(url_for('home'))
+    e_list = eligiblelist()
+    ok = False
+    for row in e_list:
+        if row[0] == id:
+            ok = True
+    if 'O_No' in session and ok == True:
+        with app.app_context():
+                app.config['MYSQL_USER'] = 'root'
+                app.config['MYSQL_PASSWORD'] = 'hello'
+                cur = mysql.connection.cursor()
+                app.config['MYSQL_HOST'] = 'localhost'
+                app.config['MYSQL_DB'] = 'navy'
+                cur.execute('use navy')
+                sql_select_query = """select * from UserInfo where O_No = %s"""
+                cur.execute(sql_select_query, (id, ))
+                rows = cur.fetchall()
+                cur.close()
+        usertype = int(session['usertype'])
+        temprow = []
+        for i in range(len(rows[0])):
+            temprow.append(rows[0][i])
+            #temprow[Column[i]] = rows[0][i]
+        return render_template('profile.html', id = id, rows = temprow, login_status = login_status, Column = Column)
+        #return render_template('profile.html',id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/profile/<string:id>/editprofile')
+def editprofile(id):
+    if('O_No' in session):
+        login_status = True
+    else:
+        login_status = False
+        return redirect(url_for('home'))
     e_list = eligiblelist()
     ok = False
     for row in e_list:
@@ -256,12 +291,10 @@ def profile(id):
         usertype = int(session['usertype'])
         temprow = {}
         for i in range(len(rows[0])):
-            #temprow.append(rows[0][i])
             temprow[Column[i]] = rows[0][i]
-        return render_template('profile.html',id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
+        return render_template('editprofile.html',id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
     else:
         return redirect(url_for('home'))
-
 
 @app.route('/adduser')
 def adduser():
@@ -476,12 +509,15 @@ def tyhistory(id):
         ret = []
         for row in rows:
             temp = {}
-            temp['O_No'] = row[0]
-            temp['TYBillet'] = row[1]
-            temp['PurposeofTY'] = row[2]
-            temp['TYfrom'] = row[3]
-            temp['TYto'] = row[4]
+            temp['idx'] = row[0]
+            temp['O_No'] = row[1]
+            temp['TYBillet'] = row[2]
+            temp['PurposeofTY'] = row[3]
+            temp['TYfrom'] = row[4]
+            temp['TYto'] = row[5]
             temp['Duration'] = '0'
+            if temp['TYto'] is None or temp['TYto'] == '':
+                temp['Button'] = True
             ret.append(temp)
 
         return render_template('tyhistory.html', rows = ret, login_status = login_status, id = id )
@@ -489,6 +525,24 @@ def tyhistory(id):
         login_status = False
         return redirect(url_for('home'))
     
+@app.route('/profile/<string:id>/TyHistory/completety/<int:idx>')
+def completety(id, idx):
+    today = date.today()
+    if('O_No' in session):
+        login_status = True
+
+        mcur = mysql.connection.cursor()
+        #mcur.execute("UPDATE UserInfo SET O_No=%s, usertype=%s, pass=%s, name=%s, Branch=%s, Rank=%s, MobileNo_1=%s, MobileNo_2=%s, DateofBirth=%s, PresentAddress=%s, PermanentAddress=%s, marrital_status=%s, DateofMarriage=%s, ServiceIdCardNo=%s, NIDCardNo=%s, DrivingLicenseNo=%s, BloodGroup=%s, LastDateofBloodDonation=%s, Height=%s, Weight=%s, StateofOverWeight=%s, FacebookAccount=%s, Emailaddress=%s, home_district=%s, NextofKin=%s, Relationship=%s, ContactNumberofNextofKin=%s, NameofWife=%s, AddressofWife=%s, MobileNo=%s, Anyspecialinfowife=%s, ChildrenNumber=%s, ChildrenName=%s, DOBofChildren=%s, Anyspecialinfochildren=%s, FathersName=%s, FathersMobileNo=%s,FathersAddress=%s, MothersName=%s, MothersMobileNo=%s, MothersAddress=%s, FamilyCrisis=%s, SiblingNumber=%s, BrothersName=%s, BrothersMobileNo=%s, BrothersAddress=%s, highestEducation=%s, OngoingcivilEducation=%s, DateofJoiningService=%s, ServiceCategory=%s, Medicalcategory=%s, DateofLastPromotion=%s, DateofNextPromotion=%s, PresentEngagement=%s, NextREEngagementDue=%s, DateofNextIncrement=%s, NumberofGCB=%s, EffectivedateofexistingGCB=%s,DateofNextGCB=%s,DateofJoiningShip=%s, NameofShip=%s, UNMission=%s, GoodWillMission=%s, DAONumber=%s, PLeaveAvailed=%s, LastDateofPL=%s, PLeaveDue=%s , RecreationLeaveDue=%s, CLeaveAvailed=%s, CLeaveDue=%s, SickLeave=%s, ExBangladeshLeave=%s, Rl=%s, Sourceofdebt=%s, Amountofdebt=%s, ADOsRemark=%s, DivisionalOfficersRemark=%s, COsSpecialRemark=%s, AreaCommanderRemark=%s, ChoiceofAreaForPosting=%s, ChoiceofNextAppointment=%s, NameofImportantCourses=%s, NameofNextCourse=%s, ForeignCourse=%s, SpecialQualification=%s, ChoiceofNextCourse=%s, DateofProceedinginTyDuty=%s, TyBillet=%s, PurposetofTy=%s, TyDuration=%s, IfNotReturn=%s, DateofreturnfromTY=%s, TotalTyDuration=%s, TyHistorySummary=%s, DateoflastSecurityClearance=%s, ExtraCurricularActivities=%s, GamesAndSports=%s WHERE O_No=%s" ,(dic['O_No'],dic['usertype'],dic['pass'],dic['name'],dic['Branch'],dic['Rank'],dic['MobileNo_1'],dic['MobileNo_2'],dic['DateofBirth'],dic['PresentAddress'],dic['PermanentAddress'],dic['marrital_status'],dic['DateofMarriage'],dic['ServiceIdCardNo'],dic['NIDCardNo'],dic['DrivingLicenseNo'],dic['BloodGroup'],dic['LastDateofBloodDonation'],dic['Height'],dic['Weight'],dic['StateofOverWeight'],dic['FacebookAccount'],dic['Emailaddress'],dic['home_district'],dic['NextofKin'],dic['Relationship'],dic['ContactNumberofNextofKin'],dic['NameofWife'],dic['AddressofWife'],dic['MobileNo'],dic['Anyspecialinfowife'],dic['ChildrenNumber'],dic['ChildrenName'],dic['DOBofChildren'],dic['Anyspecialinfochildren'],dic['FathersName'],dic['FathersMobileNo'],dic['FathersAddress'],dic['MothersName'],dic['MothersMobileNo'],dic['MothersAddress'],dic['FamilyCrisis'],dic['SiblingNumber'],dic['BrothersName'],dic['BrothersMobileNo'],dic['BrothersAddress'],dic['highestEducation'],dic['OngoingcivilEducation'],dic['DateofJoiningService'],dic['ServiceCategory'],dic['Medicalcategory'],dic['DateofLastPromotion'],dic['DateofNextPromotion'],dic['PresentEngagement'],dic['NextREEngagementDue'],dic['DateofNextIncrement'],dic['NumberofGCB'],dic['EffectivedateofexistingGCB'],dic['DateofNextGCB'],dic['DateofJoiningShip'],dic['NameofShip'],dic['UNMission'],dic['GoodWillMission'],dic['DAONumber'],dic['PLeaveAvailed'],dic['LastDateofPL'],dic['PLeaveDue'],dic['RecreationLeaveDue'],dic['CLeaveAvailed'],dic['CLeaveDue'],dic['SickLeave'],dic['ExBangladeshLeave'],dic['Rl'],dic['Sourceofdebt'],dic['Amountofdebt'],dic['ADOsRemark'],dic['DivisionalOfficersRemark'],dic['COsSpecialRemark'],dic['AreaCommanderRemark'],dic['ChoiceofAreaForPosting'],dic['ChoiceofNextAppointment'],dic['NameofImportantCourses'],dic['NameofNextCourse'],dic['ForeignCourse'],dic['SpecialQualification'],dic['ChoiceofNextCourse'],dic['DateofProceedinginTyDuty'],dic['TyBillet'],dic['PurposetofTy'],dic['TyDuration'],dic['DateofreturnfromTY'] ,dic['IfNotReturn'],dic['TotalTyDuration'],dic['TyHistorySummary'],dic['DateoflastSecurityClearance'],dic['ExtraCurricularActivities'],dic['GamesAndSports'], id))
+        mcur.execute("UPDATE TYHistory SET TYto = %s WHERE idx = %s", (str(today), idx, ))
+        mysql.connection.commit()
+        mysql.connection.commit()
+        mcur.close()
+        return redirect(url_for('tyhistory', id = id))
+    else:
+        login_status = False
+        return redirect(url_for('home'))
+
+
 @app.route('/profile/<string:id>/TyHistory/adding_ty', methods = ['POST', 'GET'])
 def adding_ty(id):
     if 'O_No' in session:

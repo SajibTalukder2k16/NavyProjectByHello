@@ -109,7 +109,8 @@
           <tr>
               <td >Marital Status</td>
               <td >
-                  <select  class="form-control mr-sm-2" name="marrital_status">{%for i in range(Marital_Status|length) %}
+                  <select  class="form-control mr-sm-2" name="marrital_status">
+                    {%for i in range(Marital_Status|length) %}
                           <option  value={{Marital_Status[i]}}>{{Marital_Status[i]}}</option>
                       {%endfor%}
   
@@ -310,7 +311,8 @@
           <tr>
               <td >Ongoing civil Education</td>
               <td >
-                  <select class="form-control mr-sm-2" name="OngoingcivilEducation">{%for i in range(Ongoing_Education|length) %}
+                  <select class="form-control mr-sm-2" name="OngoingcivilEducation">
+                    {%for i in range(Ongoing_Education|length) %}
                           <option  value={{Ongoing_Education[i]}}>{{Ongoing_Education[i]}}</option>
                       {%endfor%}
                   </select>

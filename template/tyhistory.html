@@ -1,7 +1,9 @@
-{%extends 'base.html'%}
+{%extends 'templatebase.html'%}
 {%block head%}
 {%endblock%}
-{%block pagebody%}
+{%block body%}
+<div class="row" style="margin-left: 5%;" >
+    <div class="span12">
 <form action="{{url_for('adding_ty', id = id)}}" method="POST">
     <table border="5px">
     <tr>
@@ -12,13 +14,20 @@
         <th scope="col">Duration</th>
 
     </tr>
-    {%for row in rows%}
+    {%for i in range(rows|length)%}
         <tr>
-            <td>{{row['TYBillet']}}</td>
-            <td>{{row['PurposeofTY']}}</td>
-            <td>{{row['TYfrom']}}</td>
-            <td>{{row['TYto']}}</td>
-            <td>{{row['Duration']}}</td>    
+            <td style="text-align: center;">{{rows[i]['TYBillet']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['PurposeofTY']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['TYfrom']}}</td style="text-align: center;">
+            {%if rows[i]['Button'] == True%}
+                <td style="text-align: center;">
+                    <a href="{{url_for('completety', id = id, idx = rows[i]['idx'])}}">Comlete the TY</a>
+                </td>
+            {% else %}
+                <td style="text-align: center;">{{rows[i]['TYto']}}</tdstyle="text-align: center;">
+            {%endif%}
+            
+            <td>{{rows[i]['Duration']}}</td>    
         </tr>
     {%endfor%}
     <tr>
@@ -26,11 +35,12 @@
         <td><input type="text" name="PurposeofTY"></td>
         <td><input type="date" name="TYfrom"></td>
         <td><input type="date" name="TYto"></td>
-        <td><input  type="submit" value="Add TY"></td>
+        <td><input  type="submit" value="Add TY" class="btn btn-primary btn-lg"></td>
     </tr>
     </table>
     
 
     </form>
-
+</div>
+</div>
 {%endblock%}
