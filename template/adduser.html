@@ -1,5 +1,7 @@
 {% extends 'templatebase.html'%}
 {% set active_page = "adduser" %}
+
+
 {% block head%}
 <script>
   function openPage(pageName,elmnt,color) {
@@ -48,578 +50,10 @@
       
 </script>
 {% endblock %}
-{% block body%}
-
-<div class="row" style="margin-left: 5%;">
-  <div class="span12">
-
-<!-- start: Accordion -->
-<form method="POST" action="{{url_for('adding_user')}}">
-<div class="accordion" id="accordion2">
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle active" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-  <i class="icon-minus"></i> Basic Particulars</a>
-    </div>
-    <div id="collapseOne" class="accordion-body collapse in">
-      <div class="accordion-inner">
-        <table style="width:100%;" class="table table-hover">
-          <tr>
-              <td >O. No</td>
-              <td ><input type="text" name="O_No" ></td>
-          </tr>
-          <tr>
-            <td >Name</td>
-            <td ><input type="text" class="form-control mr-sm-2" name="name"  ></td>
-          </tr>
-          <tr>
-            <td >Branch & Rank</td>
-            <td >
-              <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-              <option>- - -</option>
-              {%for key in Branch_key %}
-                  <option value={{key}}>{{key}}</option>
-              {%endfor%}
-  
-             </select>
-             <span id="slist2"></span> <div id="scontent"></div></td>
-          </tr>
-  
-          <tr>
-              <td >Mobile No - 1</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo_1"></td>
-          </tr>
-          <tr>
-          <td >Mobile No - 2</td>
-              <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2"></td>
-          </tr>
-          <tr>
-              <td >Date of Birth</td>
-              <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth"></td>
-          </tr>
-          <tr>
-              <td >Present Address</td>
-              <td ><input class="form-control mr-sm-2" type="text" name="PresentAddress"></td>
-          </tr>
-          <tr>
-              <td >Permanent Address</td>
-              <td ><input  class="form-control mr-sm-2" type="text" name="PermanentAddress"></td>
-          </tr>
-  
-          <tr>
-              <td >Marital Status</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="marrital_status">
-                    {%for i in range(Marital_Status|length) %}
-                          <option  value={{Marital_Status[i]}}>{{Marital_Status[i]}}</option>
-                      {%endfor%}
-  
-                  </select>
-              </td>
-          </tr>
-          <tr>
-              <td >Date of Marriage</td>
-              <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage"></td>
-          </tr>
-          <tr>
-              <td >Service Id Card No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="ServiceIdCardNo"></td>
-          </tr>
-          <tr>
-              <td >NID Card No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="NIDCardNo"></td>
-          </tr>
-          <tr>
-              <td >Driving License No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="DrivingLicenseNo"></td>
-          </tr>
-          <tr>
-              <td >Blood Group</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="BloodGroup">{%for i in range(Blood_Group|length) %}
-                          <option  value={{Blood_Group[i]}}>{{Blood_Group[i]}}</option>
-                      {%endfor%}
-  
-                  </select>
-              </td>
-          </tr>
-          <tr>
-              <td >Last Date of BloodDonation</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation"></td>
-          </tr>
-          <tr>
-              <td >Height</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Height"></td>
-          </tr>
-          <tr>
-              <td >Weight</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Weight"></td>
-          </tr>
-          <tr>
-              <td >Facebook Account</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="FacebookAccount"></td>
-          </tr>
-          <tr>
-              <td >Email Address</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress  "></td>
-          </tr>
-  
-          <tr>
-            <td >Home District</td>
-            <td >
-                <select  class="form-control mr-sm-2" name="home_district">{%for i in range(Home_District|length) %}
-                        <option  value={{Home_District[i]}}>{{Home_District[i]}}</option>
-                    {%endfor%}
-  
-                </select>
-            </td>
-        </tr>
-      </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-  <i class="icon-plus"></i>Family Particulars</a>
-    </div>
-    <div id="collapseTwo" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Next of Kin</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="NextofKin"></td>
-          </tr>
-          <tr>
-              <td  >Relationship</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Relationship"></td>
-          </tr>
-          <tr>
-              <td >Contact Number of Next of Kin</td>
-              <td ><input class="form-control mr-sm-2" type="text" name="ContactNumberofNextofKin"></td>
-          </tr>
-          <tr>
-              <td >Name of Wife</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="NameofWife"></td>
-          </tr>
-          <tr>
-              <td >Address of Wife</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="AddressofWife"></td>
-          </tr>
-          <tr>
-              <td >Mobile No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo"></td>
-          </tr>
-          <tr>
-              <td >Any special info(related to wife)</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfowife"></td>
-          </tr>
-          <tr>
-              <td >Children Number</td>
-              <td ><input class="form-control mr-sm-2"  type="number" name="ChildrenNumber"></td>
-          </tr>
-          <tr>
-              <td >Children Name</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="ChildrenName"></td>
-          </tr>
-          <tr>
-              <td >DOB of Children</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="DOBofChildren"></td>
-          </tr>
-          <tr>
-              <td >Any special info(related to Children)</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren"></td>
-          </tr>
-          <tr>
-              <td >Father's Name</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="FathersName"></td>
-          </tr>
-          <tr>
-              <td >Father's Mobile No</td>
-              <td ><input class="form-control mr-sm-2" type="text" name="FathersMobileNo"></td>
-          </tr>
-          <tr>
-              <td >Father's Address</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="FathersAddress"></td>
-          </tr>
-          <tr>
-            <td >Mother's Name</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="MothersName"></td>
-          </tr>
-          <tr>
-              <td >Mother's Mobile No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="MothersMobileNo"></td>
-          </tr>
-          <tr>
-              <td >Mother's Address</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="MothersAddress"></td>
-          </tr>
-          <tr>
-              <td >Family Crisis(If any)</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="FamilyCrisis"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-  <i class="icon-plus"></i>Sibling Information</a>
-    </div>
-    <div id="collapseThree" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Sibling Number</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="SiblingNumber"></td>
-          </tr>
-          <tr>
-              <td >Brother's Name</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="BrothersName"></td>
-          </tr>
-          <tr>
-              <td >Brother's Mobile No</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="BrothersMobileNo"></td>
-          </tr>
-          <tr>
-              <td >Brother's Address</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="BrothersAddress"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-  <i class="icon-plus"></i>Educational Information</a>
-    </div>
-    <div id="collapseFour" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Highest Education</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="highestEducation">{%for i in range(Highest_Education|length) %}
-                          <option  value={{Highest_Education[i]}}>{{Highest_Education[i]}}</option>
-                      {%endfor%}
-    
-                  </select>
-              </td>
-          </tr>
-          <tr>
-              <td >Ongoing civil Education</td>
-              <td >
-                  <select class="form-control mr-sm-2" name="OngoingcivilEducation">
-                    {%for i in range(Ongoing_Education|length) %}
-                          <option  value={{Ongoing_Education[i]}}>{{Ongoing_Education[i]}}</option>
-                      {%endfor%}
-                  </select>
-              </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
-  <i class="icon-plus"></i>Service Information</a>
-    </div>
-    <div id="collapseFive" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Date of Joining Service</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService"></td>
-          </tr>
-          <tr>
-              <td >Service Category</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
-                          <option  value={{Service_Category[i]}}>{{Service_Category[i]}}</option>
-                      {%endfor%}
-                  </select>
-              </td>
-          </tr>
-          <tr>
-            <td >Medical category</td>
-            <td >
-                <select  class="form-control mr-sm-2" name="Medicalcategory">{%for i in range(Medical_Category|length) %}
-                        <option  value={{Medical_Category[i]}}>{{Medical_Category[i]}}</option>
-                    {%endfor%}
-                </select>
-            </td>
-          </tr>
-          <tr>
-              <td >Date of Last Promotion</td>
-              <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion"></td>
-          </tr>
-          <tr>
-              <td >Date of Next Promotion</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion"></td>
-          </tr>
-          <tr>
-              <td >Present Engagement</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="PresentEngagement">{%for i in range(Present_Engagement|length) %}
-                          <option  value={{Present_Engagement[i]}}>{{Present_Engagement[i]}}</option>
-                      {%endfor%}
-                  </select>
-              </td>
-          </tr>
-          <tr>
-              <td >Number of GCB</td>
-              <td >
-                  <select  class="form-control mr-sm-2" name="NumberofGCB">{%for i in range(Number_of_GCB|length) %}
-                          <option  value={{Number_of_GCB[i]}}>{{Number_of_GCB[i]}}</option>
-                      {%endfor%}
-                  </select>
-              </td>
-          </tr>
-          <tr>
-              <td >Effective date of existing GCB</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB"></td>
-          </tr>
-          <tr>
-              <td >Date of Joining Ship</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningShip"></td>
-          </tr>
-    
-          <tr>
-            <td >Name of Ship</td>
-            <td >
-                <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
-                        <option  value={{Name_of_Ship[i]}}>{{Name_of_Ship[i]}}</option>
-                    {%endfor%}
-                </select>
-            </td>
-           </tr>
-          <tr>
-              <td >UN Mission</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="UNMission"></td>
-          </tr>
-          <tr>
-              <td >Good Will Mission</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="GoodWillMission"></td>
-          </tr>
-          <tr>
-              <td >DAO Number</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="DAONumber"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
-  <i class="icon-plus"></i>Leave Particulars</a>
-    </div>
-    <div id="collapseSix" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >P Leave Availed</td>
-              <td ><input class="form-control mr-sm-2"  type="number" name="PLeaveAvailed"></td>
-          </tr>
-          <tr>
-              <td >Last Date of PL</td>
-              <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofPL"></td>
-          </tr>
-          <tr>
-            <td >C Leave Availed</td>
-            <td ><input class="form-control mr-sm-2"  type="number" name="CLeaveAvailed"></td>
-          </tr>
-    
-          <tr>
-            <td >Sick Leave</td>
-            <td ><input class="form-control mr-sm-2"  type="number" name="SickLeave"></td>
-          </tr>
-          <tr>
-            <td >Ex Bangladesh Leave</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="ExBangladeshLeave"></td>
-          </tr>
-          <tr>
-            <td >RL</td>
-            <td ><input class="form-control mr-sm-2" type="text" name="Rl"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven">
-  <i class="icon-plus"></i>Financial Section</a>
-    </div>
-    <div id="collapseSeven" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Source of debt.</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="Sourceofdebt"></td>
-          </tr>
-          <tr>
-              <td >Amount of debt.</td>
-              <td ><input class="form-control mr-sm-2"   type="number" name="Amountofdebt"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseEight">
-  <i class="icon-plus"></i>Personal Preferences</a>
-    </div>
-    <div id="collapseEight" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Choice of Area for Posting</td>
-              <td >
-                <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
-                        <option  value={{Choice_of_Area_for_drafting[i]}}>{{Choice_of_Area_for_drafting [i]}}</option>
-                    {%endfor%}
-    
-                </select>
-              </td>
-          </tr>
-          <tr>
-            <td >Choice of Next Appointment</td>
-            <td >
-              <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">{%for i in range(Choice_of_Next_Appointment|length) %}
-                      <option  value={{Choice_of_Next_Appointment[i]}}>{{Choice_of_Next_Appointment [i]}}</option>
-                  {%endfor%}
-    
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseNine">
-  <i class="icon-plus"></i>Course Information</a>
-    </div>
-    <div id="collapseNine" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-              <td >Name of important courses</td>
-              <td ><input class="form-control mr-sm-2"  type="text" name="NameofImportantCourses"></td>
-          </tr>
-          <tr>
-            <td >Name of Next courses</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="NameofNextCourse"></td>
-          </tr>
-          <tr>
-            <td >Foreign course</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="ForeignCourse"></td>
-          </tr>
-          <tr>
-            <td >Special qualification</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="SpecialQualification"></td>
-          </tr>
-          <tr>
-            <td >Choice of next course</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="ChoiceofNextCourse"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">
-  <i class="icon-plus"></i>Optional Data</a>
-    </div>
-    <div id="collapseTen" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-            <td >Date of last Security clearance</td>
-            <td ><input class="form-control mr-sm-2"  type="date" name="DateoflastSecurityClearance"></td>
-          </tr>
-          <tr>
-            <td >Extra Curricular Activities</td>
-            <td ><input class="form-control mr-sm-2"  type="text" name="ExtraCurricularActivities"></td>
-          </tr>
-          <tr>
-                <td >Games and Sports</td>
-                <td ><input class="form-control mr-sm-2"   type="text" name="GamesAndSports"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseEleven">
-  <i class="icon-plus"></i>Sign Up Information</a>
-    </div>
-    <div id="collapseEleven" class="accordion-body collapse">
-      <div class="accordion-inner">
-        <table class="table table-hover" style="width:100%;">
-          <tr>
-                <td >User Type</td>
-                <td >
-                  <select class="form-control mr-sm-2" name="usertype">{%for i in range(User_Type|length) %}
-                          <option  value={{i}}>{{User_Type[i]}}</option>
-                      {%endfor%}
-    
-                  </select>
-              </td>
-          </tr>
-          <tr>
-            <td >User Password</td>
-            <td ><input class="form-control mr-sm-1"  type="password" name="password"></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
-  
-
-  
-</div>
-
-
-</form>
-<!--end: Accordion -->
-</div>
-</div>
-
-{% endblock %}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{%block pagebody%}
+{%block body%}
 <style>
         .tablink {
             background-color: #555;
@@ -661,7 +95,10 @@
         }
     </style>
     
-<div style="position: fixed;">
+
+    <div class="row" style="margin-left: 5%;">
+      <div class="span12">
+<div>
     <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic Particulars</button>
     <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
     <button class="tablink" onclick="openPage('SiblingInformation', this, 'grey')">Sibling Information</button>
@@ -692,7 +129,7 @@
             <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
             <option>- - -</option>
             {%for key in Branch_key %}
-                <option value={{key}}>{{key}}</option>
+                <option value="{{key}}">{{key}}</option>
             {%endfor%}
 
            </select>
@@ -724,7 +161,7 @@
             <td >Marital Status</td>
             <td >
                 <select  class="form-control mr-sm-2" name="marrital_status">{%for i in range(Marital_Status|length) %}
-                        <option  value={{Marital_Status[i]}}>{{Marital_Status[i]}}</option>
+                        <option  value="{{Marital_Status[i]}}">{{Marital_Status[i]}}</option>
                     {%endfor%}
 
                 </select>
@@ -750,7 +187,7 @@
             <td >Blood Group</td>
             <td >
                 <select  class="form-control mr-sm-2" name="BloodGroup">{%for i in range(Blood_Group|length) %}
-                        <option  value={{Blood_Group[i]}}>{{Blood_Group[i]}}</option>
+                        <option  value="{{Blood_Group[i]}}">{{Blood_Group[i]}}</option>
                     {%endfor%}
 
                 </select>
@@ -781,7 +218,7 @@
           <td >Home District</td>
           <td >
               <select  class="form-control mr-sm-2" name="home_district">{%for i in range(Home_District|length) %}
-                      <option  value={{Home_District[i]}}>{{Home_District[i]}}</option>
+                      <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
                   {%endfor%}
 
               </select>
@@ -897,7 +334,7 @@
           <td >Highest Education</td>
           <td >
               <select  class="form-control mr-sm-2" name="highestEducation">{%for i in range(Highest_Education|length) %}
-                      <option  value={{Highest_Education[i]}}>{{Highest_Education[i]}}</option>
+                      <option  value="{{Highest_Education[i]}}">{{Highest_Education[i]}}</option>
                   {%endfor%}
 
               </select>
@@ -907,7 +344,7 @@
           <td >Ongoing civil Education</td>
           <td >
               <select class="form-control mr-sm-2" name="OngoingcivilEducation">{%for i in range(Ongoing_Education|length) %}
-                      <option  value={{Ongoing_Education[i]}}>{{Ongoing_Education[i]}}</option>
+                      <option  value="{{Ongoing_Education[i]}}">{{Ongoing_Education[i]}}</option>
                   {%endfor%}
               </select>
           </td>
@@ -926,7 +363,7 @@
           <td >Service Category</td>
           <td >
               <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
-                      <option  value={{Service_Category[i]}}>{{Service_Category[i]}}</option>
+                      <option  value="{{Service_Category[i]}}">{{Service_Category[i]}}</option>
                   {%endfor%}
               </select>
           </td>
@@ -935,7 +372,7 @@
         <td >Medical category</td>
         <td >
             <select  class="form-control mr-sm-2" name="Medicalcategory">{%for i in range(Medical_Category|length) %}
-                    <option  value={{Medical_Category[i]}}>{{Medical_Category[i]}}</option>
+                    <option  value="{{Medical_Category[i]}}">{{Medical_Category[i]}}</option>
                 {%endfor%}
             </select>
         </td>
@@ -952,7 +389,7 @@
           <td >Present Engagement</td>
           <td >
               <select  class="form-control mr-sm-2" name="PresentEngagement">{%for i in range(Present_Engagement|length) %}
-                      <option  value={{Present_Engagement[i]}}>{{Present_Engagement[i]}}</option>
+                      <option  value="{{Present_Engagement[i]}}">{{Present_Engagement[i]}}</option>
                   {%endfor%}
               </select>
           </td>
@@ -961,7 +398,7 @@
           <td >Number of GCB</td>
           <td >
               <select  class="form-control mr-sm-2" name="NumberofGCB">{%for i in range(Number_of_GCB|length) %}
-                      <option  value={{Number_of_GCB[i]}}>{{Number_of_GCB[i]}}</option>
+                      <option  value="{{Number_of_GCB[i]}}">{{Number_of_GCB[i]}}</option>
                   {%endfor%}
               </select>
           </td>
@@ -979,7 +416,7 @@
         <td >Name of Ship</td>
         <td >
             <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
-                    <option  value={{Name_of_Ship[i]}}>{{Name_of_Ship[i]}}</option>
+                    <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
                 {%endfor%}
             </select>
         </td>
@@ -1054,7 +491,7 @@
           <td >Choice of Area for Posting</td>
           <td >
             <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
-                    <option  value={{Choice_of_Area_for_drafting[i]}}>{{Choice_of_Area_for_drafting [i]}}</option>
+                    <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>
                 {%endfor%}
 
             </select>
@@ -1064,7 +501,7 @@
         <td >Choice of Next Appointment</td>
         <td >
           <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">{%for i in range(Choice_of_Next_Appointment|length) %}
-                  <option  value={{Choice_of_Next_Appointment[i]}}>{{Choice_of_Next_Appointment [i]}}</option>
+                  <option  value="{{Choice_of_Next_Appointment[i]}}">{{Choice_of_Next_Appointment [i]}}</option>
               {%endfor%}
 
           </select>
@@ -1125,7 +562,7 @@
             <td >User Type</td>
             <td >
               <select class="form-control mr-sm-2" name="usertype">{%for i in range(User_Type|length) %}
-                      <option  value={{i}}>{{User_Type[i]}}</option>
+                      <option  value="{{i}}">{{User_Type[i]}}</option>
                   {%endfor%}
 
               </select>
@@ -1133,7 +570,7 @@
       </tr>
       <tr>
         <td >User Password</td>
-        <td ><input class="form-control mr-sm-1"  type="password" name="password"></td>
+        <td ><input class="form-control mr-sm-1"  type="text" name="pass"></td>
       </tr>
       <tr>
           <td></td>
@@ -1142,6 +579,9 @@
     </table>
   </div>
 </form>
+
+</div>
+</div>
 <script>
     function openPage(pageName,elmnt,color) {
       var i, tabcontent, tablinks;
@@ -1189,3 +629,20 @@
         
 </script>
 {%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

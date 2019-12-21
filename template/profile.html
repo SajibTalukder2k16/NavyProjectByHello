@@ -47,6 +47,30 @@
 {%block body%}
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
+    <table  class="table table-hover table-bordered" style="text-align: center;">
+      <tr>
+        <td style="text-align:center;">
+          <form action="{{url_for('editprofile', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('tyhistory', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('remarks', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="#">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+          </form>
+        </td>
+      </tr>
+    </table>
     <table style="margin-bottom: 100px;" class="table table-hover table-bordered" style="text-align: center;">
       <tr>
         <th>Ser.</th>
@@ -61,30 +85,7 @@
       </tr>
       {%endfor%}
     </table>
-    <table  class="table table-hover table-bordered" style="text-align: center;">
-      <tr>
-        <td style="text-align:center;">
-          <form action="{{url_for('editprofile', id = id)}}">
-            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
-          </form>
-        </td>
-        <td style="text-align:center;">
-          <form action="{{url_for('tyhistory', id = id)}}">
-            <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
-          </form>
-        </td>
-        <td style="text-align:center;">
-          <form action="#">
-            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
-          </form>
-        </td>
-        <td style="text-align:center;">
-          <form action="#">
-            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
-          </form>
-        </td>
-      </tr>
-    </table>
+    
     
   </div>
 </div>

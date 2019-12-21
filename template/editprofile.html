@@ -80,9 +80,9 @@
         <option>- - -</option>
         {%for key in Branch_key %}
             {%if key == rows['Branch']%}
-            <option value={{key}} selected="selected">{{key}}</option>
+            <option value="{{key}}" selected="selected">{{key}}</option>
             {% else %}
-            <option value={{key}} >{{key}}</option>
+            <option value="{{key}}" >{{key}}</option>
             {%endif%}
         {%endfor%}
 
@@ -116,9 +116,9 @@
             <select  class="form-control mr-sm-2" name="marrital_status">
                 {%for i in range(Marital_Status|length) %}
                     {%if Marital_Status[i] == rows['marrital_status']%}
-                        <option  value={{Marital_Status[i]}} selected="selected">{{Marital_Status[i]}}</option>
+                        <option  value="{{Marital_Status[i]}}" selected="selected">{{Marital_Status[i]}}</option>
                     {% else %}
-                        <option  value={{Marital_Status[i]}}>{{Marital_Status[i]}}</option>
+                        <option  value="{{Marital_Status[i]}}">{{Marital_Status[i]}}</option>
                     {%endif%}
                     {%endfor%}
 
@@ -149,9 +149,9 @@
                 {%for i in range(Blood_Group|length) %}
 
                     {%if Blood_Group[i] == rows['BloodGroup']%}
-                    <option  value={{Blood_Group[i]}} selected = "selected">{{Blood_Group[i]}}</option>
+                    <option  value="{{Blood_Group[i]}}" selected = "selected">{{Blood_Group[i]}}</option>
                     {% else %}
-                        <option  value={{Blood_Group[i]}}>{{Blood_Group[i]}}</option>
+                        <option  value="{{Blood_Group[i]}}">{{Blood_Group[i]}}</option>
                     {%endif%}
 
                 {%endfor%}
@@ -190,9 +190,9 @@
           <select  class="form-control mr-sm-2" name="home_district">
               {%for i in range(Home_District|length) %}
                 {%if Home_District[i] == rows['home_district']%}
-                    <option  value={{Home_District[i]}} selected="selected">{{Home_District[i]}}</option>
+                    <option  value="{{Home_District[i]}}" selected="selected">{{Home_District[i]}}</option>
                 {% else %}
-                    <option  value={{Home_District[i]}}>{{Home_District[i]}}</option>
+                    <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
                 {%endif%}
 
               {%endfor%}
@@ -312,9 +312,9 @@
               <select  class="form-control mr-sm-2" name="highestEducation">
                   {%for i in range(Highest_Education|length) %}
                     {%if Highest_Education[i] == rows['highestEducation']%}
-                    <option  value={{Highest_Education[i]}} selected = "selected">{{Highest_Education[i]}}</option>
+                    <option  value="{{Highest_Education[i]}}" selected = "selected">{{Highest_Education[i]}}</option>
                     {% else %}
-                    <option  value={{Highest_Education[i]}}>{{Highest_Education[i]}}</option>
+                    <option  value="{{Highest_Education[i]}}">{{Highest_Education[i]}}</option>
                     {%endif%}
 
                   {%endfor%}
@@ -328,9 +328,9 @@
               <select class="form-control mr-sm-2" name="OngoingcivilEducation">
                   {%for i in range(Ongoing_Education|length) %}
                         {%if Ongoing_Education[i] == rows['OngoingcivilEducation']%}
-                            <option  value={{Ongoing_Education[i]}} selected = "selected">{{Ongoing_Education[i]}}</option>
+                            <option  value="{{Ongoing_Education[i]}}" selected = "selected">{{Ongoing_Education[i]}}</option>
                         {% else %}
-                            <option  value={{Ongoing_Education[i]}}>{{Ongoing_Education[i]}}</option>
+                            <option  value="{{Ongoing_Education[i]}}">{{Ongoing_Education[i]}}</option>
                         {%endif%}
 
                   {%endfor%}
@@ -353,9 +353,9 @@
               <select  class="form-control mr-sm-2" name="ServiceCategory">
                   {%for i in range(Service_Category|length) %}
                     {%if Service_Category[i] == rows['ServiceCategory']%}
-                        <option  value={{Service_Category[i]}} selected = "selected">{{Service_Category[i]}}</option>
+                        <option  value="{{Service_Category[i]}}" selected = "selected">{{Service_Category[i]}}</option>
                     {% else %}
-                        <option  value={{Service_Category[i]}}>{{Service_Category[i]}}</option>
+                        <option  value="{{Service_Category[i]}}">{{Service_Category[i]}}</option>
                     {%endif%}
 
                   {%endfor%}
@@ -368,9 +368,9 @@
             <select  class="form-control mr-sm-2" name="Medicalcategory">
                 {%for i in range(Medical_Category|length) %}
                     {%if Medical_Category[i] == rows['Medicalcategory']%}
-                    <option  value={{Medical_Category[i]}} selected = "selected">{{Medical_Category[i]}}</option>
+                    <option  value="{{Medical_Category[i]}}" selected = "selected">{{Medical_Category[i]}}</option>
                     {% else %}
-                    <option  value={{Medical_Category[i]}}>{{Medical_Category[i]}}</option>
+                    <option  value="{{Medical_Category[i]}}">{{Medical_Category[i]}}</option>
                     {%endif%}
 
                 {%endfor%}
@@ -391,9 +391,9 @@
               <select  class="form-control mr-sm-2" name="PresentEngagement">
                   {%for i in range(Present_Engagement|length) %}
                     {%if Present_Engagement[i] == rows['PresentEngagement']%}
-                    <option  value={{Present_Engagement[i]}} selected = "selected">{{Present_Engagement[i]}}</option>
+                    <option  value="{{Present_Engagement[i]}}" selected = "selected">{{Present_Engagement[i]}}</option>
                     {% else %}
-                    <option  value={{Present_Engagement[i]}}>{{Present_Engagement[i]}}</option>
+                    <option  value="{{Present_Engagement[i]}}">{{Present_Engagement[i]}}</option>
                     {%endif%}
 
                   {%endfor%}
@@ -414,9 +414,9 @@
               <select  class="form-control mr-sm-2" name="NumberofGCB">
                   {%for i in range(Number_of_GCB|length) %}
                     {%if Number_of_GCB[i] == rows['NumberofGCB']%}
-                    <option  value={{Number_of_GCB[i]}} selected = "selected">{{Number_of_GCB[i]}}</option>
+                    <option  value="{{Number_of_GCB[i]}}" selected = "selected">{{Number_of_GCB[i]}}</option>
                     {% else %}
-                    <option  value={{Number_of_GCB[i]}}>{{Number_of_GCB[i]}}</option>
+                    <option  value="{{Number_of_GCB[i]}}">{{Number_of_GCB[i]}}</option>
                     {%endif%}
 
                   {%endfor%}
@@ -443,9 +443,9 @@
             <select  class="form-control mr-sm-2" name="NameofShip">
                 {%for i in range(Name_of_Ship|length) %}
                 {%if Name_of_Ship[i] == rows['NameofShip']%}
-                <option  value={{Name_of_Ship[i]}} selected = "selected">{{Name_of_Ship[i]}}</option>
+                <option  value="{{Name_of_Ship[i]}}" selected = "selected">{{Name_of_Ship[i]}}</option>
                 {% else %}
-                <option  value={{Name_of_Ship[i]}}>{{Name_of_Ship[i]}}</option>
+                <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
                 {%endif%}
 
                 {%endfor%}
@@ -537,10 +537,10 @@
             <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">
                 {%for i in range(Choice_of_Area_for_drafting|length) %}
 
-                {%if Name_of_Ship[i] == rows['ChoiceofAreaForPosting']%}
-                <option  value={{Choice_of_Area_for_drafting[i]}} selected="selected">{{Choice_of_Area_for_drafting [i]}}</option>
+                {%if Choice_of_Area_for_drafting [i] == rows['ChoiceofAreaForPosting']%}
+                <option  value="{{Choice_of_Area_for_drafting[i]}}" selected="selected">{{Choice_of_Area_for_drafting [i]}}</option>
                 {% else %}
-                <option  value={{Choice_of_Area_for_drafting[i]}}>{{Choice_of_Area_for_drafting [i]}}</option>
+                <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>
                 {%endif%}
 
                 {%endfor%}
@@ -554,10 +554,10 @@
           <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">
               {%for i in range(Choice_of_Next_Appointment|length) %}
 
-                {%if Name_of_Ship[i] == rows['ChoiceofNextAppointment']%}
-                <option  value={{Choice_of_Next_Appointment[i]}} selected = "selected">{{Choice_of_Next_Appointment [i]}}</option>
+                {%if Choice_of_Next_Appointment[i] == rows['ChoiceofNextAppointment']%}
+                <option  value="{{Choice_of_Next_Appointment[i]}}" selected = "selected">{{Choice_of_Next_Appointment [i]}}</option>
                 {% else %}
-                <option  value={{Choice_of_Next_Appointment[i]}}>{{Choice_of_Next_Appointment [i]}}</option>
+                <option  value="{{Choice_of_Next_Appointment[i]}}">{{Choice_of_Next_Appointment [i]}}</option>
                 {%endif%}
 
               {%endfor%}
@@ -623,9 +623,9 @@
               <select class="form-control mr-sm-2" name="usertype">
                   {%for i in range(User_Type|length) %}
                   {%if i|string == rows['usertype']%}
-                  <option  value={{i}} selected = "selected">{{User_Type[i]}}</option>
+                  <option  value="{{i}}" selected = "selected">{{User_Type[i]}}</option>
                   {% else %}
-                  <option  value={{i}}>{{User_Type[i]}}</option>
+                  <option  value="{{i}}">{{User_Type[i]}}</option>
                   {%endif%}
 
                   {%endfor%}
