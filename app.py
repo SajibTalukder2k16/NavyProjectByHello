@@ -42,7 +42,7 @@ Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Steward':['STWD-II','STWD-I','LSTWD','PO(STWD)','CPO(STWD)','SCPO(STWD)','MCPO(STWD)']
             }
 Marital_Status = ['-','Single', 'Married', 'Divorced']
-User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot']
+User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot', 'Sailor']
 Column = ['O_No' , 'usertype' , 'pass' , 'name' , 'Branch' , 'Rank' , 'MobileNo_1' , 'MobileNo_2' , 'DateofBirth' , 'PresentAddress' , 'PermanentAddress' , 'marrital_status' , 'DateofMarriage' , 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo' , 'BloodGroup' ,'LastDateofBloodDonation', 'Height' , 'Weight' , 'StateofOverWeight' , 'FacebookAccount' , 'Emailaddress' , 'home_district' , 'NextofKin' , 'Relationship' , 'ContactNumberofNextofKin' , 'NameofWife' , 'AddressofWife' , 'MobileNo' , 'Anyspecialinfowife' , 'ChildrenNumber' , 'ChildrenName' , 'DOBofChildren' , 'Anyspecialinfochildren' , 'FathersName' , 'FathersMobileNo' , 'FathersAddress' , 'MothersName' , 'MothersMobileNo' , 'MothersAddress' , 'FamilyCrisis' , 'SiblingNumber' , 'BrothersName' , 'BrothersMobileNo' , 'BrothersAddress' , 'highestEducation' , 'OngoingcivilEducation' , 'DateofJoiningService' , 'ServiceCategory' , 'Medicalcategory' , 'DateofLastPromotion' , 'DateofNextPromotion' , 'PresentEngagement' , 'NextREEngagementDue' , 'DateofNextIncrement' , 'NumberofGCB' , 'EffectivedateofexistingGCB' , 'DateofNextGCB' , 'DateofJoiningShip' , 'NameofShip' , 'UNMission' , 'GoodWillMission' , 'DAONumber' , 'PLeaveAvailed' , 'LastDateofPL' , 'PLeaveDue' , 'RecreationLeaveDue' , 'CLeaveAvailed' , 'CLeaveDue' , 'SickLeave' , 'ExBangladeshLeave' , 'Rl' , 'Sourceofdebt' , 'Amountofdebt' , 'ChoiceofAreaForPosting' , 'ChoiceofNextAppointment' , 'NameofImportantCourses' , 'NameofNextCourse' , 'ForeignCourse' , 'SpecialQualification' , 'ChoiceofNextCourse' , 'DateoflastSecurityClearance' , 'ExtraCurricularActivities' , 'GamesAndSports']
 
 
@@ -58,7 +58,7 @@ with app.app_context():
     cur.execute('use navy')
     cur.execute('CREATE TABLE IF NOT EXISTS UserInfo ( O_No varchar(30) PRIMARY KEY, usertype text, pass text, name text, Branch text, Rank text, MobileNo_1 text, MobileNo_2 text, DateofBirth text, PresentAddress text, PermanentAddress text, marrital_status text, DateofMarriage text, ServiceIdCardNo text, NIDCardNo text, DrivingLicenseNo text, BloodGroup text,LastDateofBloodDonation text, Height text, Weight text, StateofOverWeight text, FacebookAccount text, Emailaddress text, home_district text, NextofKin text, Relationship text, ContactNumberofNextofKin text, NameofWife text, AddressofWife text, MobileNo text, Anyspecialinfowife text, ChildrenNumber text, ChildrenName text, DOBofChildren text, Anyspecialinfochildren text, FathersName text, FathersMobileNo text, FathersAddress text, MothersName text, MothersMobileNo text, MothersAddress text, FamilyCrisis text, SiblingNumber text, BrothersName text, BrothersMobileNo text, BrothersAddress text, highestEducation text, OngoingcivilEducation text, DateofJoiningService text, ServiceCategory text, Medicalcategory text, DateofLastPromotion text, DateofNextPromotion text, PresentEngagement text, NextREEngagementDue text, DateofNextIncrement text, NumberofGCB text, EffectivedateofexistingGCB text, DateofNextGCB text, DateofJoiningShip text, NameofShip text, UNMission text, GoodWillMission text, DAONumber text, PLeaveAvailed text, LastDateofPL text, PLeaveDue text, RecreationLeaveDue text, CLeaveAvailed text, CLeaveDue text, SickLeave text, ExBangladeshLeave text, Rl text, Sourceofdebt text, Amountofdebt text, ChoiceofAreaForPosting text, ChoiceofNextAppointment text, NameofImportantCourses text, NameofNextCourse text, ForeignCourse text, SpecialQualification text, ChoiceofNextCourse text, DateoflastSecurityClearance text, ExtraCurricularActivities text, GamesAndSports text) ')
     cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (idx int NOT NULL AUTO_INCREMENT, O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No), PRIMARY KEY (idx))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Remarks (idx int NOT NULL AUTO_INCREMENT, O_No_from varchar(30), O_No_to varchar(30), remarks TEXT, foreign key(O_No_from) references UserInfo(O_No), foreign key(O_No_to) references UserInfo(O_No), PRIMARY KEY(idx))')
+    cur.execute('CREATE TABLE IF NOT EXISTS Remarks (idx int NOT NULL AUTO_INCREMENT, O_No_from varchar(30), O_No_to varchar(30), remarks TEXT,date TEXT, special TEXT, foreign key(O_No_from) references UserInfo(O_No), foreign key(O_No_to) references UserInfo(O_No), PRIMARY KEY(idx))')
     try:
         cur.execute("INSERT INTO UserInfo(O_No, usertype , pass) VALUES (%s, %s, %s)", ("admin",0,'123456'))
     except:
@@ -70,10 +70,11 @@ with app.app_context():
 @app.context_processor
 def inject_user():
     id = ''
+    usertype = ''
     if 'O_No' in session:
         id = session['O_No']
-    return dict(user=id)
-
+        usertype = session['usertype']
+    return dict(user=id, type = usertype)
 
 def addyearmonth(joindate,addyear,addmonth):
     year = joindate.year
@@ -85,7 +86,6 @@ def addyearmonth(joindate,addyear,addmonth):
     returndate = str(year)+"-"+str(month)+"-"+str(day)
     returndate = datetime.strptime(returndate,'%Y-%m-%d')
     return returndate
-
 
 def calculateReEngagement(joiningdate,pengage,scat):
     if(scat==0):
@@ -148,27 +148,29 @@ def login():
     if request.method == 'POST':
         result = request.form
         #mysql login 
-        with app.app_context():
-            app.config['MYSQL_USER'] = 'root'
-            app.config['MYSQL_PASSWORD'] = 'hello'
-            cur = mysql.connection.cursor()
-            app.config['MYSQL_HOST'] = 'localhost'
-            app.config['MYSQL_DB'] = 'navy'
-            cur.execute('use navy')
-            sql_select_query = """select * from UserInfo where O_No = %s"""
-            cur.execute(sql_select_query, (result['O_No'],))
-            rows = cur.fetchall()
-            cur.close()
-            dic=dict()
-            for row in rows:
-                for i in range(len(row)):
-                    dic[Column[i]] = row[i]
-            if dic['pass'] == result['password']:
-                session['usertype'] = dic['usertype']
-                session['O_No'] = result['O_No']
-                print(session['usertype'],session['O_No'])
-
-                return redirect(url_for('home'))
+        try:
+            with app.app_context():
+                app.config['MYSQL_USER'] = 'root'
+                app.config['MYSQL_PASSWORD'] = 'hello'
+                cur = mysql.connection.cursor()
+                app.config['MYSQL_HOST'] = 'localhost'
+                app.config['MYSQL_DB'] = 'navy'
+                cur.execute('use navy')
+                sql_select_query = """select * from UserInfo where O_No = %s"""
+                cur.execute(sql_select_query, (result['O_No'],))
+                rows = cur.fetchall()
+                cur.close()
+                dic=dict()
+                for row in rows:
+                    for i in range(len(row)):
+                        dic[Column[i]] = row[i]
+                if dic['pass'] == result['password']:
+                    session['usertype'] = dic['usertype']
+                    session['O_No'] = result['O_No']
+                    print(session['usertype'],session['O_No'])
+        except:
+            pass
+        return redirect(url_for('home'))
     return redirect(url_for('login_page'))
 
 @app.route('/logout')
@@ -200,27 +202,37 @@ def eligiblelist():
                     ret.append(temp)
 
                 cur.close() 
-        elif session['usertype'] == '3' :
+        else:
             cur = mysql.connection.cursor()
-            sql_select_query = """select NameofShip from UserInfo where O_No = %s"""
-            cur.execute(sql_select_query,(session['O_No'],))
-            rows = cur.fetchall()
-            # print(rows[0]['shipname'])
-            #print(rows[0])
-            shipname = rows[0][0]
-            print(shipname)
-
-            sql_select_query = """select * from UserInfo where NameofShip = %s"""
-            #cur.execute(sql_select_query, (shipname, ))
-            cur.execute(sql_select_query, (shipname, ))
+            cur.execute('select * from UserInfo where usertype = %s',(6, ))
             rows = cur.fetchall()
             for row in rows:
                 temp = []
                 for i in range(len(row)):
                     temp.append(row[i])
                 ret.append(temp)
-
             cur.close() 
+
+        # elif session['usertype'] == '3' :
+        #     cur = mysql.connection.cursor()
+        #     sql_select_query = """select NameofShip from UserInfo where O_No = %s"""
+        #     cur.execute(sql_select_query,(session['O_No'],))
+        #     rows = cur.fetchall()
+        #     # print(rows[0]['shipname'])
+        #     #print(rows[0])
+        #     shipname = rows[0][0]
+        #     print(shipname)
+
+        #     sql_select_query = """select * from UserInfo where NameofShip = %s"""
+        #     #cur.execute(sql_select_query, (shipname, ))
+        #     cur.execute(sql_select_query, (shipname, ))
+        #     rows = cur.fetchall()
+        #     for row in rows:
+        #         temp = []
+        #         for i in range(len(row)):
+        #             temp.append(row[i])
+        #         ret.append(temp)
+        #    cur.close() 
 
     return ret 
 
@@ -241,7 +253,6 @@ def eligiblelist_to_list(e_list):
             temp.append(row[i])
         ret.append(temp)
     return ret
-
 
 @app.route('/show')
 def show():
@@ -557,15 +568,6 @@ def completety(id, idx):
         login_status = False
         return redirect(url_for('home'))
 
-@app.route('/profile/<string:id>/Remarks')
-def remarks(id):
-    if('O_No' in session):
-        login_status = True
-        return render_template('remarks.html', login_status = login_status)
-    else:
-        return redirect(url_for('home'))
-
-
 @app.route('/profile/<string:id>/TyHistory/adding_ty', methods = ['POST', 'GET'])
 def adding_ty(id):
     if 'O_No' in session:
@@ -578,7 +580,50 @@ def adding_ty(id):
                 mcur.execute("insert into TYHistory (O_No, TYBillet, PurposeofTY, TYfrom, TYto) values (%s, %s, %s, %s, %s)", (id, req['TYBillet'], req['PurposeofTY'], req['TYfrom'], req['TYto']))
                 mysql.connection.commit()
                 mcur.close()
-                return redirect(url_for('tyhistory', id = id), login_status = login_status)
+                return redirect(url_for('tyhistory', id = id))
+    else:
+        return redirect(url_for('home'))
+
+
+@app.route('/profile/<string:id>/Remarks')
+def remarks(id):
+    if('O_No' in session):
+        login_status = True
+        cur = mysql.connection.cursor()
+        cur.execute('select O_No_from, remarks, special, date, name, usertype from Remarks join UserInfo ON O_No_from = O_No WHERE O_No_to = %s order by idx desc',(id, ))
+        rows = cur.fetchall()
+        ret = []
+        for row in rows:
+            temp = {}
+            temp['O_No_from'] = row[0]
+            temp['remarks'] = row[1]
+            temp['special'] = row[2]
+            temp['date'] = row[3]
+            temp['name'] = row[4]
+            temp['usertype'] = row[5]
+            ret.append(temp)
+        print(ret)
+        return render_template('remarks.html', login_status = login_status, id = id, rows = ret)
+    else:
+        return redirect(url_for('home'))
+
+@app.route('/profile/<string:id>/Remarks/posting/<string:flag>', methods = ['POST', 'GET'])
+def posting(id, flag):
+    if('O_No' in session):
+        print("ok comes")
+        login_status = True
+        if request.method == 'POST':
+            req = request.form.to_dict(flat=False)
+            for row in req:
+                    req[row] = req[row][0]
+
+            today = date.today()
+            mcur = mysql.connection.cursor()
+            mcur.execute("insert into Remarks (O_No_from, O_No_to, remarks, date, special) values (%s, %s, %s, %s, %s)", (session['O_No'], id, req['remark'], str(today), flag))
+            mysql.connection.commit()
+            mcur.close()
+            return redirect(url_for('remarks', id = id))
+        return render_template('remarks.html', login_status = login_status)
     else:
         return redirect(url_for('home'))
 
@@ -745,7 +790,6 @@ def search():
     else:
         return redirect(url_for('home'))
 
-
 @app.route('/search_result',methods=['POST','GET'])
 def search_result():
     if('O_No' in session):
@@ -806,6 +850,7 @@ def search_result():
                     l.append(row['O_No'])
 
     return render_template("search_result.html", rows = l,login_status=login_status)
+
 
 @app.route('/debug')
 def debug():
