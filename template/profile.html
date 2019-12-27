@@ -85,7 +85,34 @@
       </tr>
       {%endfor%}
     </table>
-    
+    <table>
+      <tr>
+        <th>Sibling Name</th>
+        <th>Sibling Number</th>
+        <th>Sibling Address</th>
+      </tr>
+      {%for row in siblingrow %}
+      <tr>
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    <table>
+      <tr>
+        <th>Children Name</th>
+        <th>Date of Birth</th>
+        <th>Any Special Info</th>
+      </tr>
+      {%for row in childrenrow %}
+      <tr>
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+      </tr>
+      {%endfor%}
+    </table>
     
   </div>
 </div>

@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+  <style>
+    body , html{
+      background-image: url('/static/images/background.png');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #ccc;width:100%}
+  </style>
   <meta charset="utf-8">
   <title>DDRB - Commander Flotilla West</title> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,8 +69,11 @@
                       <li class="{{ 'dropdown active' if active_page == 'home' else 'dropdown' }}">
                         <a href="{{url_for('home')}}">Home</a>
                       </li>
+                      <li class="{{ 'dropdown active' if active_page == 'addadmin' else 'dropdown' }}">
+                        <a href="{{url_for('addadminlist')}}">Add Admin</a>
+                      </li>
                       <li class="{{ 'dropdown active' if active_page == 'adduser' else 'dropdown' }}">
-                        <a href="{{url_for('adduser')}}">Add User</a>
+                        <a href="{{url_for('adduser')}}">Add Sailor</a>
                       </li>
                       <li class="{{ 'dropdown active' if active_page == 'search' else 'dropdown' }}">
                         <a href="{{url_for('search')}}">CAT</a>

@@ -1,0 +1,156 @@
+{% extends 'templatebase.html'%}
+{% block head%}
+{% endblock %}
+{% block body%}
+<div class="row" style="margin-left: 5%;">
+  <div class="span12">
+  {% if id == 0 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No0"></td>
+        </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass0"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add System Admin"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+  {% if id == 5 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No5"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="name5"></td>
+          </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass5"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add Comflot Officer"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+  {% if id == 4 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No4"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="name4"></td>
+          </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass4"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add Staff Officer"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+  {% if id == 3 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No3"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="name3"></td>
+          </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass3"></td>
+        </tr>
+        <tr>
+            <td>Name of Ship</td>
+            <td >
+              <select  class="form-control mr-sm-2" name="NameofShip3">{%for i in range(Name_of_Ship|length) %}
+                      <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
+                  {%endfor%}
+              </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add Commanding Officer"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+
+  {% if id == 2 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No2"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="name2"></td>
+          </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass2"></td>
+        </tr>
+        <tr>
+            <td>Commanding Officer O No</td>
+            <td><input type="password" name="CO_O_No2"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add Divisional Officer"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+
+  {% if id == 1 %}
+    <form method="POST" action="{{url_for('addingadmin', id = id)}}">
+      <table>
+        <tr>
+          <td style="width: 50%;">O No / UserID </td>
+          <td><input type="text" name="O_No1"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="name1"></td>
+          </tr>
+        <tr>
+          <td>Password</td>
+          <td><input type="password" name="pass1"></td>
+        </tr>
+        <tr>
+            <td>Divisional Officer O No</td>
+            <td><input type="password" name="DO_O_No1"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><input type="submit" class="btn btn-primary btn-lg " value="Add AD Officer"></td>
+        </tr>
+      </table>
+    </form>
+  {% endif %}
+  </div>
+</div>
+{% endblock %}

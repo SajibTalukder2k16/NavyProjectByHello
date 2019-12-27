@@ -1,0 +1,39 @@
+{% extends 'templatebase.html'%}
+{% set active_page = "addadmin" %}
+
+
+{% block head%}
+{% endblock %}
+
+
+{% block body %}
+    <div class="row" style="margin-left: 5%;">
+        <div class="span12">
+    <ul class="nav topnav">
+
+    <li>
+      <a href="{{url_for('addadmin', id = 0)}}">System Admin</a>
+    </li>
+    <li >
+      <a href="{{url_for('addadmin', id = 5)}}">Comflot Officer</a>
+    </li>
+    <li >
+      <a href="{{url_for('addadmin', id = 4)}}">Staff Officer</a>
+    </li>
+    <li >
+      <a href="{{url_for('addadmin', id = 3)}}">Commanding Officer</a>
+    </li>
+    <li >
+      <a href="{{url_for('addadmin', id = 2)}}">Divisional Officer</a>
+    </li>
+    <li >
+      <a href="{{url_for('addadmin', id = 1)}}">ADO</a>
+    </li>
+
+    
+    
+  </ul>
+</div>
+</div>
+
+{% endblock %}

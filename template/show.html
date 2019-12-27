@@ -9,7 +9,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background: aliceblue !important;
+      /* background: aliceblue !important; */
   }
 </style>
 {% endblock %}
@@ -18,7 +18,25 @@
 
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
-
+    <form action="{{url_for('search_static')}}" method="POST">
+      <table  class="table table-hover table-bordered" style="text-align: center;">
+        <tr>
+          <td style="text-align:center;">
+              <input type="text" class="btn btn-primary btn-lg" name = "field" placeholder=" search something" >
+          </td>
+          <td style="text-align:center;">
+              <select  class="form-control mr-sm-2" name="static_search">{%for i in range(Static_Search_list_for_html|length) %}
+                      <option  value="{{Static_Search_list_for_database[i]}}">{{Static_Search_list_for_html[i]}}</option>
+                  {%endfor%}
+              </select>
+          </td>
+          <td style="text-align:center;">
+              <Button type = "submit" width: 80%;" class="btn btn-primary btn-lg"> Submit </Button>
+          </td>
+        </tr>
+      </table>
+    </form>
+    
 <div style="position: relative; width: 60%; margin-left: 20%; margin-right: 20%;">
     <h2 style="color: black; margin-bottom: 5%; text-align: center;">Accessible data</h2>
 <table style="margin-bottom: 100px;" class="table table-hover table-bordered" style="text-align: center;">
