@@ -1,0 +1,125 @@
+{% extends 'templatebase.html'%}
+{% block head%}
+{% endblock %}
+{% block body%}
+<div class="row" style="margin-left: 5%;">
+  <div class="span12">
+    <table  class="table table-hover table-bordered" style="text-align: center;">
+        <tr>
+          <td style="text-align:center;">
+            <form action="{{url_for('profile', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('editprofile', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('tyhistory', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('remarks', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('evaluation',id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('leavehistory',id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Leave History </Button>
+            </form>
+          </td>
+        </tr>
+      </table>
+      <br>
+      <br>
+      
+      <table border="5px" style="width: 100%;">
+        <tr>
+            <th scope="col">Type of Leave</th>
+            <th scope="col">From </th>
+            <th scope="col">To</th>
+            <th scope="col">Duration</th>
+        </tr>
+        {%for i in range(rows|length)%}
+            <tr>
+                <td style="text-align: center;">{{rows[i]['type']}}</td style="text-align: center;">
+                <td style="text-align: center;">{{rows[i]['froml']}}</td style="text-align: center;">
+                <td style="text-align: center;">{{rows[i]['tol']}}</td style="text-align: center;">
+                <td style="text-align: center;">{{rows[i]['duration']}}</td style="text-align: center;">
+            </tr>
+        {%endfor%}
+        </table>
+        <br>
+        <br>
+
+        <table border="3px" style="width: 20%; margin-left: 40%;">
+            <tr>
+                <td style="width: 70%;"> P Leave Availed</td>
+                <td> {{extra['P Leave Availed']}}</td>
+            </tr>
+            <tr>
+                <td style="width: 70%;"> P Due</td>
+                <td> {{extra['P Due']}}</td>
+            </tr>
+            <tr>
+                <td style="width: 70%;"> Recreation Leave Due</td>
+                <td>{{extra['Recreation Leave Due']}}</td>
+            </tr>
+            <tr>
+                <td style="width: 70%;"> C Leave Availed</td>
+                <td>{{extra['C Leave Availed']}}</td>
+            </tr>
+            <tr>
+                <td style="width: 70%;"> C Leave Due</td>
+                <td>{{extra['C Leave Due']}}</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+      <form action="{{url_for('adding_leave', id = id)}}" method="POST">
+    
+        <table style="margin-left: 35%;">
+
+          <tr>
+            <th colspan="2">Add New Leave </th>
+          </tr>
+          <tr>
+            <td>Leave Category</td>
+            <td>
+                <select  class="form-control mr-sm-2" name="type">
+                    {%for key in Leave_Category %}
+                        <option value="{{key}}">{{key}}</option>
+                    {%endfor%}
+                </select>
+            </td>
+          </tr>
+          <tr>
+            <td>From Date</td>
+            <td><input type="date" name="froml"></td>
+          </tr>
+          <tr>
+            <td>To Date</td>
+            <td><input type="date" name="tol"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input  type="submit" value="Add Leave" class="btn btn-primary btn-lg"></td>
+          </tr>
+        </table>
+
+    </form>
+    <br>
+    <br>
+    
+
+  </div>
+</div>
+{% endblock %}

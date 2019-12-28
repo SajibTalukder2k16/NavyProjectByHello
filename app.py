@@ -42,6 +42,7 @@ Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Steward':['STWD-II','STWD-I','LSTWD','PO(STWD)','CPO(STWD)','SCPO(STWD)','MCPO(STWD)']
             }
 Marital_Status = ['-','Single', 'Married', 'Divorced']
+Leave_Category = ['-','P Leave','C Leave','Recreation Leave','Sick Leave','Ex Bangladesh Leave']
 User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot', 'Sailor']
 Static_Search_list_for_database = ['StateofOverWeight' , 'Height' , 'Emailaddress', 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo','name','MobileNo_1','MobileNo_2','ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo','Emailaddress','MobileNo','FathersMobileNo','MothersMobileNo','Medicalcategory','NameofShip','AddressofWife','LastDateofBloodDonation', 'MLR']
 Static_Search_list_for_html = ['Name','Mobile No 1','Mobile No 2','Service Id CardNo' , 'NID Card No' , 'Driving License No','Email address','Wife Mobile No','Fathers Mobile No','Mothers Mobile No','Brothers Mobile No','Medical Category','Name of Ship']
@@ -73,6 +74,7 @@ with app.app_context():
     cur.execute('CREATE TABLE IF NOT EXISTS Area_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Comflot(O_No))')
     cur.execute('CREATE TABLE IF NOT EXISTS TY (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, fromty TEXT, toty TEXT, tybillet TEXT, purpose TEXT, duration TEXT, securityclearence TEXT, O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
     cur.execute('CREATE TABLE IF NOT EXISTS Evaluation (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,dateofevaluation text,nameoftask text,performance text,achivementpoint text,special text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS LeaveHistory (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,type text,froml text,tol text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
     query = 'CREATE TABLE IF NOT EXISTS Sailor (O_No varchar(30) PRIMARY KEY, ADO_O_No varchar(30)'
     for i in range(2, len(Column)):
         query = query + ', ' + Column[i] + ' text'
@@ -853,7 +855,61 @@ def adding_ty(id):
     else:
         return redirect(url_for('home'))
 
+@app.route('/profile/<string:id>/LeaveHistory/adding_leave', methods = ['POST', 'GET'])
+def adding_leave(id):
+    if 'O_No' in session:
+        if request.method =='POST':
+                req = request.form
+                mcur = mysql.connection.cursor()
+                mcur.execute("insert into LeaveHistory (type, froml , tol , O_No ) values (%s, %s, %s, %s)", (req['type'], req['froml'], req['tol'], id,))
+                mysql.connection.commit()
+                mcur.close()
+                return redirect(url_for('leavehistory', id = id))
+    else:
+        return redirect(url_for('home'))
 
+@app.route('/profile/<string:id>/LeaveHistory')
+def leavehistory(id):
+    if('O_No' in session):
+        cur = mysql.connection.cursor()
+        cur.execute('select * from LeaveHistory where O_No = %s',(id, ))
+        rows = cur.fetchall()
+        ret = []
+        extra = {}
+        extra['P Leave Availed'] = 0
+        extra['P Due'] = 0
+        extra['Recreation Leave'] = 0
+        extra['Recreation Leave Due'] = 0
+        extra['C Leave Availed'] = 0
+        extra['C Leave Due'] = 0
+
+        for row in rows:
+            temp = {}
+            temp['idx'] = row[0]
+            temp['type'] = row[1]
+            temp['froml'] = row[2]
+            temp['tol'] = row[3]
+            d1 = datetime.strptime(temp['tol'], "%Y-%m-%d")
+            d2 = datetime.strptime(temp['froml'], "%Y-%m-%d")
+            dif = abs((d2 - d1).days)
+            temp['duration'] = dif
+            ret.append(temp)
+            
+            if row[1] == 'P Leave':
+                extra['P Leave Availed'] += dif
+            if row[1] == 'C Leave':
+                extra['C Leave Availed'] += dif
+            if row[1] == 'Recreation Leave':
+                extra['Recreation Leave'] = 0
+            
+            extra['C Leave Due'] = 20 - extra['C Leave Availed']
+            extra['Recreation Leave Due'] =  0
+            extra['P Due'] = 60 - extra['P Leave Availed']
+
+
+        return render_template('leavehistory.html',rows =ret,Leave_Category = Leave_Category, login_status = True, id = id, extra = extra)
+    else:
+        return redirect(url_for('home'))
 @app.route('/profile/<string:id>/Remarks')
 def remarks(id):
     if('O_No' in session):

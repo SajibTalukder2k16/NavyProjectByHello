@@ -31,6 +31,11 @@
                   <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
                 </form>
               </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('leavehistory',id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Leave History </Button>
+                </form>
+              </td>
             </tr>
           </table>
 
@@ -66,10 +71,12 @@
         </tr>
     {%endfor%}
     </table>
+    <br>
+    <br>
 
     <form action="{{url_for('adding_ty', id = id)}}" method="POST">
     
-        <table>
+        <table style="margin-left: 35%;">
           <tr>
             <th colspan="2">Add New TY</th>
           </tr>
