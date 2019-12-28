@@ -24,12 +24,12 @@
           <td style="text-align:center;">
               <input type="text" class="btn btn-primary btn-lg" name = "field" placeholder=" search something" >
           </td>
-          <td style="text-align:center;">
+          <!-- <td style="text-align:center;">
               <select  class="form-control mr-sm-2" name="static_search">{%for i in range(Static_Search_list_for_html|length) %}
                       <option  value="{{Static_Search_list_for_database[i]}}">{{Static_Search_list_for_html[i]}}</option>
                   {%endfor%}
               </select>
-          </td>
+          </td> -->
           <td style="text-align:center;">
               <Button type = "submit" width: 80%;" class="btn btn-primary btn-lg"> Submit </Button>
           </td>
@@ -53,7 +53,7 @@
         <tr>
             <td style="color: black;">{{i+1}}</td>
             <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][0]}}</a></td>
-            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][3]}}</a></td>
+            <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][2]}}</a></td>
         </tr>
         {%endfor%}
     </tbody>

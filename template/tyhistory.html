@@ -4,41 +4,105 @@
 {%block body%}
 <div class="row" style="margin-left: 5%;" >
     <div class="span12">
-<form action="{{url_for('adding_ty', id = id)}}" method="POST">
-    <table border="5px">
+        <table  class="table table-hover table-bordered" style="text-align: center;">
+            <tr>
+              <td style="text-align:center;">
+                <form action="{{url_for('profile', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('editprofile', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('tyhistory', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('remarks', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('evaluation',id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+                </form>
+              </td>
+            </tr>
+          </table>
+
+    <table border="5px" style="width: 100%;">
     <tr>
-        <th scope="col">TY Billet</th>
-        <th scope="col">Purposeof TY</th>
-        <th scope="col">From</th>
-        <th scope="col">To</th>
-        <th scope="col">Duration</th>
+        <th scope="col">Date of proceeding in ty</th>
+        <th scope="col">Ty billet</th>
+        <th scope="col">Purpose of ty</th>
+        <th scope="col">Ty duration</th>
+        <th scope="col">Date of return from TY</th>
+        <th scope="col">Total Ty duration</th>
+        <th scope="col">Date of last security clearance</th>
+
+
 
     </tr>
     {%for i in range(rows|length)%}
         <tr>
-            <td style="text-align: center;">{{rows[i]['TYBillet']}}</td style="text-align: center;">
-            <td style="text-align: center;">{{rows[i]['PurposeofTY']}}</td style="text-align: center;">
-            <td style="text-align: center;">{{rows[i]['TYfrom']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['fromty']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['tybillet']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['purpose']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['duration']}}</td style="text-align: center;">
             {%if rows[i]['Button'] == True%}
                 <td style="text-align: center;">
                     <a href="{{url_for('completety', id = id, idx = rows[i]['idx'])}}">Comlete the TY</a>
                 </td>
             {% else %}
-                <td style="text-align: center;">{{rows[i]['TYto']}}</tdstyle="text-align: center;">
+                <td style="text-align: center;">{{rows[i]['toty']}}</td style="text-align: center;">
             {%endif%}
             
-            <td>{{rows[i]['Duration']}}</td>    
+            <td style="text-align: center;">{{rows[i]['TotalDuration']}}</td style="text-align: center;">
+            <td style="text-align: center;">{{rows[i]['securityclearence']}}</td style="text-align: center;">
         </tr>
     {%endfor%}
-    <tr>
-        <td><input type="text" name="TYBillet"></td>
-        <td><input type="text" name="PurposeofTY"></td>
-        <td><input type="date" name="TYfrom"></td>
-        <td><input type="date" name="TYto"></td>
-        <td><input  type="submit" value="Add TY" class="btn btn-primary btn-lg"></td>
-    </tr>
     </table>
+
+    <form action="{{url_for('adding_ty', id = id)}}" method="POST">
     
+        <table>
+          <tr>
+            <th colspan="2">Add New TY</th>
+          </tr>
+          <tr>
+            <td>Date of proceeding in TY</td>
+            <td><input type="date" name="fromty"></td>
+          </tr>
+          <tr>
+            <td>TY Billet</td>
+            <td><input type="text" name="tybillet"></td>
+          </tr>
+          <tr>
+            <td>Purpose of TY</td>
+            <td><input type="text" name="purpose"></td>
+          </tr>
+          <tr>
+            <td>TY Duration</td>
+            <td><input type="text" name="duration"></td>
+          </tr>
+          <tr>
+            <td>Date of Return (Leave Empty for not returned)</td>
+            <td><input type="date" name="toty"></td>
+          </tr>
+          
+          <tr>
+            <td>Date of Last Security Clearance</td>
+            <td><input type="date" name="securityclearence"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input  type="submit" value="Add TY" class="btn btn-primary btn-lg"></td>
+          </tr>
+        </table>
 
     </form>
 </div>

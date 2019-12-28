@@ -12,7 +12,7 @@
       cursor: pointer;
       padding: 12px 12px;
       font-size: auto;
-      width: 9.09%;
+      width: 20%;
   }
 
   .tablink:hover {
@@ -50,6 +50,11 @@
     <table  class="table table-hover table-bordered" style="text-align: center;">
       <tr>
         <td style="text-align:center;">
+          <form action="{{url_for('profile', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
           <form action="{{url_for('editprofile', id = id)}}">
             <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
           </form>
@@ -65,55 +70,421 @@
           </form>
         </td>
         <td style="text-align:center;">
-          <form action="#">
+          <form action="{{url_for('evaluation',id = id)}}">
             <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
           </form>
         </td>
       </tr>
     </table>
-    <table style="margin-bottom: 100px;" class="table table-hover table-bordered" style="text-align: center;">
-      <tr>
-        <th>Ser.</th>
-        <th>Field Name</th>
-        <th>Field Value</th>
+
+      <div>
+          <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic Particulars</button>
+          <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
+          <button class="tablink" onclick="openPage('ServiceInformation', this, 'grey')">Service Information</button>
+          <button class="tablink" onclick="openPage('CourseInformation', this, 'grey')">Course Information</button>
+          <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Additional Data</button>
+
+      </div>
+      <div id="BasicParticulars" class="tabcontent">
+        <h1>Basic Particulars</h1>
+        <table class="table-bordered table-sm table-hover" style="width:100%;">
+        <tr>
+            <td >O. No</td>
+            <td><input class=" form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly type="text"  name="O_No" value="{{rows['O_No']}}" ></td>
+            <b></b></td>
+        </tr>
+        <tr>
+          <td >ADO O. No</td>
+          <td><input class=" form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly type="text"  name="ADO_O_No" value="{{rows['ADO_O_No']}}" ></td>
       </tr>
-      {%for i in range(Column|length) %}
-      <tr>
-        <td>{{i}}</td>
-        <td>{{Column[i]}}</td>
-        <td>{{rows[i]}}</td>
+        <tr>
+          <td >Name</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="name" style= "text-align: center;font-weight: bold;" readonly value="{{rows['name']}}"></td>
+        </tr>
+        <tr>
+          <td >Branch</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="Branch" style= "text-align: center;font-weight: bold;" readonly value="{{rows['Branch']}}"></td>
+        </tr>
+        <tr>
+          <td >Rank</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="Rank" style= "text-align: center;font-weight: bold;" readonly value="{{rows['Rank']}}"></td>
+        </tr>
+        
+            
+        <tr>
+          <td >Blood Group</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="BloodGroup" style= "text-align: center;font-weight: bold;" readonly value="{{rows['BloodGroup']}}"></td>
+        </tr>
+        <tr>
+          <td >Marital Status</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="Marital_Status" style= "text-align: center;font-weight: bold;" readonly value="{{rows['marrital_status']}}"></td>
+        </tr>
+        <tr>
+            <td >Present Address</td>
+            <td ><input type="text" class="form-control mr-sm-2" name="PresentAddress" style= "text-align: center;font-weight: bold;" readonly value="{{rows['PresentAddress']}}"></td>
+        </tr>
+        <tr>
+          <td >Permanent Address</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="PermanentAddress" style= "text-align: center;font-weight: bold;" readonly value="{{rows['PermanentAddress']}}"></td>
       </tr>
-      {%endfor%}
+      <tr>
+          <td >Date of Birth</td>
+          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
+      </tr>
+      <tr>
+          <td >Date of Marriage</td>
+          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="date" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
+      </tr>
+      <tr>
+          <td >Mobile No - 1</td>
+          <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly   type="text" name="MobileNo_1" value="{{rows['MobileNo_1']}}" ></td>
+      </tr>
+      <tr>
+      <td >Mobile No - 2</td>
+          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="MobileNo_2" value="{{rows['MobileNo_2']}}" ></td>
+      </tr>
+      <tr>
+          <td >Weight</td>
+          <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="Weight" value="{{rows['Weight']}}"></td>
+      </tr>
+          
+      <tr>
+          <td >State of OverWeight</td>
+          <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="StateofOverWeight" value="{{rows['StateofOverWeight']}}"></td>
+      </tr>
+      <tr>
+          <td >Height</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="Height" value="{{rows['Height']}}"></td>
+      </tr>
+      <tr>
+          <td >Email Address</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="Emailaddress" value="{{rows['Emailaddress']}}"></td>
+      </tr>
+      <tr>
+          <td >Service Id Card No</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="ServiceIdCardNo" value="{{rows['ServiceIdCardNo']}}"></td>
+      </tr>
+      <tr>
+          <td >NID Card No</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NIDCardNo" value="{{rows['NIDCardNo']}}"></td>
+      </tr>
+      <tr>
+          <td >Driving License No</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DrivingLicenseNo" value="{{rows['DrivingLicenseNo']}}"></td>
+      </tr>
+    
+    
+        
+        
+        
+        
     </table>
-    <table>
-      <tr>
-        <th>Sibling Name</th>
-        <th>Sibling Number</th>
-        <th>Sibling Address</th>
-      </tr>
-      {%for row in siblingrow %}
-      <tr>
-        <td>{{row[0]}}</td>
-        <td>{{row[1]}}</td>
-        <td>{{row[2]}}</td>
-      </tr>
-      {%endfor%}
-    </table>
-    <table>
-      <tr>
-        <th>Children Name</th>
-        <th>Date of Birth</th>
-        <th>Any Special Info</th>
-      </tr>
-      {%for row in childrenrow %}
-      <tr>
-        <td>{{row[0]}}</td>
-        <td>{{row[1]}}</td>
-        <td>{{row[2]}}</td>
-      </tr>
-      {%endfor%}
-    </table>
+      </div>
+    
+      <div id="FamilyParticulars" class="tabcontent">
+        <h1>Family Particulars</h1>
+        <table class="table-bordered table-sm table-hover" style="width:100%;">
+          <tr>
+              <td >Next of Kin</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NextofKin" value="{{rows['NextofKin']}}"></td>
+          </tr>
+          <tr>
+              <td  >Relationship</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="Relationship" value="{{rows['Relationship']}}"></td>
+          </tr>
+          <tr>
+              <td >Contact Number of Next of Kin</td>
+              <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly   type="text" name="ContactNumberofNextofKin" value="{{rows['ContactNumberofNextofKin']}}"></td>
+          </tr>
+          <tr>
+              <td >Name of Wife</td>
+              <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly    type="text" name="NameofWife" value="{{rows['NameofWife']}}"></td>
+          </tr>
+          <tr>
+              <td >Mobile No</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="MobileNo" value="{{rows['MobileNo']}}"></td>
+          </tr>
+          <tr>
+              <td >Address of Wife</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="AddressofWife" value="{{rows['AddressofWife']}}"></td>
+          </tr>
+          <tr>
+              <td >Any special info(related to wife)</td>
+              <td ><input class="form-control mr-sm-2"   style= "text-align: center;font-weight: bold;" readonly  type="text" name="Anyspecialinfowife" value="{{rows['Anyspecialinfowife']}}"></td>
+          </tr>
+    
+    
+          <tr>
+            <td>Chilren Information</td>
+            <td class="form-control mr-sm-2">
+              <table id="ChildTable">
+                <tr>
+                  <th>Children Name</th>
+                  <th>DOB of Children</th>
+                  <th>Any special info</th>
+                </tr>
+                {%for i in range(childrenrow|length) %}
+                <tr>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][0]}}" name="{{'ChildrenName' + (i+1)|string}}"></td>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][2]}}" name="{{'Anyspecialinfochildren' + (i+1)|string}}"></td>
+                </tr>
+                {%endfor%}
+              </table>
+            </td>
+          </tr>
+    
+    
+          <tr>
+              <td >Father's Name</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="FathersName" value="{{rows['FathersName']}}"></td>
+          </tr>
+          <tr>
+              <td >Father's Mobile No</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly  type="text" name="FathersMobileNo" value="{{rows['FathersMobileNo']}}"></td>
+          </tr>
+          <tr>
+            <td >Mother's Name</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="MothersName" value="{{rows['MothersName']}}"></td>
+          </tr>
+          <tr>
+            <td >Mother's Mobile No</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="MothersMobileNo" value="{{rows['MothersMobileNo']}}"></td>
+          </tr>
+          <tr>
+              <td >Father's Address</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="FathersAddress" value="{{rows['FathersAddress']}}"></td>
+          </tr>
+          <tr>
+              <td >Mother's Address</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="MothersAddress" value="{{rows['MothersAddress']}}"></td>
+          </tr>
+    
+          <tr>
+            <td>Sibling Information</td>
+            <td class="form-control mr-sm-2">
+              <table id="SiblingTable">
+                <tr>
+                  <th>Sibling's Name</th>
+                  <th>Sibling's Mobile No</th>
+                  <th>Sibling's Address</th>
+                </tr>
+                {%for i in range(siblingrow|length) %}
+                <tr>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][0]}}" name="{{'SiblingName' + (i+1)|string}}"></td>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][1]}}" name="{{'SiblingMobileNo' + (i+1)|string}}"></td>
+                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][2]}}" name="{{'SiblingAddress' + (i+1)|string}}"></td>
+                </tr>
+                {%endfor%}
+              </table>
+              </td>
+          </tr>
+          
+          <tr>
+            <td >Family Crisis(If any)</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="FamilyCrisis" value="{{rows['FamilyCrisis']}}"></td>
+          </tr>
+        </table>
+      </div>
+      
+      <div id="ServiceInformation" class="tabcontent">
+        <h1>Service Information</h1>
+        <table class="table-bordered table-sm table-hover"  style="width:100%;">
+          <tr>
+              <td >Service Category</td>
+              <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="ServiceCategory" value="{{rows['ServiceCategory']}}"></td>
+          </tr>
+    
+        <tr>
+            <td >Present Engagement</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="PresentEngagement" value="{{rows['PresentEngagement']}}"></td>
+        </tr>
+        <tr>
+            <td>Next RE-Engagement Due</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NextREEngagementDue" value="{{rows['NextREEngagementDue']}}"></td>
+        </tr>
+        <tr>
+          <td>Date of Next Increment</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DateofNextIncrement" value="{{rows['DateofNextIncrement']}}"></td>
+        </tr>
+        <tr>
+          <td>Date of Next GCB</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DateofNextGCB" value="{{rows['DateofNextGCB']}}"></td>
+        </tr>
+    
+        <tr>
+          <td >Number of GCB</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NumberofGCB" value="{{rows['NumberofGCB']}}"></td>
+        </tr>
+          <tr>
+            <td >Effective date of existing GCB</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
+          </tr>
+          <tr>
+            <td >Date of Next Promotion</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DateofNextPromotion" value="{{rows['DateofNextPromotion']}}"></td>
+          </tr>
+          <tr>
+            <td >Medical category</td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="Medicalcategory" value="{{rows['Medicalcategory']}}"></td>
+          </tr>
+          <tr>
+            <td >Date of Last Promotion</td>
+            <td ><input class="form-control mr-sm-2" type="date"  style= "text-align: center;font-weight: bold;" readonly  name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
+          </tr>
+    
+    
+          <tr>
+              <td >Date of Joining Service</td>
+              <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly  name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
+          </tr>
+          
+          <tr>
+          <tr>
+              <td >Date of Joining Ship</td>
+              <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly   name="DateofJoiningShip" value="{{rows['DateofJoiningShip']}}"></td>
+          </tr>
+    
+          <tr>
+            <td >Name of Ship</td>
+            <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="NameofShip" value="{{rows['NameofShip']}}"></td>
+           </tr>
+           <tr>
+            <td>Number of Days at Sea</td>
+            <td><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="NumberofDaysatSea" value="{{rows['NumberofDaysatSea']}}"></td>
+          </tr>
+          <tr>
+              <td >UN Mission</td>
+              <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="UNMission" value="{{rows['UNMission']}}"></td>
+          </tr>
+          <tr>
+              <td >Good Will Mission</td>
+              <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="GoodWillMission" value="{{rows['GoodWillMission']}}"></td>
+          </tr>
+          <tr>
+              <td >DAO Number</td>
+              <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="DAONumber" value="{{rows['DAONumber']}}"></td>
+          </tr>
+          <tr>
+            <td >Highest Education</td>
+            <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="highestEducation" value="{{rows['highestEducation']}}"></td>
+            </tr>
+            <tr>
+                <td >Ongoing civil Education</td>
+                <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="OngoingcivilEducation" value="{{rows['OngoingcivilEducation']}}"></td>
+
+                
+            </tr>
+        </table>
+    
+      </div>
+    
+      <div id="CourseInformation" class="tabcontent">
+        <h1>Course Information</h1>
+        <table class="table-bordered table-sm table-hover" style="width:100%;">
+          <tr>
+              <td >Name of important courses</td>
+              <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="NameofImportantCourses" value="{{rows['NameofImportantCourses']}}"></td>
+          </tr>
+          <tr>
+            <td >Name of Next courses</td>
+            <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="NameofNextCourse" value="{{rows['NameofNextCourse']}}"></td>
+          </tr>
+          <tr>
+            <td >Foreign course</td>
+            <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="ForeignCourse" value="{{rows['ForeignCourse']}}"></td>
+          </tr>
+          <tr>
+            <td >Special qualification</td>
+            <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="SpecialQualification" value="{{rows['SpecialQualification']}}"></td>
+          </tr>
+          
+        </table>
+      </div>
+    
+    
+      <div id="OptionalData" class="tabcontent">
+        <h1>Additional Data</h1>
+        <table class="table-bordered table-sm table-hover" style="width:100%;">
+          <tr>
+            <td >Choice of Area for Posting</td>
+            <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="ChoiceofAreaForPosting" value="{{rows['ChoiceofAreaForPosting']}}"></td>
+
+  
+        </tr>
+        <tr>
+          <td >Choice of Next Appointment</td>
+          <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="ChoiceofNextAppointment" value="{{rows['ChoiceofNextAppointment']}}"></td>
+
+        </tr>
+        <tr>
+          <td >Choice of next course</td>
+          <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="ChoiceofNextCourse" value="{{rows['ChoiceofNextCourse']}}"></td>
+        </tr>
+          <tr>
+            <td >Extra Curricular Activities</td>
+            <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="ExtraCurricularActivities" value="{{rows['ExtraCurricularActivities']}}"></td>
+          </tr>
+          <tr>
+            <td >Games and Sports</td>
+            <td ><input class="form-control mr-sm-2"   type="text" style= "text-align: center;font-weight: bold;" readonly   name="GamesAndSports" value="{{rows['GamesAndSports']}}"></td>
+          </tr>
+          <tr>
+            <td >Last Date of BloodDonation</td>
+            <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly  name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
+        </tr>
+        <tr>
+          <td >MLR</td>
+          <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="MLR" value="{{rows['MLR']}}"></td>
+        </tr>
+    
+        </table>
+      </div>
     
   </div>
 </div>
+<script>
+  function openPage(pageName,elmnt,color) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.backgroundColor = "";
+    }
+    document.getElementById(pageName).style.display = "block";
+    elmnt.style.backgroundColor = color;
+  }
+  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+</script>
+<script>
+      var SList = new Object(); 
+      var txtsl2 = '';
+      SList.slist2 = JSON.parse('{{ Branch|safe }}')
+      SList.getSelect = function(slist, option) {
+        document.getElementById('scontent').innerHTML = '';
+      
+        if(SList[slist][option]) {
+          if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
+          else if(slist == 'slist2') {
+            var addata = '<option>- - -</option>';
+            for(var i=0; i<SList[slist][option].length; i++) {
+              addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
+            }
+      
+            document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
+          }
+        }
+        else if(slist == 'slist2') {
+          document.getElementById('slist2').innerHTML = '';
+        }
+      }
+
+      
+</script>
+
 {%endblock%}

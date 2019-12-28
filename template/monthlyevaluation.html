@@ -1,0 +1,179 @@
+{%extends 'templatebase.html'%}
+{%block head%}
+{%endblock%}
+{%block body%}
+<div class="row" style="margin-left: 5%;" >
+    <div class="span12">
+        <table  class="table table-hover table-bordered" style="text-align: center;">
+            <tr>
+              <td style="text-align:center;">
+                <form action="{{url_for('profile', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('editprofile', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('tyhistory', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('remarks', id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+                </form>
+              </td>
+              <td style="text-align:center;">
+                <form action="{{url_for('evaluation',id = id)}}">
+                  <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+                </form>
+              </td>
+            </tr>
+          </table>
+
+  
+
+          <table border="5px" style="width: 100%;">
+            <tr>
+                <th colspan="6" scope="col">Previous Year</th>
+            </tr>
+            <tr>
+                <th scope="col">Date of Evaluation</th>
+                <th scope="col">Name of Task</th>
+                <th scope="col">Performance</th>
+                <th scope="col">Achieved Point</th>
+                <th scope="col">Special Achivements</th>
+                <th scope="col">Monthly Average</th>
+        
+        
+        
+            </tr>
+            {%for month in range(1, 13)%}
+                 
+
+                        {%for i in range(prev[month]|length)%}
+                            <tr>  
+                            <td style="text-align: center;">{{prev[month][i]['dateofevaluation']}}</td style="text-align: center;">
+                            <td style="text-align: center;">{{prev[month][i]['nameoftask']}}</td style="text-align: center;">
+                            <td style="text-align: center;">{{prev[month][i]['performance']}}</td style="text-align: center;">
+                            <td style="text-align: center;">{{prev[month][i]['achivementpoint']}}</td style="text-align: center;">
+                                            
+                            <td style="text-align: center;">{{prev[month][i]['special']}}</td style="text-align: center;">
+                                                
+                            {% if i == 0 %}
+                            <td rowspan="{{prev[month]|length}}" style="text-align: center;">{{prevavg[month]}}</td>
+                            {% endif%}
+                            
+                            </tr>
+
+                        {%endfor%}
+                
+                
+            {%endfor%}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: center;"><b>Total Average = {{prevavg[13]}}</b></td>
+
+            </tr>
+            </table>
+            <br>
+            <br>
+
+
+            <table border="5px" style="width: 100%;">
+                <tr>
+                    <th colspan="6" scope="col">Current Year</th>
+                </tr>
+                <tr>
+                    <th scope="col">Date of Evaluation</th>
+                    <th scope="col">Name of Task</th>
+                    <th scope="col">Performance</th>
+                    <th scope="col">Achieved Point</th>
+                    <th scope="col">Special Achivements</th>
+                    <th scope="col">Monthly Average</th>
+            
+            
+            
+                </tr>
+                {%for month in range(1, 13)%}
+                     
+    
+                            {%for i in range(cur[month]|length)%}
+                                <tr>  
+                                <td style="text-align: center;">{{cur[month][i]['dateofevaluation']}}</td style="text-align: center;">
+                                <td style="text-align: center;">{{cur[month][i]['nameoftask']}}</td style="text-align: center;">
+                                <td style="text-align: center;">{{cur[month][i]['performance']}}</td style="text-align: center;">
+                                <td style="text-align: center;">{{cur[month][i]['achivementpoint']}}</td style="text-align: center;">
+                                                
+                                <td style="text-align: center;">{{cur[month][i]['special']}}</td style="text-align: center;">
+                                                    
+                                {% if i == 0 %}
+                                <td rowspan="{{cur[month]|length}}" style="text-align: center;">{{curavg[month]}}</td>
+                                {% endif%}
+                                
+                                </tr>
+    
+                            {%endfor%}
+                    
+                    
+                {%endfor%}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center;"><b>Total Average = {{curavg[13]}}</b></td>
+    
+                </tr>
+                </table>
+                <br>
+                <br>
+         
+         
+
+          
+
+    <form action="{{url_for('adding_monthly', id = id)}}" method="POST">
+    
+        <table style="margin-left: 35%;">
+          <tr>
+            <th colspan="2">Add New Monthly Evaluation</th>
+          </tr>
+          <tr>
+            <td>Date of Evaluation</td>
+            <td><input type="date" name="dateofevaluation"></td>
+          </tr>
+          <tr>
+            <td>Name of Task</td>
+            <td><input type="text" name="nameoftask"></td>
+          </tr>
+          <tr>
+            <td>Performance</td>
+            <td><input type="text" name="performance"></td>
+          </tr>
+          <tr>
+            <td>Achieved Point</td>
+            <td><input type="number" name="achivementpoint" value="0"></td>
+          </tr>
+          <tr>
+            <td>Special Achivements</td>
+            <td><input type="text" name="special"></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input  type="submit" value="Add Monthly Evaluation" class="btn btn-primary btn-lg"></td>
+          </tr>
+        </table>
+
+    </form>
+</div>
+</div>
+{%endblock%}

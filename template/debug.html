@@ -4,20 +4,28 @@
 {% block body%}
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
-  {% if id == 0 %}
-    <form>
-      <table>
-        <tr>
-          <td style="width: 30%;">O No / UserID </td>
-          <td><input type="text" name="O_No"></td>
-        </tr>
-        <tr>
-          <td>Password</td>
-          <td><input type="password" name="pass"></td>
-        </tr>
-      </table>
-    </form>
-  {% endif %}
+  <table>
+    <tr>
+      <td>col11</td>
+      <td rowspan="2">col12</td>
+      <td rowspan="4">col13</td>
+    </tr>
+    <tr>
+      <td>col21</td>
+
+
+    </tr>
+    <tr>
+      <td>col31</td>
+      <td rowspan="2" >col32</td>
+
+    </tr>
+    <tr>
+      <td>col41</td>
+
+
+    </tr>
+  </table>
   </div>
 </div>
 {% endblock %}

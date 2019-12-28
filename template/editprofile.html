@@ -11,7 +11,7 @@
       cursor: pointer;
       padding: 12px 12px;
       font-size: auto;
-      width: 9.09%;
+      width: 20%;
   }
 
   .tablink:hover {
@@ -46,20 +46,42 @@
 {%block body%}
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
-
+    <table  class="table table-hover table-bordered" style="text-align: center;">
+      <tr>
+        <td style="text-align:center;">
+          <form action="{{url_for('profile', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('editprofile', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('tyhistory', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('remarks', id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+          </form>
+        </td>
+        <td style="text-align:center;">
+          <form action="{{url_for('evaluation',id = id)}}">
+            <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+          </form>
+        </td>
+      </tr>
+    </table>
 
 <div>
-    <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic <br>Particulars</button>
-    <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
-    <button class="tablink" onclick="openPage('SiblingInformation', this, 'grey')">Sibling Information</button>
-    <button class="tablink" onclick="openPage('EducationalInformation', this, 'grey')">Educational Information</button>
-    <button class="tablink" onclick="openPage('ServiceInformation', this, 'grey')">Service Information</button>
-    <button class="tablink" onclick="openPage('LeaveParticulars', this, 'grey')">Leave Particulars</button>
-    <button class="tablink" onclick="openPage('FinancialSection', this, 'grey')">Financial Section</button>
-    <button class="tablink" onclick="openPage('PersonalPreferences', this, 'grey')">Personal Preferences</button>
-    <button class="tablink" onclick="openPage('CourseInformation', this, 'grey')">Course Information</button>
-    <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Optional<br> Data</button>
-    <button class="tablink" onclick="openPage('SignUpInformation', this, 'grey')">Sign Up Information</button>
+  <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic Particulars</button>
+  <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
+  <button class="tablink" onclick="openPage('ServiceInformation', this, 'grey')">Service Information</button>
+  <button class="tablink" onclick="openPage('CourseInformation', this, 'grey')">Course Information</button>
+  <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Additional Data</button>
 </div>
 <form method="POST" action="{{url_for('updating_user', id = id)}}">
   <div id="BasicParticulars" class="tabcontent">
@@ -69,6 +91,10 @@
         <td >O. No</td>
         <td ><input class=" form-control mr-sm-2" type="text" name="O_No" value="{{rows['O_No']}}" ></td>
     </tr>
+    <tr>
+      <td >ADO O. No</td>
+      <td ><input class=" form-control mr-sm-2" type="text" name="ADO_O_No" value="{{rows['ADO_O_No']}}" ></td>
+  </tr>
     <tr>
       <td >Name</td>
       <td ><input type="text" class="form-control mr-sm-2" name="name"  value="{{rows['name']}}"></td>
@@ -89,107 +115,61 @@
        </select>
        <span id="slist2"></span> <div id="scontent"></div></td>
     </tr>
-
     <tr>
-        <td >Mobile No - 1</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo_1" value="{{rows['MobileNo_1']}}" ></td>
-    </tr>
-    <tr>
-    <td >Mobile No - 2</td>
-        <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2" value="{{rows['MobileNo_2']}}" ></td>
-    </tr>
-    <tr>
-        <td >Date of Birth</td>
-        <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
-    </tr>
-    <tr>
-        <td >Present Address</td>
-        <td ><input class="form-control mr-sm-2" type="text" name="PresentAddress" value="{{rows['PresentAddress']}}"></td>
-    </tr>
-    <tr>
-        <td >Permanent Address</td>
-        <td ><input  class="form-control mr-sm-2" type="text" name="PermanentAddress" value="{{rows['PermanentAddress']}}"></td>
-    </tr>
-    <tr>
-        <td >Marital Status</td>
-        <td >
-            <select  class="form-control mr-sm-2" name="marrital_status">
-                {%for i in range(Marital_Status|length) %}
-                    {%if Marital_Status[i] == rows['marrital_status']%}
-                        <option  value="{{Marital_Status[i]}}" selected="selected">{{Marital_Status[i]}}</option>
-                    {% else %}
-                        <option  value="{{Marital_Status[i]}}">{{Marital_Status[i]}}</option>
-                    {%endif%}
-                    {%endfor%}
-
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td >Date of Marriage</td>
-        <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
-    </tr>
-    <tr>
-        <td >Service Id Card No</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="ServiceIdCardNo" value="{{rows['ServiceIdCardNo']}}"></td>
-    </tr>
-    <tr>
-        <td >NID Card No</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="NIDCardNo" value="{{rows['NIDCardNo']}}"></td>
-    </tr>
-    <tr>
-        <td >Driving License No</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="DrivingLicenseNo" value="{{rows['DrivingLicenseNo']}}"></td>
-    </tr>
-    <tr>
-        <td >Blood Group</td>
-        <td >
-            <select  class="form-control mr-sm-2" name="BloodGroup">
-
-                {%for i in range(Blood_Group|length) %}
-
-                    {%if Blood_Group[i] == rows['BloodGroup']%}
-                    <option  value="{{Blood_Group[i]}}" selected = "selected">{{Blood_Group[i]}}</option>
-                    {% else %}
-                        <option  value="{{Blood_Group[i]}}">{{Blood_Group[i]}}</option>
-                    {%endif%}
-
-                {%endfor%}
-
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td >Last Date of BloodDonation</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
-    </tr>
-    <tr>
-        <td >Height</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="Height" value="{{rows['Height']}}"></td>
-    </tr>
-    <tr>
-        <td >Weight</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="Weight" value="{{rows['Weight']}}"></td>
-    </tr>
-    <tr>
-        <td >State of OverWeight</td>
-        <td >{{rows['StateofOverWeight']}}</td>
-    </tr>
-    <tr>
-        <td >Facebook Account</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="FacebookAccount" value="{{rows['FacebookAccount']}}"></td>
-    </tr>
-    <tr>
-        <td >Email Address</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress" value="{{rows['Emailaddress']}}"></td>
-    </tr>
-
-    <tr>
-      <td >Home District</td>
+      <td >Blood Group</td>
       <td >
-          <select  class="form-control mr-sm-2" name="home_district">
+          <select  class="form-control mr-sm-2" name="BloodGroup">
+
+              {%for i in range(Blood_Group|length) %}
+
+                  {%if Blood_Group[i] == rows['BloodGroup']%}
+                  <option  value="{{Blood_Group[i]}}" selected = "selected">{{Blood_Group[i]}}</option>
+                  {% else %}
+                      <option  value="{{Blood_Group[i]}}">{{Blood_Group[i]}}</option>
+                  {%endif%}
+
+              {%endfor%}
+
+          </select>
+      </td>
+     </tr>
+     <tr>
+      <td >Marital Status</td>
+      <td >
+          <select  class="form-control mr-sm-2" name="marrital_status">
+              {%for i in range(Marital_Status|length) %}
+                  {%if Marital_Status[i] == rows['marrital_status']%}
+                      <option  value="{{Marital_Status[i]}}" selected="selected">{{Marital_Status[i]}}</option>
+                  {% else %}
+                      <option  value="{{Marital_Status[i]}}">{{Marital_Status[i]}}</option>
+                  {%endif%}
+                  {%endfor%}
+
+          </select>
+      </td>
+      </tr>
+      <tr>
+        <td >Present Address</td>
+        <td >
+            <select  class="form-control mr-sm-2" name="PresentAddress">
+                {%for i in range(Home_District|length) %}
+                  {%if Home_District[i] == rows['PresentAddress']%}
+                      <option  value="{{Home_District[i]}}" selected="selected">{{Home_District[i]}}</option>
+                  {% else %}
+                      <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
+                  {%endif%}
+  
+                {%endfor%}
+  
+            </select>
+        </td>
+    </tr>
+    <tr>
+      <td >Permanent Address</td>
+      <td >
+          <select  class="form-control mr-sm-2" name="PermanentAddress">
               {%for i in range(Home_District|length) %}
-                {%if Home_District[i] == rows['home_district']%}
+                {%if Home_District[i] == rows['PermanentAddress']%}
                     <option  value="{{Home_District[i]}}" selected="selected">{{Home_District[i]}}</option>
                 {% else %}
                     <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
@@ -200,6 +180,57 @@
           </select>
       </td>
   </tr>
+  <tr>
+      <td >Date of Birth</td>
+      <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
+  </tr>
+  <tr>
+      <td >Date of Marriage</td>
+      <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
+  </tr>
+  <tr>
+      <td >Mobile No - 1</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo_1" value="{{rows['MobileNo_1']}}" ></td>
+  </tr>
+  <tr>
+  <td >Mobile No - 2</td>
+      <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2" value="{{rows['MobileNo_2']}}" ></td>
+  </tr>
+  <tr>
+      <td >Weight</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="Weight" value="{{rows['Weight']}}"></td>
+  </tr>
+      
+  <tr>
+      <td >State of OverWeight</td>
+      <td >{{rows['StateofOverWeight']}}</td>
+  </tr>
+  <tr>
+      <td >Height</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="Height" value="{{rows['Height']}}"></td>
+  </tr>
+  <tr>
+      <td >Email Address</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress" value="{{rows['Emailaddress']}}"></td>
+  </tr>
+  <tr>
+      <td >Service Id Card No</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="ServiceIdCardNo" value="{{rows['ServiceIdCardNo']}}"></td>
+  </tr>
+  <tr>
+      <td >NID Card No</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="NIDCardNo" value="{{rows['NIDCardNo']}}"></td>
+  </tr>
+  <tr>
+      <td >Driving License No</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="DrivingLicenseNo" value="{{rows['DrivingLicenseNo']}}"></td>
+  </tr>
+
+
+    
+    
+    
+    
 </table>
   </div>
 
@@ -223,33 +254,41 @@
           <td ><input class="form-control mr-sm-2"  type="text" name="NameofWife" value="{{rows['NameofWife']}}"></td>
       </tr>
       <tr>
-          <td >Address of Wife</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="AddressofWife" value="{{rows['AddressofWife']}}"></td>
-      </tr>
-      <tr>
           <td >Mobile No</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="MobileNo" value="{{rows['MobileNo']}}"></td>
+      </tr>
+      <tr>
+          <td >Address of Wife</td>
+          <td ><input class="form-control mr-sm-2"  type="text" name="AddressofWife" value="{{rows['AddressofWife']}}"></td>
       </tr>
       <tr>
           <td >Any special info(related to wife)</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfowife" value="{{rows['Anyspecialinfowife']}}"></td>
       </tr>
+
+
       <tr>
-          <td >Children Number</td>
-          <td ><input class="form-control mr-sm-2"  type="number" name="ChildrenNumber" value="{{rows['ChildrenNumber']}}"></td>
+        <td>Chilren Information</td>
+        <td class="form-control mr-sm-2">
+          <table id="ChildTable">
+            <tr>
+              <th>Children Name</th>
+              <th>DOB of Children</th>
+              <th>Any special info</th>
+            </tr>
+            {%for i in range(childrenrow|length) %}
+            <tr>
+              <td><input class="form-control mr-sm-2"  type="text" value="{{childrenrow[i][0]}}" name="{{'ChildrenName' + (i+1)|string}}"></td>
+              <td><input class="form-control mr-sm-2"  type="date" value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
+              <td><input class="form-control mr-sm-2"  type="text" value="{{childrenrow[i][2]}}" name="{{'Anyspecialinfochildren' + (i+1)|string}}"></td>
+            </tr>
+            {%endfor%}
+          </table>
+          <button type="button" class="btn btn-primary btn-lg " onclick="ChildFunction()">Add more Chilren Info</button>
+        </td>
       </tr>
-      <tr>
-          <td >Children Name</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="ChildrenName" value="{{rows['ChildrenName']}}"></td>
-      </tr>
-      <tr>
-          <td >DOB of Children</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DOBofChildren" value="{{rows['DOBofChildren']}}"></td>
-      </tr>
-      <tr>
-          <td >Any special info(related to Children)</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren" value="{{rows['Anyspecialinfochildren']}}"></td>
-      </tr>
+
+
       <tr>
           <td >Father's Name</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="FathersName" value="{{rows['FathersName']}}"></td>
@@ -259,94 +298,53 @@
           <td ><input class="form-control mr-sm-2" type="text" name="FathersMobileNo" value="{{rows['FathersMobileNo']}}"></td>
       </tr>
       <tr>
-          <td >Father's Address</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="FathersAddress" value="{{rows['FathersAddress']}}"></td>
-      </tr>
-      <tr>
         <td >Mother's Name</td>
         <td ><input class="form-control mr-sm-2"  type="text" name="MothersName" value="{{rows['MothersName']}}"></td>
       </tr>
       <tr>
-          <td >Mother's Mobile No</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="MothersMobileNo" value="{{rows['MothersMobileNo']}}"></td>
+        <td >Mother's Mobile No</td>
+        <td ><input class="form-control mr-sm-2"  type="text" name="MothersMobileNo" value="{{rows['MothersMobileNo']}}"></td>
+      </tr>
+      <tr>
+          <td >Father's Address</td>
+          <td ><input class="form-control mr-sm-2"  type="text" name="FathersAddress" value="{{rows['FathersAddress']}}"></td>
       </tr>
       <tr>
           <td >Mother's Address</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="MothersAddress" value="{{rows['MothersAddress']}}"></td>
       </tr>
+
       <tr>
-          <td >Family Crisis(If any)</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="FamilyCrisis" value="{{rows['FamilyCrisis']}}"></td>
+        <td>Sibling Information</td>
+        <td class="form-control mr-sm-2">
+          <table id="SiblingTable">
+            <tr>
+              <th>Sibling's Name</th>
+              <th>Sibling's Mobile No</th>
+              <th>Sibling's Address</th>
+            </tr>
+            {%for i in range(siblingrow|length) %}
+            <tr>
+              <td><input class="form-control mr-sm-2"  type="text" value="{{siblingrow[i][0]}}" name="{{'SiblingName' + (i+1)|string}}"></td>
+              <td><input class="form-control mr-sm-2"  type="text" value="{{siblingrow[i][1]}}" name="{{'SiblingMobileNo' + (i+1)|string}}"></td>
+              <td><input class="form-control mr-sm-2"  type="text" value="{{siblingrow[i][2]}}" name="{{'SiblingAddress' + (i+1)|string}}"></td>
+            </tr>
+            {%endfor%}
+          </table>
+          <button type="button" class="btn btn-primary btn-lg " onclick="SiblingFunction()">Add more Sibling Info</button>
+        </td>
+      </tr>
+      
+      <tr>
+        <td >Family Crisis(If any)</td>
+        <td ><input class="form-control mr-sm-2"  type="text" name="FamilyCrisis" value="{{rows['FamilyCrisis']}}"></td>
       </tr>
     </table>
   </div>
-
-  <div id="SiblingInformation" class="tabcontent">
-    <h1>Sibling Information</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Sibling Number</td>
-          <td ><input class="form-control mr-sm-2"  type="int" name="SiblingNumber" value="{{rows['SiblingNumber']}}"></td>
-      </tr>
-      <tr>
-          <td >Brother's Name</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="BrothersName" value="{{rows['BrothersName']}}"></td>
-      </tr>
-      <tr>
-          <td >Brother's Mobile No</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="BrothersMobileNo" value="{{rows['BrothersMobileNo']}}"></td>
-      </tr>
-      <tr>
-          <td >Brother's Address</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="BrothersAddress" value="{{rows['BrothersAddress']}}"></td>
-      </tr>
-    </table>
-  </div>
-
-  <div id="EducationalInformation" class="tabcontent">
-    <h1>Educational Information</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Highest Education</td>
-          <td >
-              <select  class="form-control mr-sm-2" name="highestEducation">
-                  {%for i in range(Highest_Education|length) %}
-                    {%if Highest_Education[i] == rows['highestEducation']%}
-                    <option  value="{{Highest_Education[i]}}" selected = "selected">{{Highest_Education[i]}}</option>
-                    {% else %}
-                    <option  value="{{Highest_Education[i]}}">{{Highest_Education[i]}}</option>
-                    {%endif%}
-
-                  {%endfor%}
-
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td >Ongoing civil Education</td>
-          <td >
-              <select class="form-control mr-sm-2" name="OngoingcivilEducation">
-                  {%for i in range(Ongoing_Education|length) %}
-                        {%if Ongoing_Education[i] == rows['OngoingcivilEducation']%}
-                            <option  value="{{Ongoing_Education[i]}}" selected = "selected">{{Ongoing_Education[i]}}</option>
-                        {% else %}
-                            <option  value="{{Ongoing_Education[i]}}">{{Ongoing_Education[i]}}</option>
-                        {%endif%}
-
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-    </table>
-  </div>
-
+  
   <div id="ServiceInformation" class="tabcontent">
     <h1>Service Information</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Date of Joining Service</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
-      </tr>
       <tr>
           <td >Service Category</td>
           <td >
@@ -361,6 +359,58 @@
                   {%endfor%}
               </select>
           </td>
+      </tr>
+
+      <tr>
+        <td >Present Engagement</td>
+        <td >
+            <select  class="form-control mr-sm-2" name="PresentEngagement">
+                {%for i in range(Present_Engagement|length) %}
+                  {%if Present_Engagement[i] == rows['PresentEngagement']%}
+                  <option  value="{{Present_Engagement[i]}}" selected = "selected">{{Present_Engagement[i]}}</option>
+                  {% else %}
+                  <option  value="{{Present_Engagement[i]}}">{{Present_Engagement[i]}}</option>
+                  {%endif%}
+
+                {%endfor%}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Next RE-Engagement Due</td>
+        <td>{{rows['NextREEngagementDue']}}</td>
+    </tr>
+    <tr>
+      <td>Date of Next Increment</td>
+      <td>{{rows['DateofNextIncrement']}}</td>
+    </tr>
+    <tr>
+      <td>Date of Next GCB</td>
+      <td>{{rows['DateofNextGCB']}}</td>
+    </tr>
+
+    <tr>
+      <td >Number of GCB</td>
+      <td >
+          <select  class="form-control mr-sm-2" name="NumberofGCB">
+              {%for i in range(Number_of_GCB|length) %}
+                {%if Number_of_GCB[i] == rows['NumberofGCB']%}
+                <option  value="{{Number_of_GCB[i]}}" selected = "selected">{{Number_of_GCB[i]}}</option>
+                {% else %}
+                <option  value="{{Number_of_GCB[i]}}">{{Number_of_GCB[i]}}</option>
+                {%endif%}
+
+              {%endfor%}
+          </select>
+      </td>
+      </tr>
+      <tr>
+        <td >Effective date of existing GCB</td>
+        <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
+      </tr>
+      <tr>
+        <td >Date of Next Promotion</td>
+        <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion" value="{{rows['DateofNextPromotion']}}"></td>
       </tr>
       <tr>
         <td >Medical category</td>
@@ -378,59 +428,16 @@
         </td>
       </tr>
       <tr>
-          <td >Date of Last Promotion</td>
-          <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
+        <td >Date of Last Promotion</td>
+        <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
       </tr>
-      <tr>
-          <td >Date of Next Promotion</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion" value="{{rows['DateofNextPromotion']}}"></td>
-      </tr>
-      <tr>
-          <td >Present Engagement</td>
-          <td >
-              <select  class="form-control mr-sm-2" name="PresentEngagement">
-                  {%for i in range(Present_Engagement|length) %}
-                    {%if Present_Engagement[i] == rows['PresentEngagement']%}
-                    <option  value="{{Present_Engagement[i]}}" selected = "selected">{{Present_Engagement[i]}}</option>
-                    {% else %}
-                    <option  value="{{Present_Engagement[i]}}">{{Present_Engagement[i]}}</option>
-                    {%endif%}
 
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
-      <tr>
-          <td>Next RE-Engagement Due</td>
-          <td>{{rows['NextREEngagementDue']}}</td>
-      </tr>
-      <tr>
-        <td>Date of Next Increment</td>
-        <td>{{rows['DateofNextIncrement']}}</td>
-        </tr>
-      <tr>
-          <td >Number of GCB</td>
-          <td >
-              <select  class="form-control mr-sm-2" name="NumberofGCB">
-                  {%for i in range(Number_of_GCB|length) %}
-                    {%if Number_of_GCB[i] == rows['NumberofGCB']%}
-                    <option  value="{{Number_of_GCB[i]}}" selected = "selected">{{Number_of_GCB[i]}}</option>
-                    {% else %}
-                    <option  value="{{Number_of_GCB[i]}}">{{Number_of_GCB[i]}}</option>
-                    {%endif%}
 
-                  {%endfor%}
-              </select>
-          </td>
-      </tr>
       <tr>
-          <td >Effective date of existing GCB</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
+          <td >Date of Joining Service</td>
+          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
       </tr>
-      <tr>
-        <td>Date of Next GCB</td>
-        <td>{{rows['DateofNextGCB']}}</td>
-        </tr>
+      
       <tr>
       <tr>
           <td >Date of Joining Ship</td>
@@ -452,6 +459,10 @@
             </select>
         </td>
        </tr>
+       <tr>
+        <td>Number of Days at Sea</td>
+        <td><input class="form-control mr-sm-2"  type="text" name="NumberofDaysatSea" value="{{rows['NumberofDaysatSea']}}"></td>
+      </tr>
       <tr>
           <td >UN Mission</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="UNMission" value="{{rows['UNMission']}}"></td>
@@ -464,108 +475,39 @@
           <td >DAO Number</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="DAONumber" value="{{rows['DAONumber']}}"></td>
       </tr>
-    </table>
-
-  </div>
-
-  <div id="LeaveParticulars" class="tabcontent">
-    <h1>Leave Particulars</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
       <tr>
-          <td >P Leave Availed</td>
-          <td ><input class="form-control mr-sm-2"  type="number" name="PLeaveAvailed" value="{{rows['PLeaveAvailed']}}"></td>
-      </tr>
-      <tr>
-          <td >Last Date of PL</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofPL" value="{{rows['LastDateofPL']}}"></td>
-      </tr>
-      <tr>
-        <td >P Leave Due</td>
-        <td >{{rows['PLeaveDue']}}</td>
-     </tr>
-
-     <tr>
-        <td >Recreation Leave Due</td>
-        <td >{{rows['RecreationLeaveDue']}}</td>
-     </tr>
-
-      <tr>
-        <td >C Leave Availed</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="CLeaveAvailed" value="{{rows['CLeaveAvailed']}}"></td>
-      </tr>
-      <tr>
-        <td >C Leave Due</td>
-        <td >{{rows['CLeaveDue']}}</td>
-     </tr>
-      <tr>
-        <td >Sick Leave</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="SickLeave" value="{{rows['SickLeave']}}"></td>
-      </tr>
-      <tr>
-        <td >Ex Bangladesh Leave</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="ExBangladeshLeave" value="{{rows['ExBangladeshLeave']}}"></td>
-      </tr>
-      <tr>
-        <td >RL</td>
-        <td ><input class="form-control mr-sm-2" type="text" name="Rl" value="{{rows['Rl']}}"></td>
-      </tr>
-    </table>
-  </div>
-
-  <div id="FinancialSection" class="tabcontent">
-    <h1>Financial Section</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Source of debt.</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="Sourceofdebt" value="{{rows['Sourceofdebt']}}"></td>
-      </tr>
-      <tr>
-        <td >Amount of debt.</td>
-        <td ><input class="form-control mr-sm-2"   type="number" name="Amountofdebt" value="{{rows['Amountofdebt']}}"></td>
-      </tr>
-    </table>
-  </div>
-
-
-
-  <div id="PersonalPreferences" class="tabcontent">
-    <h1>Personal Preferences</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >Choice of Area for Posting</td>
-          <td >
-            <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">
-                {%for i in range(Choice_of_Area_for_drafting|length) %}
-
-                {%if Choice_of_Area_for_drafting [i] == rows['ChoiceofAreaForPosting']%}
-                <option  value="{{Choice_of_Area_for_drafting[i]}}" selected="selected">{{Choice_of_Area_for_drafting [i]}}</option>
-                {% else %}
-                <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>
-                {%endif%}
+        <td >Highest Education</td>
+        <td >
+            <select  class="form-control mr-sm-2" name="highestEducation">
+                {%for i in range(Highest_Education|length) %}
+                  {%if Highest_Education[i] == rows['highestEducation']%}
+                  <option  value="{{Highest_Education[i]}}" selected = "selected">{{Highest_Education[i]}}</option>
+                  {% else %}
+                  <option  value="{{Highest_Education[i]}}">{{Highest_Education[i]}}</option>
+                  {%endif%}
 
                 {%endfor%}
 
             </select>
         </td>
-      </tr>
-      <tr>
-        <td >Choice of Next Appointment</td>
-        <td >
-          <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">
-              {%for i in range(Choice_of_Next_Appointment|length) %}
+        </tr>
+        <tr>
+            <td >Ongoing civil Education</td>
+            <td >
+                <select class="form-control mr-sm-2" name="OngoingcivilEducation">
+                    {%for i in range(Ongoing_Education|length) %}
+                          {%if Ongoing_Education[i] == rows['OngoingcivilEducation']%}
+                              <option  value="{{Ongoing_Education[i]}}" selected = "selected">{{Ongoing_Education[i]}}</option>
+                          {% else %}
+                              <option  value="{{Ongoing_Education[i]}}">{{Ongoing_Education[i]}}</option>
+                          {%endif%}
 
-                {%if Choice_of_Next_Appointment[i] == rows['ChoiceofNextAppointment']%}
-                <option  value="{{Choice_of_Next_Appointment[i]}}" selected = "selected">{{Choice_of_Next_Appointment [i]}}</option>
-                {% else %}
-                <option  value="{{Choice_of_Next_Appointment[i]}}">{{Choice_of_Next_Appointment [i]}}</option>
-                {%endif%}
-
-              {%endfor%}
-
-          </select>
-      </td>
-      </tr>
+                    {%endfor%}
+                </select>
+            </td>
+        </tr>
     </table>
+
   </div>
 
   <div id="CourseInformation" class="tabcontent">
@@ -587,60 +529,73 @@
         <td >Special qualification</td>
         <td ><input class="form-control mr-sm-2"  type="text" name="SpecialQualification" value="{{rows['SpecialQualification']}}"></td>
       </tr>
-      <tr>
-        <td >Choice of next course</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="ChoiceofNextCourse" value="{{rows['ChoiceofNextCourse']}}"></td>
-      </tr>
+      
     </table>
   </div>
 
 
-
   <div id="OptionalData" class="tabcontent">
-    <h1>Optional Data</h1>
+    <h1>Additional Data</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
       <tr>
-        <td >Date of last Security clearance</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="DateoflastSecurityClearance" value="{{rows['DateoflastSecurityClearance']}}"></td>
-      </tr>
+        <td >Choice of Area for Posting</td>
+        <td >
+          <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">
+              {%for i in range(Choice_of_Area_for_drafting|length) %}
+
+              {%if Choice_of_Area_for_drafting [i] == rows['ChoiceofAreaForPosting']%}
+              <option  value="{{Choice_of_Area_for_drafting[i]}}" selected="selected">{{Choice_of_Area_for_drafting [i]}}</option>
+              {% else %}
+              <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>
+              {%endif%}
+
+              {%endfor%}
+
+          </select>
+      </td>
+    </tr>
+    <tr>
+      <td >Choice of Next Appointment</td>
+      <td >
+        <select  class="form-control mr-sm-2" name="ChoiceofNextAppointment">
+            {%for i in range(Choice_of_Next_Appointment|length) %}
+
+              {%if Choice_of_Next_Appointment[i] == rows['ChoiceofNextAppointment']%}
+              <option  value="{{Choice_of_Next_Appointment[i]}}" selected = "selected">{{Choice_of_Next_Appointment [i]}}</option>
+              {% else %}
+              <option  value="{{Choice_of_Next_Appointment[i]}}">{{Choice_of_Next_Appointment [i]}}</option>
+              {%endif%}
+
+            {%endfor%}
+
+        </select>
+    </td>
+    </tr>
+    <tr>
+      <td >Choice of next course</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="ChoiceofNextCourse" value="{{rows['ChoiceofNextCourse']}}"></td>
+    </tr>
       <tr>
         <td >Extra Curricular Activities</td>
         <td ><input class="form-control mr-sm-2"  type="text" name="ExtraCurricularActivities" value="{{rows['ExtraCurricularActivities']}}"></td>
       </tr>
       <tr>
-            <td >Games and Sports</td>
-            <td ><input class="form-control mr-sm-2"   type="text" name="GamesAndSports" value="{{rows['GamesAndSports']}}"></td>
-      </tr>
-    </table>
-  </div>
-
-  <div id="SignUpInformation" class="tabcontent">
-    <h1>Sign Up Information</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-            <td >User Type</td>
-            <td >
-              <select class="form-control mr-sm-2" name="usertype">
-                  {%for i in range(User_Type|length) %}
-                  {%if i|string == rows['usertype']%}
-                  <option  value="{{i}}" selected = "selected">{{User_Type[i]}}</option>
-                  {% else %}
-                  <option  value="{{i}}">{{User_Type[i]}}</option>
-                  {%endif%}
-
-                  {%endfor%}
-
-              </select>
-            </td>
+        <td >Games and Sports</td>
+        <td ><input class="form-control mr-sm-2"   type="text" name="GamesAndSports" value="{{rows['GamesAndSports']}}"></td>
       </tr>
       <tr>
-        <td >User Password</td>
-        <td ><input class="form-control"   type="password" name="password" value="{{rows['pass']}}"></td>
-       </tr>
-       <tr>
-           <td></td>
-           <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Update User"></td>
-       </tr>
+        <td >Last Date of BloodDonation</td>
+        <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
+    </tr>
+    <tr>
+      <td >MLR</td>
+      <td ><input class="form-control mr-sm-2"  type="text" name="MLR" value="{{rows['MLR']}}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Update User"></td>
+  </tr>
+
     </table>
   </div>
 </form>
@@ -690,6 +645,31 @@
         }
 
 </script>
+<script>
+  function ChildFunction() {
+    var table = document.getElementById("ChildTable");
+    var row = table.insertRow(table.rows.length);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="ChildrenName'+(table.rows.length - 1)+'">'
+    cell2.innerHTML = '<input class="form-control mr-sm-2"  type="date" name="DOBofChildren'+(table.rows.length - 1)+'">';
+    cell3.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren'+(table.rows.length - 1)+'">';
+  }
+  </script>
+
+<script>
+  function SiblingFunction() {
+    var table = document.getElementById("SiblingTable");
+    var row = table.insertRow(table.rows.length);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell1.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="SiblingName'+(table.rows.length - 1)+'">'
+    cell2.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="SiblingMobileNo'+(table.rows.length - 1)+'">';
+    cell3.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="SiblingAddress'+(table.rows.length - 1)+'">';
+  }
+  </script>
 </div>
 </div>
 {%endblock%}

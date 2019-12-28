@@ -31,6 +31,35 @@
     }
     
 </script>
+<script>
+  var SList = new Object(); 
+  
+  
+  var txtsl2 = '';
+  
+  
+  SList.slist21 = JSON.parse('{{ Branch|safe }}')
+  SList.getSelect = function(slist, option) {
+    document.getElementById('scontent1').innerHTML = '';           // empty option-content
+  
+    if(SList[slist][option]) {
+      // if option from the last Select, add text-content, else, set dropdown list
+      if(slist == 'scontent1') document.getElementById('scontent1').innerHTML = SList[slist][option];
+      else if(slist == 'slist21') {
+        var addata = '<option>- - -</option>';
+        for(var i=0; i<SList[slist][option].length; i++) {
+          addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
+        }
+  
+        document.getElementById('slist21').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'s1content\', this.value);">'+addata+'</select>';
+      }
+    }
+    else if(slist == 'slist21') {
+      document.getElementById('slist21').innerHTML = '';
+    }
+  }
+  
+</script>
 
 <style>
   .tablink {
@@ -111,24 +140,7 @@
   #NoOfDaysatSea {background-color: orange;}
   #TYMovement {background-color: red;}
 </style> -->
-<script>
-  function openPage(pageName,elmnt,color) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.backgroundColor = "";
-    }
-    document.getElementById(pageName).style.display = "block";
-    elmnt.style.backgroundColor = color;
-  }
 
-  // Get the element with id="defaultOpen" and click on it
-  document.getElementById("defaultOpen").click();
-</script>
 {%endblock%}
 
 
@@ -138,18 +150,21 @@
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
     <div>
-    <button class="tablink" onclick="openPage('SailorDataSearch', this, 'grey')" id="defaultOpen">Sailor's Data Search</button>
-    <button class="tablink" onclick="openPage('SailorDataForTy', this, 'grey')">Select a Sailor for TY</button>
-    <button class="tablink" onclick="openPage('SailorDataBloodDonation', this, 'grey')">For Blood Donation</button>
-    <button class="tablink" onclick="openPage('NoOfDaysatSea', this, 'grey')">No. of days at sea for AB/OD</button>
-    <button class="tablink" onclick="openPage('TYMovement', this, 'grey')">TY Movement of all sailors in the area</button>
-  </div> 
+      <button class="tablink" onclick="openPage('SailorDataSearch', this, 'grey')" id="defaultOpen">Sailor's Data Search</button>
+      <button class="tablink" onclick="openPage('SailorDataForTy', this, 'grey')">Select a Sailor for TY</button>
+      <button class="tablink" onclick="openPage('SailorDataBloodDonation', this, 'grey')">For Blood Donation</button>
+      <button class="tablink" onclick="openPage('NoOfDaysatSea', this, 'grey')">No. of days at sea for AB/OD</button>
+      <button class="tablink" onclick="openPage('TYMovement', this, 'grey')">TY Movement of all sailors</button>
+    </div> 
     <div id="SailorDataSearch" class="tabcontent">
       <form method="POST" action="{{url_for('SailorDataSearch')}}">
             <div class="container">
 
                           <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
-                          <input class="form-control form-control-lg form-control-borderless" type="search" name="NameofShip" placeholder="Search Sailor's data by Ships name">
+                            <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
+                                    <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
+                                {%endfor%}
+                            </select>
                           <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
                           <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
                               <option>- - -</option>
@@ -174,8 +189,8 @@
             <div class="container">
                 
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="Height" placeholder="Height">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="MedicalCategory" placeholder="Medical Category">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="DateoflastTY"placeholder="Date of last TY">
+                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Medicalcategory" placeholder="Medical Category">
+                  <input class="form-control form-control-lg form-control-borderless" type="date" name="DateoflastTY"placeholder="Date of last TY">
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="Exclusion"placeholder="Exclusion">
                   <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofSecurityClearance "placeholder="Last Date of Security Clearance">
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="Branch" placeholder="Branch">
@@ -183,8 +198,6 @@
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="Course"placeholder="Course">
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="SpecialQualification"placeholder="Special Qualification">
                   <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
-
-
               <div class="col-auto" style="padding-top: 2%;">
                   <button class="btn btn-color btn-rounded" type="submit">Search</button>
               </div>
@@ -220,17 +233,60 @@
     </div>
     
     <div id="NoOfDaysatSea" class="tabcontent">
-      <div class="container">
-        <h3>About</h3>
-        <p>Who we are and what we do.</p>
-      </div>
+      <form method="POST" action="{{url_for('NoOfDaysatSea')}}">
+        <div class="container">
+          <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
+            <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
+            {%endfor%}
+           </select>
+           <div class="col-auto" style="padding-top: 2%;">
+              <button class="btn btn-lg btn-success" type="submit">Search</button>
+           </div>
+        </div>
+      </form>
     </div>
-    <div id="TYMovement" class="tabcontent">
-      <h3>Home</h3>
-      <p>blafjk</p>
+
+    <div id ="TYMovement" class = "tabcontent">
+      <form method="POST" action="{{url_for('TYMovement')}}">
+        <div class="container">
+          <input class="form-control form-control-lg form-control-borderless" type="search" name="duration" placeholder="Duration">
+          <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist21', this.value);">
+            <option>- - -</option>
+            {%for key in Branch_key %}
+                <option value={{key}}>{{key}}</option>
+            {%endfor%}
+          </select>  
+        <span id="slist21"></span> <div id="scontent1"></div>
+        <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
+            <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
+            {%endfor%}
+        </select>
+        <input class="form-control form-control-lg form-control-borderless" type="search" name="totalnooftymovement" placeholder="Total Number of Ty movement from a particular ship">
+        </div>
+        <div class="col-auto" style="padding-top: 2%;">
+              <button class="btn btn-lg btn-success" type="submit">Search</button>
+        </div>
+      </form>
     </div>
-    
-    
-    </div>
+
   </div>
+
+  <script>
+    function openPage(pageName,elmnt,color) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablink");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+      }
+      document.getElementById(pageName).style.display = "block";
+      elmnt.style.backgroundColor = color;
+    }
+  
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
 {%endblock%}

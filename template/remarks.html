@@ -6,7 +6,35 @@
 
 <div class="row" style="margin-left: 5%;">
     <div class="span12" style="min-height: 50vh;">
-        
+      <table  class="table table-hover table-bordered" style="text-align: center;">
+        <tr>
+          <td style="text-align:center;">
+            <form action="{{url_for('profile', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> View Profile </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('editprofile', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Edit Profile </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('tyhistory', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> TY Movement History </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('remarks', id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Remarks </Button>
+            </form>
+          </td>
+          <td style="text-align:center;">
+            <form action="{{url_for('evaluation',id = id)}}">
+              <Button style="width: 80%;" class="btn btn-primary btn-lg"> Evaluation Marking </Button>
+            </form>
+          </td>
+        </tr>
+      </table>
 
       <div class="accordion" id="accordion2">
         <div class="accordion-group">
@@ -32,11 +60,11 @@
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <form method="POST" action="{{url_for('posting', id = id, flag = 'not')}}">
+                                                                                <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
                                                                                   <input style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
-                                                                                  line-height:140%;" type="text" name = "remark"  placeholder="Say Something ...">
+                                                                                  line-height:140%;" type="text" name = "remarkado"  placeholder="Say Something ...">
                                                                                   </p>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
@@ -44,12 +72,11 @@
                                                                             </div>
                                                                           </article>
                                           {% endif %}
-                                          {% for row in rows%}
-                                          {% if row['usertype'] == '1' %}
+                                          {% for row in rowsado%}
                                   
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row['name']}}</a></h3>
+                                                                              <h3><a href="#">Remarks form {{row[2]}}</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -57,20 +84,18 @@
                                                                                   <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                 </div>
                                                                                 <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row['date']}}</span></li>
-                                                                                  <li ><i class="icon-list-alt"></i><span>{{row['name']}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row['O_No_from']}}</span></li>
+                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
+                                                                                  <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
                                                                                   </ul>
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <p>
-                                                                                  {{row['remarks']}}
+                                                                                  {{row[3]}}
                                                                                 </p>
                                                                               </div>
                                                                             </div>
                                                                           </article>
-                                          {% endif %}
                                           {% endfor %}
                                       
                                                                           
@@ -86,7 +111,7 @@
           </div>
           <div id="collapseTwo" class="accordion-body collapse">
             <div class="accordion-inner">
-              {% if type == '2'%}
+                                          {% if type == '2'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
                                                                               <h3><a href="#">Post a New Remarks</a></h3>
@@ -102,11 +127,11 @@
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <form method="POST" action="{{url_for('posting', id = id, flag = 'not')}}">
+                                                                                <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
                                                                                   <input style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
-                                                                                  line-height:140%;" type="text" name = "remark"  placeholder="Say Something ...">
+                                                                                  line-height:140%;" type="text" name = "remarkdo"  placeholder="Say Something ...">
                                                                                   </p>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
@@ -114,32 +139,31 @@
                                                                             </div>
                                                                           </article>
                                           {% endif %}
-                                          {% for row in rows%}
-                                          {% if row['usertype'] == '2' %}
+                                          {% for row in rowsdo%}
+                                          {% if type == '2' or type == '3'  or type == '4' or type == '5' or type == '0' %}
 
-                                                                          <article class="blog-post">
-                                                                            <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row['name']}}</a></h3>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                              <div class="span3">
-                                                                                <div class="post-icon">
-                                                                                  <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
+                                                                            <article class="blog-post">
+                                                                              <div class="post-heading">
+                                                                                <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                              </div>
+                                                                              <div class="row">
+                                                                                <div class="span3">
+                                                                                  <div class="post-icon">
+                                                                                    <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
+                                                                                  </div>
+                                                                                  <ul class="post-meta">
+                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
+                                                                                    <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                    </ul>
+                                                                                  <div class="clear"></div>
                                                                                 </div>
-                                                                                <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row['date']}}</span></li>
-                                                                                  <li ><i class="icon-list-alt"></i><span>{{row['name']}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row['O_No_from']}}</span></li>
-                                                                                  </ul>
-                                                                                <div class="clear"></div>
+                                                                                <div class="span5">
+                                                                                  <p>
+                                                                                    {{row[3]}}
+                                                                                  </p>
+                                                                                </div>
                                                                               </div>
-                                                                              <div class="span5">
-                                                                                <p>
-                                                                                  {{row['remarks']}}
-                                                                                </p>
-                                                                              </div>
-                                                                            </div>
-                                                                          </article>
+                                                                            </article>
                                           {% endif %}
                                           {% endfor %}
                                       
@@ -170,11 +194,11 @@
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <form method="POST" action="{{url_for('posting', id = id, flag = 'special')}}">
+                                                                                <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
                                                                                   <input style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
-                                                                                  line-height:140%;" type="text" name = "remark"  placeholder="Say Something ...">
+                                                                                  line-height:140%;" type="text" name = "remarkco"  placeholder="Say Something ...">
                                                                                   </p>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
@@ -182,32 +206,31 @@
                                                                             </div>
                                                                           </article>
                                           {% endif %}
-                                          {% for row in rows%}
-                                          {% if row['usertype'] == '3' and row['special'] == 'special' %}
+                                          {% for row in rowsco%}
+                                          {% if type == '3' or type == '0' or type == '4' or type == '5' %}
 
-                                                                          <article class="blog-post">
-                                                                            <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row['name']}}</a></h3>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                              <div class="span3">
-                                                                                <div class="post-icon">
-                                                                                  <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
+                                                                            <article class="blog-post">
+                                                                              <div class="post-heading">
+                                                                                <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                              </div>
+                                                                              <div class="row">
+                                                                                <div class="span3">
+                                                                                  <div class="post-icon">
+                                                                                    <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
+                                                                                  </div>
+                                                                                  <ul class="post-meta">
+                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
+                                                                                    <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                    </ul>
+                                                                                  <div class="clear"></div>
                                                                                 </div>
-                                                                                <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row['date']}}</span></li>
-                                                                                  <li ><i class="icon-list-alt"></i><span>{{row['name']}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row['O_No_from']}}</span></li>
-                                                                                  </ul>
-                                                                                <div class="clear"></div>
+                                                                                <div class="span5">
+                                                                                  <p>
+                                                                                    {{row[3]}}
+                                                                                  </p>
+                                                                                </div>
                                                                               </div>
-                                                                              <div class="span5">
-                                                                                <p>
-                                                                                  {{row['remarks']}}
-                                                                                </p>
-                                                                              </div>
-                                                                            </div>
-                                                                          </article>
+                                                                            </article>
                                             {% endif %}
                                             {% endfor %}
                                       
@@ -217,11 +240,11 @@
         <div class="accordion-group">
           <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-        <i class="icon-plus"></i>Area Commander Remakrs/ CO recommendation</a>
+        <i class="icon-plus"></i>Area Commander Remarks / Recommendation</a>
           </div>
           <div id="collapseFour" class="accordion-body collapse">
             <div class="accordion-inner">
-              {% if type == '3'%}
+                                            {% if type == '5'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
                                                                               <h3><a href="#">Post a New Remarks</a></h3>
@@ -237,11 +260,11 @@
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <form method="POST" action="{{url_for('posting', id = id, flag = 'not')}}">
+                                                                                <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
                                                                                   <input style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
-                                                                                  line-height:140%;" type="text" name = "remark"  placeholder="Say Something ...">
+                                                                                  line-height:140%;" type="text" name = "remarkarea"  placeholder="Say Something ...">
                                                                                   </p>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
@@ -249,12 +272,12 @@
                                                                             </div>
                                                                           </article>
                                           {% endif %}
-                                          {% for row in rows%}
-                                          {% if row['usertype'] == '3' and row['special'] == 'not' %}
+                                          {% for row in rowsarea%}
+                                          {% if type == '5' or type == '0' %}
 
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row['name']}}</a></h3>
+                                                                              <h3><a href="#">Remarks form {{row[2]}}</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -262,15 +285,14 @@
                                                                                   <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                 </div>
                                                                                 <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row['date']}}</span></li>
-                                                                                  <li ><i class="icon-list-alt"></i><span>{{row['name']}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row['O_No_from']}}</span></li>
+                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
+                                                                                  <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
                                                                                   </ul>
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <p>
-                                                                                  {{row['remarks']}}
+                                                                                  {{row[3]}}
                                                                                 </p>
                                                                               </div>
                                                                             </div>
