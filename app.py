@@ -5,7 +5,7 @@ import MySQLdb
 from flask_fontawesome import FontAwesome
 from datetime import datetime, timedelta
 import time
-from datetime import date
+from datetime import date, timedelta
 import csv
 import os
 import json
@@ -364,10 +364,86 @@ def show():
     if('O_No' in session):
         login_status = True
         e_list = eligiblelist()
-        return render_template("show.html",Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
+        return render_template("show.html",static_on = 1,Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
 
     else:
         login_status = False
+
+@app.route('/notification')
+def notification():
+    if 'O_No' in session:
+        if session['usertype'] == '1':
+            mcur = mysql.connection.cursor()
+            mcur.execute("Select O_No, NextREEngagementDue, DateofNextIncrement, DateofNextGCB, DateofJoiningService from Sailor where ADO_O_No = %s", (session['O_No'], ))
+            rows = mcur.fetchall()
+            mcur.close()
+            ret = []
+            for row in rows:
+                today = str(date.today())
+                d1 = datetime.strptime(today, "%Y-%m-%d")
+                
+                if row[1] != '':
+                    d2 = datetime.strptime(row[1], "%Y-%m-%d")
+                    dif = (d2 - d1).days
+                    if int(dif) >= 0:
+                        temp = []
+                        temp.append(row[0])
+                        temp.append("Next ReEngagement Due " + row[1] + " for O No " + row[0])
+                        ret.append(temp)
+                if row[2] != '':
+                    d2 = datetime.strptime(row[2], "%Y-%m-%d")
+                    dif = (d2 - d1).days
+                    if int(dif) >= 0:
+                        temp = []
+                        temp.append(row[0])
+                        temp.append("Date of Next Increment "+ row[2] +" for  O No " + row[0])
+                        ret.append(temp)
+                if row[3] != '':
+                    d2 = datetime.strptime(row[3], "%Y-%m-%d")
+                    dif = (d2 - d1).days
+                    ###
+                    dif -= 120
+                    if int(dif) <= 0:
+                        temp = []
+                        temp.append(row[0])
+                        temp.append("Date of Next GCB "+ row[3] +" for O No " + row[0])
+                        ret.append(temp)
+                if row[4] != '':
+                    d1 = datetime.strptime(today, "%Y-%m-%d")
+                    for i in range(40):
+                        datett = datetime.strptime(row[4],'%Y-%m-%d')
+                        d2 = addyearmonth(datett,i * 3, 0)
+                        dif = (d2 - d1).days
+                        if dif >= 0:
+                            if int(dif) <= 30:
+                                temp = []
+                                temp.append(row[0])
+                                temp.append("Date of Next RL "+ row[4] +" for O No " + row[0])
+                                ret.append(temp)
+                            break
+                    
+                mcur = mysql.connection.cursor()
+                mcur.execute("Select O_No, fromty, duration from TY where O_No = %s", (row[0],))
+                rows2 = mcur.fetchall()
+                print(rows2)
+                for row2 in rows2:
+                    if row2[1] != '' and row2[2] != '':
+                        fromdate = datetime.strptime(row2[1],'%Y-%m-%d')
+                        todate = fromdate + timedelta(days = int(row2[2]))
+                        d1 = datetime.strptime(today, "%Y-%m-%d")
+                        print(d1,todate)
+                        #d2 = datetime.strptime(str(todate), "%Y-%m-%d")
+                        dif = (todate - d1).days
+                        print(dif)
+                        if (dif == 1) or (dif == 2):
+                            temp = []
+                            temp.append(row[0])
+                            temp.append("Date for Returned from TY "+str(todate.strftime('%Y-%m-%d'))+" for O_No " + row2[0])
+                            ret.append(temp)
+
+            mcur.close()
+            return render_template('notification.html', login_status = True, rows = ret)
+    return redirect(url_for('home'))
 
 @app.route('/show/search', methods = ['POST', 'GET'])
 def search_static():
@@ -386,7 +462,7 @@ def search_static():
                 sql_select_query = """select SiblingMobileNo from Sibling where O_No = %s"""
                 cur.execute(sql_select_query,(id,))
                 rows = cur.fetchall()
-                l = len(rows);
+                l = len(rows)
                 for i in range(l):
                     if(len(rows[i])==1):
                         if req['field'][0] in rows[i][0]:
@@ -397,7 +473,7 @@ def search_static():
                         if row not in ret:
                             ret.append(row) 
             e_list = eligiblelist_to_list(ret)
-            return render_template("show.html", Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
+            return render_template("show.html",static_on = 0, Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
 
     else:
         return redirect(url_for('home'))
@@ -541,13 +617,12 @@ def adding_user():
             if('DateofJoiningShip' in dic):
                 dateofjoiningship = dic['DateofJoiningShip']
                 if('PresentEngagement' in dic):
-                    presentengagement = int(dic['PresentEngagement'])
+                    presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
                     if('ServiceCategory' in dic):
-                        servicecategory = int(dic['ServiceCategory'])
+                        servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
                         dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
                         dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
-                        dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")
-            debug_var+=1        
+                        dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")     
             if('EffectivedateofexistingGCB' in dic):
                 effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
                 effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
@@ -595,16 +670,12 @@ def adding_user():
                 DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
                 dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
                 dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
-            debug_var+=1 
-
             for col in Column:
                 if(col not in dic):
                     dic[col]=''
                 else:
                     dic[col]=str(dic[col])
-            
             dic['ADO_O_No'] = session['O_No']
-            # cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
             query = "INSERT INTO Sailor (O_No "
             for i in range(1,len(Column)):
                 query = query + ', ' + Column[i]
@@ -623,7 +694,6 @@ def adding_user():
 
             ret = []
             req = request.form
-            #print(req)
             mcur = mysql.connection.cursor()
             for i in range(1,100):
                 id1 = 'SiblingName' + str(i)
@@ -637,13 +707,11 @@ def adding_user():
                         mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
                         
                         ret.append((req[id1], req[id2], req[id3]))
-            print(ret)
             mysql.connection.commit()
             mcur.close()
 
             ret = []
             req = request.form
-            #print(req)
             mcur = mysql.connection.cursor()
             for i in range(1,100):
                 id1 = 'ChildrenName' + str(i)
@@ -653,11 +721,8 @@ def adding_user():
                     if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
                         pass
                     else:
-                        # cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
                         mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        
                         ret.append((req[id1], req[id2], req[id3]))
-            print(ret)
             mysql.connection.commit()
             mcur.close()
         
@@ -672,7 +737,6 @@ def updating_user(id):
                 dic=dict()
                 for col in Column:
                     if col in req:
-                        #print(req[col])
                         if(req[col][0]=='- - -'):
                             req[col][0]=''
                         if(req[col][0]!=''):
@@ -682,9 +746,9 @@ def updating_user(id):
             if('DateofJoiningShip' in dic):
                 dateofjoiningship = dic['DateofJoiningShip']
                 if('PresentEngagement' in dic):
-                    presentengagement = int(dic['PresentEngagement'])
+                    presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
                     if('ServiceCategory' in dic):
-                        servicecategory = int(dic['ServiceCategory'])
+                        servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
                         dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
                         dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
                         dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")       
@@ -722,13 +786,10 @@ def updating_user(id):
                 param = param +( dic[col], )
             param = param + (dic['O_No'], )
             mcur.execute(query, param)
-            #mcur.execute("INSERT INTO UserInfo (O_No , usertype , pass , name , Branch , Rank , MobileNo_1 , MobileNo_2 , DateofBirth , PresentAddress , PermanentAddress , marrital_status , DateofMarriage , ServiceIdCardNo , NIDCardNo , DrivingLicenseNo , BloodGroup , LastDateofBloodDonation, Height , Weight , StateofOverWeight , FacebookAccount , Emailaddress , home_district , NextofKin , Relationship , ContactNumberofNextofKin , NameofWife , AddressofWife , MobileNo , Anyspecialinfowife , ChildrenNumber , ChildrenName , DOBofChildren , Anyspecialinfochildren , FathersName , FathersMobileNo , FathersAddress , MothersName , MothersMobileNo , MothersAddress , FamilyCrisis , SiblingNumber , BrothersName , BrothersMobileNo , BrothersAddress , highestEducation , OngoingcivilEducation , DateofJoiningService , ServiceCategory , Medicalcategory , DateofLastPromotion , DateofNextPromotion , PresentEngagement , NextREEngagementDue , DateofNextIncrement , NumberofGCB , EffectivedateofexistingGCB , DateofNextGCB , DateofJoiningShip , NameofShip , NumberofDaysatSea, UNMission , GoodWillMission , DAONumber , PLeaveAvailed , LastDateofPL , PLeaveDue , RecreationLeaveDue , CLeaveAvailed , CLeaveDue , SickLeave , ExBangladeshLeave , Rl , Sourceofdebt , Amountofdebt , ChoiceofAreaForPosting , ChoiceofNextAppointment , NameofImportantCourses , NameofNextCourse , ForeignCourse , SpecialQualification , ChoiceofNextCourse , DateoflastSecurityClearance , ExtraCurricularActivities , GamesAndSports) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (dic['O_No'],dic['usertype'],dic['pass'],dic['name'],dic['Branch'],dic['Rank'],dic['MobileNo_1'],dic['MobileNo_2'],dic['DateofBirth'],dic['PresentAddress'],dic['PermanentAddress'],dic['marrital_status'],dic['DateofMarriage'],dic['ServiceIdCardNo'],dic['NIDCardNo'],dic['DrivingLicenseNo'],dic['BloodGroup'],dic['LastDateofBloodDonation'],dic['Height'],dic['Weight'],dic['StateofOverWeight'],dic['FacebookAccount'],dic['Emailaddress'],dic['home_district'],dic['NextofKin'],dic['Relationship'],dic['ContactNumberofNextofKin'],dic['NameofWife'],dic['AddressofWife'],dic['MobileNo'],dic['Anyspecialinfowife'],dic['ChildrenNumber'],dic['ChildrenName'],dic['DOBofChildren'],dic['Anyspecialinfochildren'],dic['FathersName'],dic['FathersMobileNo'],dic['FathersAddress'],dic['MothersName'],dic['MothersMobileNo'],dic['MothersAddress'],dic['FamilyCrisis'],dic['SiblingNumber'],dic['BrothersName'],dic['BrothersMobileNo'],dic['BrothersAddress'],dic['highestEducation'],dic['OngoingcivilEducation'],dic['DateofJoiningService'],dic['ServiceCategory'],dic['Medicalcategory'],dic['DateofLastPromotion'],dic['DateofNextPromotion'],dic['PresentEngagement'],dic['NextREEngagementDue'],dic['DateofNextIncrement'],dic['NumberofGCB'],dic['EffectivedateofexistingGCB'],dic['DateofNextGCB'],dic['DateofJoiningShip'],dic['NameofShip'],dic['NumberofDaysatSea'],dic['UNMission'],dic['GoodWillMission'],dic['DAONumber'],dic['PLeaveAvailed'],dic['LastDateofPL'],dic['PLeaveDue'],dic['RecreationLeaveDue'],dic['CLeaveAvailed'],dic['CLeaveDue'],dic['SickLeave'],dic['ExBangladeshLeave'],dic['Rl'],dic['Sourceofdebt'],dic['Amountofdebt'],dic['ChoiceofAreaForPosting'],dic['ChoiceofNextAppointment'],dic['NameofImportantCourses'],dic['NameofNextCourse'],dic['ForeignCourse'],dic['SpecialQualification'],dic['ChoiceofNextCourse'],dic['DateoflastSecurityClearance'],dic['ExtraCurricularActivities'],dic['GamesAndSports']))
             mysql.connection.commit()
             mcur.close()
-
             ret = []
             req = request.form
-
             mcur = mysql.connection.cursor()
             mcur.execute("DELETE FROM Sibling WHERE O_No = %s", (req['O_No'],))
             mcur.connection.commit()
@@ -737,8 +798,6 @@ def updating_user(id):
             mcur.execute("DELETE FROM Children WHERE O_No = %s", (req['O_No'],))
             mcur.connection.commit()
             mcur.close()
-
-            #print(req)
             mcur = mysql.connection.cursor()
             for i in range(1,100):
                 id1 = 'SiblingName' + str(i)
@@ -749,15 +808,12 @@ def updating_user(id):
                         pass
                     else:
                         mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        
                         ret.append((req[id1], req[id2], req[id3]))
-            print(ret)
             mysql.connection.commit()
             mcur.close()
 
             ret = []
             req = request.form
-            #print(req)
             mcur = mysql.connection.cursor()
             for i in range(1,100):
                 id1 = 'ChildrenName' + str(i)
@@ -767,16 +823,11 @@ def updating_user(id):
                     if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
                         pass
                     else:
-                        # cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
                         mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        
                         ret.append((req[id1], req[id2], req[id3]))
-            print(ret)
             mysql.connection.commit()
             mcur.close()
-
             return redirect(url_for('profile', id = id))
-                
     else:
         return redirect(url_for('home'))
 
@@ -910,6 +961,7 @@ def leavehistory(id):
         return render_template('leavehistory.html',rows =ret,Leave_Category = Leave_Category, login_status = True, id = id, extra = extra)
     else:
         return redirect(url_for('home'))
+
 @app.route('/profile/<string:id>/Remarks')
 def remarks(id):
     if('O_No' in session):
@@ -963,7 +1015,6 @@ def posting(id):
             return redirect(url_for('remarks', id = id))
     else:
         return redirect(url_for('home'))
-
 
 @app.route('/profile/<string:id>/Evaluation')
 def evaluation(id):
@@ -1092,7 +1143,7 @@ def SailorDataSearch():
                 if ok == True:
                     result.append(row)
             result = eligiblelist_to_list(result)
-            return render_template("show.html", rows = result,login_status=login_status)
+            return render_template("show.html",static_on = 0, rows = result,login_status=login_status)
         else:
             return redirect(url_for('search'))
     else:
@@ -1146,11 +1197,10 @@ def BloodDonationSearch():
                     result.append(row)
             result = eligiblelist_to_list(result)
             print(result)
-            return render_template("show.html", rows = result,login_status=login_status)
+            return render_template("show.html",static_on = 0, rows = result,login_status=login_status)
     else:
         login_status = False
         return redirect(url_for('home'))
-
 
 @app.route('/search/SelectPersonnelForTY',methods = ['POST','GET'])
 def SelectPersonnelForTY():
@@ -1158,75 +1208,130 @@ def SelectPersonnelForTY():
         login_status = True
         if request.method == 'POST':
             req = request.form.to_dict(flat=False)
-            print(req)
             for key in req:
                 if req[key] == ['-']:
                     req[key] = ['']
+            print(req)
             e_list = eligiblelist_to_dictionary(eligiblelist())
+            # print(e_list)
             result = []
-            for row in e_list:
+            for row in e_list: 
                 ok = True
-                for key in req:
-                    print(key)
-                    if row[key] is None:
-                        row[key] = ''
-                
-                
-                if req['Height'][0] != '':
-                    if req['Height'][0] < row['Height']:
+                if row['Branch'] is None:
+                    row['Branch'] = ''
+                if row['Rank'] is None:
+                    row['Rank'] = ''
+                if row['Height'] is None:
+                    row['Height'] = ''
+                if row['SpecialQualification'] is None:
+                    row['SpecialQualification'] = ''
+                if row['NameofImportantCourses'] is None:
+                    row['NameofImportantCourses'] = ''
+                if row['ForeignCourse'] is None:
+                    row['ForeignCourse'] = ''
+                if row['Medicalcategory'] is None:
+                    row['Medicalcategory'] = ''
+                if req['Branch'][0] =='- - -':
+                    req['Branch'][0]=''
+                if req['Branch'][0]!= '':
+                    print(req['Branch'][0],"   ",row['Branch'])
+                    if req['Branch'][0]!= row['Branch']:
+                        ok = False
+                    if 'Rank' in req:
+                        if req['Rank'][0]=='- - -':
+                            req['Rank'][0] = ''
+                        if req['Rank'][0] != '':
+                            if req['Rank'][0] != row['Rank']:
+                                ok = False
+                print("before: ",ok)
+                if req['Height'][0]!='':
+                    row_height = row['Height']
+                    if(row_height==''):
+                        row_height = 0
+                    else:
+                        row_height = int(row_height)
+                    req_height = req['Height'][0]
+                    print("He   Row: ",row_height)
+                    print("Hegi Req: ",req_height)
+                    if int(req_height) > row_height :
                         ok = False 
-                if req['Medicalcategory'][0] != '':
-                    if req['MediCalcategory'][0] != row['Medicalcategory']:
-                        ok = False 
+                print("After Height: ",ok)  
+                if req['Medicalcategory'][0]!='':
+                    if row['Medicalcategory'] != req['Medicalcategory'][0]:
+                        ok = False   
+                print("after medi: ",ok) 
+                if req['Course'][0]!='':
+                    if (req['Course'][0] not in row['NameofImportantCourses']) or (req['Course'][0] not in row['ForeignCourse']):
+                        ok = False
+                print("After Course: ",ok)
+                if req['SpecialQualification'][0]!='':
+                    if req['SpecialQualification'][0] not in row['SpecialQualification']:
+                        ok = False
+                temp_id = row['O_No']
+                cur = mysql.connection.cursor()
+                sql_select_query = """select * from TY where O_No = %s"""
+                cur.execute(sql_select_query, (temp_id,))
+                rows = cur.fetchall()
+                l = len(rows)
+                print("l     :         ",l)
+                cnt = 0
+                for r in rows:
+                    if r[1] is None:
+                        r[1]=''
+                    if req['DateoflastTY'][0]!='':
+                        if req['DateoflastTY'][0]!=r[1]:
+                            print(req['DateoflastTY'])
+                            cnt+=1
+                print(cnt)
                 
-                # if req['DateoflastTY'][0] != '':
-                #     curdate = ''
-                #     if c in req['DateoflastTY'][0]:
-                #         if c != '-':
-                #             curdate += c
-                #     lastdate = ''
-
-                #     print(curdate,lastdate)
-                #     if row['DateoflastTY'] is None or row['DateoflastTY'] == '':
-                #         lastdate = str(int(curdate) + 1)
-                #     else:
-                #         for c in row['DateoflastTY']:
-                #             if c != '-':
-                #                 lastdate += c
-                    
-                #     print(int(lastdate) - int(curdate))
-                #     if int(lastdate) - int(curdate) > 0:
-                #         ok = False
-                
-                # #last date ty
-                # if req['DateoflastTY'][0] != '':
-                #     curdate = ''
-                #     for c in req['DateoflastTY'][0]:
-                #         if c != '-':
-                #             curdate += c
-                #     lastdate = ''
-                #     if row['DateoflastTY'] is None or row['DateoflastTY'] == '':
-                #         lastdate = str(int(curdate) + 1)
-                #     else:
-                #         for c in row['DateoflastTY']:
-                #             if c != '-':
-                #                 lastdate += c
-                    
-                #     print(int(lastdate) - int(curdate))
-                #     if int(lastdate) - int(curdate) > 0:
-                #         ok = False
-            #     #category
-            #     if req['Height'][0] != '':
-            #         if req['Height'][0] < row['Height']:
-            #             ok = False 
-            #     if req['Medicalcategory'][0] != '':
-            #         if req['Medicalcategory'][0] != row['Medicalcategory']:
-            #             ok = False
-            #     if ok == True:
-            #         result.append(row)
-            # result = eligiblelist_to_list(result)
-            # print(result)
-            # return render_template("show.html", rows = result,login_status=login_status)
+                if cnt == l:
+                    ok = False
+                print("After Date of Last TY: ",ok)
+                cnt = 0
+                for r in rows:
+                    if r[6] is None:
+                        r[6]=''
+                    if req['LastDateofSecurityClearance'][0]!='':
+                        if req['LastDateofSecurityClearance'][0]!= r[6]:
+                            cnt+=1
+                print(cnt,"         ",l)
+                if cnt == l:
+                    ok = False
+                print("After Security Clearance: ",ok)
+                cnt = 0
+                for r in rows:
+                    if req['Exclusion'][0]!='':
+                        req_date = str(req['Exclusion'][0])
+                        intdate=''
+                        for i in range(len(req_date)):
+                            if req_date[i]!='-':
+                                intdate+=req_date[i]
+                        intdate=int(intdate)
+                        if r[1] is '' or r[2] is '':
+                            cnt+=1
+                        else:
+                            from_date = r[1]
+                            to_date = r[2]
+                            f=''
+                            t=''
+                            for i in range(len(from_date)):
+                                if from_date[i]!='-':
+                                    f+=from_date[i]
+                            f=int(f)
+                            for i in range(len(to_date)):
+                                if to_date[i]!='-':
+                                    t+=to_date[i]
+                            t=int(t)
+                            if (f>intdate) or (t>intdate):
+                                cnt+=1
+                            print(f,"                 ",t)
+                if cnt == l:
+                    ok = False
+                if ok == True:
+                    result.append(row)
+            cur.close()
+            result = eligiblelist_to_list(result)
+            return render_template("show.html",static_on = 0,rows = result,login_status = login_status)
     else:
         login_status = False
         return redirect(url_for('home'))
@@ -1255,15 +1360,70 @@ def NoOfDaysatSea():
                     if ok == True:
                         result.append(row)
             result = eligiblelist_to_list(result)
-            print(result)
-            return render_template("show.html", rows = result)
+            # print(result)
+            return render_template("show.html",static_on = 0, rows = result)
+    else:
+        return redirect(url_for('home'))
 
 @app.route('/search/TYMovement',methods = ['POST','GET'])
 def TYMovement():
     if 'O_No' in session:
+        login_status = True
         if request.method == 'POST':
-            pass
-
+            req = request.form.to_dict(flat=False)
+            for key in req:
+                if req[key] == ['-']:
+                    req[key] = ['']
+            print(req)
+            e_list = eligiblelist_to_dictionary(eligiblelist())
+            # print(e_list)
+            result = []
+            for row in e_list: 
+                ok = True
+                if row['Branch'] is None:
+                    row['Branch'] = ''
+                if row['Rank'] is None:
+                    row['Rank'] = ''
+                if req['Branch'][0] =='- - -':
+                    req['Branch'][0]=''
+                if req['Branch'][0] != '':
+                    print(req['Branch'][0])
+                    if req['Rank'][0]=='- - -':
+                        req['Rank'][0] = ''
+                    if req['Branch'][0] != row['Branch']:
+                        ok = False
+                    if 'Rank' in req:
+                        if req['Rank'][0] != '':
+                            if req['Rank'][0] != row['Rank']:
+                                ok = False
+                temp_id = row['O_No']
+                cur = mysql.connection.cursor()
+                sql_select_query = """select * from TY where O_No = %s"""
+                cur.execute(sql_select_query, (temp_id,))
+                rows = cur.fetchall()
+                l = len(rows)
+                cnt = 0
+                for r in rows:
+                    if r[5] is None:
+                        r[5]=''
+                    if req['duration'][0] !='':
+                        print("duration: ",req['duration'][0],type(req['duration'][0]))
+                        if int(req['duration'][0]) <= int(r[5]):
+                            cnt = cnt+1
+                if cnt == 0 and req['duration'][0]!='':
+                    ok = False
+                if req['totalnooftymovement'][0]!='':
+                    if int(req['totalnooftymovement'][0])>l:
+                        ok = False
+                if ok == True:
+                    result.append(row)
+            cur.close()
+            result = eligiblelist_to_list(result)
+            return render_template("show.html",static_on = 0, rows = result,login_status = login_status)
+    else:
+        login_status = False
+        return redirect(url_for('home'))
+        
 @app.route('/search')
 def search():
     if 'O_No' in session:

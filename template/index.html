@@ -1,14 +1,33 @@
 {%extends 'templatebase.html'%}
 {% set active_page = "home" %}
-
-
+{% block head %}
+<style>
+    html,body{
+      background-image: url('/static/images/bg.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 15%;
+    }
+.center {
+      margin: auto;
+      width: 50%;
+      height: 40%;
+    }
+</style>
+{% endblock %}
 {% block body %}
-This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>
-This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>
-This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>
-
-This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>This Page is Blank for now<br>
-
+<img src="/static/images/logo.png" alt="Comflot West">
+<div class="center">
+  <h1 style="font-size:3.8vw; color: white;"><b>WELCOME TO COMPLOT WEST</b></h1>
+  <h1 style="font-size:1.5vw; color: white;"><b>Digital Divisional Record Book</b></h1>
+  
+</div>
 {% endblock %}
 
 

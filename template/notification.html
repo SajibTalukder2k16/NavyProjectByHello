@@ -1,0 +1,16 @@
+{% extends 'templatebase.html'%}
+{% block head%}
+{% endblock %}
+{% block body%}
+<div class="row" style="margin-left: 5%;">
+  <div class="span12">
+    <ul class="nav topnav">
+    {% for row in rows%}
+    <li style="width: 40%;text-align: center;">
+      <label style="background-color: white;"><a href="{{url_for('profile', id = row[0])}}">{{row[1]}}</a></label>
+    </li>
+    {% endfor %}
+  </ul>
+  </div>
+</div>
+{% endblock %}

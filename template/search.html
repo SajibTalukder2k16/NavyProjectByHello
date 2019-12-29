@@ -31,35 +31,7 @@
     }
     
 </script>
-<script>
-  var SList = new Object(); 
-  
-  
-  var txtsl2 = '';
-  
-  
-  SList.slist21 = JSON.parse('{{ Branch|safe }}')
-  SList.getSelect = function(slist, option) {
-    document.getElementById('scontent1').innerHTML = '';           // empty option-content
-  
-    if(SList[slist][option]) {
-      // if option from the last Select, add text-content, else, set dropdown list
-      if(slist == 'scontent1') document.getElementById('scontent1').innerHTML = SList[slist][option];
-      else if(slist == 'slist21') {
-        var addata = '<option>- - -</option>';
-        for(var i=0; i<SList[slist][option].length; i++) {
-          addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
-        }
-  
-        document.getElementById('slist21').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'s1content\', this.value);">'+addata+'</select>';
-      }
-    }
-    else if(slist == 'slist21') {
-      document.getElementById('slist21').innerHTML = '';
-    }
-  }
-  
-</script>
+
 
 <style>
   .tablink {
@@ -69,8 +41,8 @@
       border: none;
       outline: none;
       cursor: pointer;
-      padding: 12px 12px;
-      font-size: auto;
+      padding: 8px 8px;
+      font-size:1vw;
       width: 20%;
   }
 
@@ -149,29 +121,30 @@
 
 <div class="row" style="margin-left: 5%;">
   <div class="span12">
-    <div>
       <button class="tablink" onclick="openPage('SailorDataSearch', this, 'grey')" id="defaultOpen">Sailor's Data Search</button>
       <button class="tablink" onclick="openPage('SailorDataForTy', this, 'grey')">Select a Sailor for TY</button>
       <button class="tablink" onclick="openPage('SailorDataBloodDonation', this, 'grey')">For Blood Donation</button>
       <button class="tablink" onclick="openPage('NoOfDaysatSea', this, 'grey')">No. of days at sea for AB/OD</button>
       <button class="tablink" onclick="openPage('TYMovement', this, 'grey')">TY Movement of all sailors</button>
-    </div> 
+
     <div id="SailorDataSearch" class="tabcontent">
       <form method="POST" action="{{url_for('SailorDataSearch')}}">
             <div class="container">
-
-                          <input class="form-control form-control-lg form-control-borderless" type="search" name="O_No" placeholder="Search Sailor's data by O.No">
+                          <label>Search by Official Number</label>
+                          <input type="search" class="form-control mr-sm-2" name="O_No" placeholder="">
+                          <label>Select Name of Ship</label>
                             <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
                                     <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
                                 {%endfor%}
                             </select>
-                          <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="Search Sailor's data by Name">
+                          <label>Search by Name</label>
+                          <input class="form-control form-control-lg form-control-borderless" type="search" name="name"placeholder="">
+                          <label>Select Branch and Rank</label>
                           <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
                               <option>- - -</option>
                               {%for key in Branch_key %}
                                   <option value={{key}}>{{key}}</option>
                               {%endfor%}
-                  
                           </select>  
                           <span id="slist2"></span> <div id="scontent"></div>
                           <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
@@ -187,15 +160,31 @@
     <div id="SailorDataForTy" class="tabcontent">
       <form method="POST" action = "{{url_for('SelectPersonnelForTY')}}">
             <div class="container">
-                
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Height" placeholder="Height">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Medicalcategory" placeholder="Medical Category">
+                  <label>Search by Height(in inches)</label>
+                  <input class="form-control form-control-lg form-control-borderless" type="number" name="Height" placeholder="Height">
+                  <label>Select Medical Category</label>
+                  <select  class="form-control mr-sm-2" name="Medicalcategory">
+                    {%for key in Medical_Category %}
+                        <option value={{key}}>{{key}}</option>
+                    {%endfor%}
+                  </select>
+                  <label>Select Date of Last TY Date</label>
                   <input class="form-control form-control-lg form-control-borderless" type="date" name="DateoflastTY"placeholder="Date of last TY">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Exclusion"placeholder="Exclusion">
-                  <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofSecurityClearance "placeholder="Last Date of Security Clearance">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Branch" placeholder="Branch">
-                  <input class="form-control form-control-lg form-control-borderless" type="search" name="Rank"placeholder="Rank">
+                  <label>Select Exclusion</label>
+                  <input class="form-control form-control-lg form-control-borderless" type="date" name="Exclusion"placeholder="Exclusion">
+                  <label>Select Last Security Clearance Date</label>
+                  <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofSecurityClearance"placeholder="Last Date of Security Clearance">
+                  <label>Select Branch and Rank</label>
+                  <select  name="Branch" class="form-control mr-sm-2" onchange="SList3.getSelect('slist31', this.value);">
+                    <option>- - -</option>
+                    {%for key in Branch_key %}
+                        <option value={{key}}>{{key}}</option>
+                    {%endfor%}
+                    </select>  
+                  <span id="slist31"></span> <div id="scontent2"></div>
+                  <label>Search by Course</label>
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="Course"placeholder="Course">
+                  <label>Search by Special Qualification</label>
                   <input class="form-control form-control-lg form-control-borderless" type="search" name="SpecialQualification"placeholder="Special Qualification">
                   <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
               <div class="col-auto" style="padding-top: 2%;">
@@ -209,15 +198,15 @@
     <div id="SailorDataBloodDonation" class="tabcontent">
       <form  method="POST" action="{{url_for('BloodDonationSearch')}}">
             <div class="container">
-               
+                <label>Select Last Date of Blood Donation</label>
                 <input class="form-control form-control-lg form-control-borderless" type="date" name="LastDateofBloodDonation" placeholder="Last Date of Blood Donation">
-                
+                <label>Select Medical Category</label>
                 <select  class="form-control mr-sm-2" name="Medicalcategory">
                     {%for key in Medical_Category %}
                         <option value={{key}}>{{key}}</option>
                     {%endfor%}
                 </select>
-                
+                <label>Select Blood Group</label>
                 <select  class="form-control mr-sm-2" name="BloodGroup">
                     {%for key in Blood_Group %}
                         <option value={{key}}>{{key}}</option>
@@ -235,6 +224,7 @@
     <div id="NoOfDaysatSea" class="tabcontent">
       <form method="POST" action="{{url_for('NoOfDaysatSea')}}">
         <div class="container">
+          <label>Select Name of Ship</label>
           <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
             <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
             {%endfor%}
@@ -249,18 +239,17 @@
     <div id ="TYMovement" class = "tabcontent">
       <form method="POST" action="{{url_for('TYMovement')}}">
         <div class="container">
+          <label>Search by TY Duration</label>
           <input class="form-control form-control-lg form-control-borderless" type="search" name="duration" placeholder="Duration">
-          <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist21', this.value);">
+          <label>Select Branch and Rank</label>
+          <select  name="Branch" class="form-control mr-sm-2" onchange="SList2.getSelect('slist21', this.value);">
             <option>- - -</option>
             {%for key in Branch_key %}
                 <option value={{key}}>{{key}}</option>
             {%endfor%}
           </select>  
         <span id="slist21"></span> <div id="scontent1"></div>
-        <select  class="form-control mr-sm-2" name="NameofShip">{%for i in range(Name_of_Ship|length) %}
-            <option  value="{{Name_of_Ship[i]}}">{{Name_of_Ship[i]}}</option>
-            {%endfor%}
-        </select>
+        <label>Search by Total No. of TY Movement</label>
         <input class="form-control form-control-lg form-control-borderless" type="search" name="totalnooftymovement" placeholder="Total Number of Ty movement from a particular ship">
         </div>
         <div class="col-auto" style="padding-top: 2%;">
@@ -288,5 +277,63 @@
   
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
+  </script>
+  <script>
+    var SList2 = new Object(); 
+    
+    
+    var txtsl2 = '';
+    
+    
+    SList2.slist21 = JSON.parse('{{ Branch|safe }}')
+    SList2.getSelect = function(slist21, option) {
+      document.getElementById('scontent1').innerHTML = '';           // empty option-content
+    
+      if(SList2[slist21][option]) {
+        // if option from the last Select, add text-content, else, set dropdown list
+        if(slist21 == 'scontent1') document.getElementById('scontent1').innerHTML = SList2[slist21][option];
+        else if(slist21 == 'slist21') {
+          var addata = '<option>- - -</option>';
+          for(var i=0; i<SList2[slist21][option].length; i++) {
+            addata += '<option value="'+SList2[slist21][option][i]+'">'+SList2[slist21][option][i]+'</option>';
+          }
+    
+          document.getElementById('slist21').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList2.getSelect(\'s1content\', this.value);">'+addata+'</select>';
+        }
+      }
+      else if(slist == 'slist21') {
+        document.getElementById('slist21').innerHTML = '';
+      }
+    }
+    
+  </script>
+  <script>
+      var SList3 = new Object(); 
+      
+      
+      var txtsl3 = '';
+      
+      
+      SList3.slist31 = JSON.parse('{{ Branch|safe }}')
+      SList3.getSelect = function(slist31, option) {
+        document.getElementById('scontent2').innerHTML = '';           // empty option-content
+      
+        if(SList3[slist31][option]) {
+          // if option from the last Select, add text-content, else, set dropdown list
+          if(slist31 == 'scontent2') document.getElementById('scontent2').innerHTML = SList3[slist31][option];
+          else if(slist31 == 'slist31') {
+            var addata = '<option>- - -</option>';
+            for(var i=0; i<SList3[slist31][option].length; i++) {
+              addata += '<option value="'+SList3[slist31][option][i]+'">'+SList3[slist31][option][i]+'</option>';
+            }
+      
+            document.getElementById('slist31').innerHTML = txtsl3+' <select class="form-control mr-sm-2" name="Rank" onchange="SList3.getSelect(\'s1content\', this.value);">'+addata+'</select>';
+          }
+        }
+        else if(slist == 'slist31') {
+          document.getElementById('slist31').innerHTML = '';
+        }
+      }
+      
   </script>
 {%endblock%}
