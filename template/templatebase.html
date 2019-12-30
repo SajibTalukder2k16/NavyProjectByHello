@@ -9,12 +9,15 @@
       background-attachment: fixed;
       background-size: cover;
     }
-    footer {
+    .foot {
       position: fixed;
+      padding-top: .5%;
       left: 0;
       bottom: 0;
       width: 100%;
       text-align: center;
+      color: white;
+      background-color: black;
     }
     .w3-input{padding:8px;display:block;border:none;border-bottom:1px solid #ccc;width:100%}
   </style>
@@ -136,13 +139,11 @@
   </section>
   <!-- Footer
  ================================================== -->
-    <footer>
+    <div class="foot">
     <p>
       &copy; Hello Tech - All right reserved
-      <br>
-      Designed by Hello Tech
     </p>
-  </footer>
+  </div>
 
   <script src="{{url_for('static', filename ='assets/js/jquery.js')}}"></script>
   <script src="{{url_for('static', filename ='assets/js/modernizr.js')}}"></script>

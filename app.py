@@ -59,8 +59,7 @@ with app.app_context():
     app.config['MYSQL_HOST'] = 'localhost'
     app.config['MYSQL_DB'] = 'navy'
     cur.execute('use navy')
-    cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (idx int NOT NULL AUTO_INCREMENT, O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No), PRIMARY KEY (idx))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Remarks (idx int NOT NULL AUTO_INCREMENT, O_No_from varchar(30), O_No_to varchar(30), remarks TEXT,date TEXT, special TEXT, foreign key(O_No_from) references UserInfo(O_No), foreign key(O_No_to) references UserInfo(O_No), PRIMARY KEY(idx))')
+    
     
     cur.execute('CREATE TABLE IF NOT EXISTS System (O_No varchar(30) PRIMARY KEY, pass text)')
     cur.execute('CREATE TABLE IF NOT EXISTS Comflot (O_No varchar(30) PRIMARY KEY, pass text, name text)')
@@ -68,13 +67,8 @@ with app.app_context():
     cur.execute('CREATE TABLE IF NOT EXISTS Commanding (O_No varchar(30) PRIMARY KEY, pass text, name text, NameofShip text)')
     cur.execute('CREATE TABLE IF NOT EXISTS Divisional (O_No varchar(30) PRIMARY KEY, pass text, name text, CO_O_No varchar(30), foreign key(CO_O_No) references Commanding(O_No))')
     cur.execute('CREATE TABLE IF NOT EXISTS ADO (O_No varchar(30) PRIMARY KEY, pass text, name text, DO_O_No varchar(30), foreign key(DO_O_No) references Divisional(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS ADO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references ADO(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS DO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Divisional(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS CO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Commanding(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Area_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Comflot(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS TY (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, fromty TEXT, toty TEXT, tybillet TEXT, purpose TEXT, duration TEXT, securityclearence TEXT, O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Evaluation (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,dateofevaluation text,nameoftask text,performance text,achivementpoint text,special text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS LeaveHistory (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,type text,froml text,tol text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    # cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (idx int NOT NULL AUTO_INCREMENT, O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No), PRIMARY KEY (idx))')
+    # cur.execute('CREATE TABLE IF NOT EXISTS Remarks (idx int NOT NULL AUTO_INCREMENT, O_No_from varchar(30), O_No_to varchar(30), remarks TEXT,date TEXT, special TEXT, foreign key(O_No_from) references UserInfo(O_No), foreign key(O_No_to) references UserInfo(O_No), PRIMARY KEY(idx))')
     query = 'CREATE TABLE IF NOT EXISTS Sailor (O_No varchar(30) PRIMARY KEY, ADO_O_No varchar(30)'
     for i in range(2, len(Column)):
         query = query + ', ' + Column[i] + ' text'
@@ -82,6 +76,14 @@ with app.app_context():
     cur.execute(query)
     cur.execute('CREATE TABLE IF NOT EXISTS Sibling (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,SiblingName text, SiblingMobileNo text , SiblingAddress text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
     cur.execute('CREATE TABLE IF NOT EXISTS  Children (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,ChildrenName text, DOBofChildren text , Anyspecialinfochildren text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS Area_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Comflot(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS CO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Commanding(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS DO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Divisional(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS ADO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references ADO(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS TY (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, fromty TEXT, toty TEXT, tybillet TEXT, purpose TEXT, duration TEXT, securityclearence TEXT, O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS Evaluation (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,dateofevaluation text,nameoftask text,performance text,achivementpoint text,special text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    cur.execute('CREATE TABLE IF NOT EXISTS LeaveHistory (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,type text,froml text,tol text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+    
     try:
         #cur.execute("INSERT INTO UserInfo(O_No, usertype , pass) VALUES (%s, %s, %s)", ("admin",0,'123456'))
         cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
@@ -251,23 +253,26 @@ def addingadmin(id):
     if 'O_No' in session:
         if session['usertype'] == '0':
             if request.method == 'POST':
-                req = request.form.to_dict(flat=False)
-                mcur = mysql.connection.cursor()
-                if id == 0:
-                    mcur.execute("INSERT INTO System (O_No, pass) VALUES(%s, %s)",(req['O_No0'][0], req['pass0'][0]))
-                if id == 5:
-                    mcur.execute("INSERT INTO Comflot (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No5'][0], req['pass5'][0], req['name5'][0]))
-                if id == 4:
-                    mcur.execute("INSERT INTO Staff (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No4'][0], req['pass4'][0], req['name4'][0]))
-                if id == 3:
-                    mcur.execute("INSERT INTO Commanding (O_No, pass, name, NameofShip) VALUES(%s, %s, %s, %s)",(req['O_No3'][0], req['pass3'][0], req['name3'][0], req['NameofShip3']))
-                if id == 2:
-                    mcur.execute("INSERT INTO Divisional (O_No, pass, name, CO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No2'][0], req['pass2'][0], req['name2'][0], req['CO_O_No2']))
-                if id == 1:
-                    mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1']))
-                
-                mysql.connection.commit()
-                mcur.close()
+                try:
+                    req = request.form.to_dict(flat=False)
+                    mcur = mysql.connection.cursor()
+                    if id == 0:
+                        mcur.execute("INSERT INTO System (O_No, pass) VALUES(%s, %s)",(req['O_No0'][0], req['pass0'][0]))
+                    if id == 5:
+                        mcur.execute("INSERT INTO Comflot (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No5'][0], req['pass5'][0], req['name5'][0]))
+                    if id == 4:
+                        mcur.execute("INSERT INTO Staff (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No4'][0], req['pass4'][0], req['name4'][0]))
+                    if id == 3:
+                        mcur.execute("INSERT INTO Commanding (O_No, pass, name, NameofShip) VALUES(%s, %s, %s, %s)",(req['O_No3'][0], req['pass3'][0], req['name3'][0], req['NameofShip3']))
+                    if id == 2:
+                        mcur.execute("INSERT INTO Divisional (O_No, pass, name, CO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No2'][0], req['pass2'][0], req['name2'][0], req['CO_O_No2']))
+                    if id == 1:
+                        mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1']))
+                    
+                    mysql.connection.commit()
+                    mcur.close()
+                except:
+                    pass
             return redirect(url_for('addadminlist'))
     return redirect(url_for('home'))
 
@@ -611,6 +616,7 @@ def adding_user():
                             dic[col]=req[col][0]
             debug_var = 0
         # try:
+        try:
             if('Weight' in dic and 'Height' in dic):
                 dic['StateofOverWeight']=float(dic['Weight']*dic['Weight'])/float(dic['Height'])
             #nextreengagement calculation
@@ -725,6 +731,8 @@ def adding_user():
                         ret.append((req[id1], req[id2], req[id3]))
             mysql.connection.commit()
             mcur.close()
+        except:
+            pass
         
      return redirect(url_for('show'))    
 
@@ -770,64 +778,66 @@ def updating_user(id):
                     dic[col]=''
                 else:
                     dic[col]=str(dic[col])
-            
+            try:
+                mcur = mysql.connection.cursor()
+                query = "UPDATE Sailor SET "
+                first = True
+                for col in Column:
+                    if first == False:
+                        query += ", "
+                    first = False
+                    query += col + "=" + "%s"
+                query += " WHERE O_No = %s"
+                param = ()
+                for col in Column:
+                    param = param +( dic[col], )
+                param = param + (dic['O_No'], )
+                mcur.execute(query, param)
+                mysql.connection.commit()
+                mcur.close()
+                ret = []
+                req = request.form
+                mcur = mysql.connection.cursor()
+                mcur.execute("DELETE FROM Sibling WHERE O_No = %s", (req['O_No'],))
+                mcur.connection.commit()
+                mcur.close()
+                mcur = mysql.connection.cursor()
+                mcur.execute("DELETE FROM Children WHERE O_No = %s", (req['O_No'],))
+                mcur.connection.commit()
+                mcur.close()
+                mcur = mysql.connection.cursor()
+                for i in range(1,100):
+                    id1 = 'SiblingName' + str(i)
+                    id2 = 'SiblingMobileNo' + str(i)
+                    id3 = 'SiblingAddress' + str(i)
+                    if id1 in req:
+                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                            pass
+                        else:
+                            mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
+                            ret.append((req[id1], req[id2], req[id3]))
+                mysql.connection.commit()
+                mcur.close()
 
-            mcur = mysql.connection.cursor()
-            query = "UPDATE Sailor SET "
-            first = True
-            for col in Column:
-                if first == False:
-                    query += ", "
-                first = False
-                query += col + "=" + "%s"
-            query += " WHERE O_No = %s"
-            param = ()
-            for col in Column:
-                param = param +( dic[col], )
-            param = param + (dic['O_No'], )
-            mcur.execute(query, param)
-            mysql.connection.commit()
-            mcur.close()
-            ret = []
-            req = request.form
-            mcur = mysql.connection.cursor()
-            mcur.execute("DELETE FROM Sibling WHERE O_No = %s", (req['O_No'],))
-            mcur.connection.commit()
-            mcur.close()
-            mcur = mysql.connection.cursor()
-            mcur.execute("DELETE FROM Children WHERE O_No = %s", (req['O_No'],))
-            mcur.connection.commit()
-            mcur.close()
-            mcur = mysql.connection.cursor()
-            for i in range(1,100):
-                id1 = 'SiblingName' + str(i)
-                id2 = 'SiblingMobileNo' + str(i)
-                id3 = 'SiblingAddress' + str(i)
-                if id1 in req:
-                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                        pass
-                    else:
-                        mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        ret.append((req[id1], req[id2], req[id3]))
-            mysql.connection.commit()
-            mcur.close()
-
-            ret = []
-            req = request.form
-            mcur = mysql.connection.cursor()
-            for i in range(1,100):
-                id1 = 'ChildrenName' + str(i)
-                id2 = 'DOBofChildren' + str(i)
-                id3 = 'Anyspecialinfochildren' + str(i)
-                if id1 in req:
-                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                        pass
-                    else:
-                        mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        ret.append((req[id1], req[id2], req[id3]))
-            mysql.connection.commit()
-            mcur.close()
-            return redirect(url_for('profile', id = id))
+                ret = []
+                req = request.form
+                mcur = mysql.connection.cursor()
+                for i in range(1,100):
+                    id1 = 'ChildrenName' + str(i)
+                    id2 = 'DOBofChildren' + str(i)
+                    id3 = 'Anyspecialinfochildren' + str(i)
+                    if id1 in req:
+                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                            pass
+                        else:
+                            mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
+                            ret.append((req[id1], req[id2], req[id3]))
+                mysql.connection.commit()
+                mcur.close()
+            except:
+                print("Passed Not Updated")
+                pass
+        return redirect(url_for('profile', id = id))
     else:
         return redirect(url_for('home'))
 
@@ -881,13 +891,15 @@ def completety(id, idx):
     today = date.today()
     if('O_No' in session):
         login_status = True
-
-        mcur = mysql.connection.cursor()
-        #mcur.execute("UPDATE UserInfo SET O_No=%s, usertype=%s, pass=%s, name=%s, Branch=%s, Rank=%s, MobileNo_1=%s, MobileNo_2=%s, DateofBirth=%s, PresentAddress=%s, PermanentAddress=%s, marrital_status=%s, DateofMarriage=%s, ServiceIdCardNo=%s, NIDCardNo=%s, DrivingLicenseNo=%s, BloodGroup=%s, LastDateofBloodDonation=%s, Height=%s, Weight=%s, StateofOverWeight=%s, FacebookAccount=%s, Emailaddress=%s, home_district=%s, NextofKin=%s, Relationship=%s, ContactNumberofNextofKin=%s, NameofWife=%s, AddressofWife=%s, MobileNo=%s, Anyspecialinfowife=%s, ChildrenNumber=%s, ChildrenName=%s, DOBofChildren=%s, Anyspecialinfochildren=%s, FathersName=%s, FathersMobileNo=%s,FathersAddress=%s, MothersName=%s, MothersMobileNo=%s, MothersAddress=%s, FamilyCrisis=%s, SiblingNumber=%s, BrothersName=%s, BrothersMobileNo=%s, BrothersAddress=%s, highestEducation=%s, OngoingcivilEducation=%s, DateofJoiningService=%s, ServiceCategory=%s, Medicalcategory=%s, DateofLastPromotion=%s, DateofNextPromotion=%s, PresentEngagement=%s, NextREEngagementDue=%s, DateofNextIncrement=%s, NumberofGCB=%s, EffectivedateofexistingGCB=%s,DateofNextGCB=%s,DateofJoiningShip=%s, NameofShip=%s, UNMission=%s, GoodWillMission=%s, DAONumber=%s, PLeaveAvailed=%s, LastDateofPL=%s, PLeaveDue=%s , RecreationLeaveDue=%s, CLeaveAvailed=%s, CLeaveDue=%s, SickLeave=%s, ExBangladeshLeave=%s, Rl=%s, Sourceofdebt=%s, Amountofdebt=%s, ADOsRemark=%s, DivisionalOfficersRemark=%s, COsSpecialRemark=%s, AreaCommanderRemark=%s, ChoiceofAreaForPosting=%s, ChoiceofNextAppointment=%s, NameofImportantCourses=%s, NameofNextCourse=%s, ForeignCourse=%s, SpecialQualification=%s, ChoiceofNextCourse=%s, DateofProceedinginTyDuty=%s, TyBillet=%s, PurposetofTy=%s, TyDuration=%s, IfNotReturn=%s, DateofreturnfromTY=%s, TotalTyDuration=%s, TyHistorySummary=%s, DateoflastSecurityClearance=%s, ExtraCurricularActivities=%s, GamesAndSports=%s WHERE O_No=%s" ,(dic['O_No'],dic['usertype'],dic['pass'],dic['name'],dic['Branch'],dic['Rank'],dic['MobileNo_1'],dic['MobileNo_2'],dic['DateofBirth'],dic['PresentAddress'],dic['PermanentAddress'],dic['marrital_status'],dic['DateofMarriage'],dic['ServiceIdCardNo'],dic['NIDCardNo'],dic['DrivingLicenseNo'],dic['BloodGroup'],dic['LastDateofBloodDonation'],dic['Height'],dic['Weight'],dic['StateofOverWeight'],dic['FacebookAccount'],dic['Emailaddress'],dic['home_district'],dic['NextofKin'],dic['Relationship'],dic['ContactNumberofNextofKin'],dic['NameofWife'],dic['AddressofWife'],dic['MobileNo'],dic['Anyspecialinfowife'],dic['ChildrenNumber'],dic['ChildrenName'],dic['DOBofChildren'],dic['Anyspecialinfochildren'],dic['FathersName'],dic['FathersMobileNo'],dic['FathersAddress'],dic['MothersName'],dic['MothersMobileNo'],dic['MothersAddress'],dic['FamilyCrisis'],dic['SiblingNumber'],dic['BrothersName'],dic['BrothersMobileNo'],dic['BrothersAddress'],dic['highestEducation'],dic['OngoingcivilEducation'],dic['DateofJoiningService'],dic['ServiceCategory'],dic['Medicalcategory'],dic['DateofLastPromotion'],dic['DateofNextPromotion'],dic['PresentEngagement'],dic['NextREEngagementDue'],dic['DateofNextIncrement'],dic['NumberofGCB'],dic['EffectivedateofexistingGCB'],dic['DateofNextGCB'],dic['DateofJoiningShip'],dic['NameofShip'],dic['UNMission'],dic['GoodWillMission'],dic['DAONumber'],dic['PLeaveAvailed'],dic['LastDateofPL'],dic['PLeaveDue'],dic['RecreationLeaveDue'],dic['CLeaveAvailed'],dic['CLeaveDue'],dic['SickLeave'],dic['ExBangladeshLeave'],dic['Rl'],dic['Sourceofdebt'],dic['Amountofdebt'],dic['ADOsRemark'],dic['DivisionalOfficersRemark'],dic['COsSpecialRemark'],dic['AreaCommanderRemark'],dic['ChoiceofAreaForPosting'],dic['ChoiceofNextAppointment'],dic['NameofImportantCourses'],dic['NameofNextCourse'],dic['ForeignCourse'],dic['SpecialQualification'],dic['ChoiceofNextCourse'],dic['DateofProceedinginTyDuty'],dic['TyBillet'],dic['PurposetofTy'],dic['TyDuration'],dic['DateofreturnfromTY'] ,dic['IfNotReturn'],dic['TotalTyDuration'],dic['TyHistorySummary'],dic['DateoflastSecurityClearance'],dic['ExtraCurricularActivities'],dic['GamesAndSports'], id))
-        mcur.execute("UPDATE TY SET toty = %s WHERE idx = %s", (str(today), idx, ))
-        mysql.connection.commit()
-        mysql.connection.commit()
-        mcur.close()
+        try:
+            mcur = mysql.connection.cursor()
+            #mcur.execute("UPDATE UserInfo SET O_No=%s, usertype=%s, pass=%s, name=%s, Branch=%s, Rank=%s, MobileNo_1=%s, MobileNo_2=%s, DateofBirth=%s, PresentAddress=%s, PermanentAddress=%s, marrital_status=%s, DateofMarriage=%s, ServiceIdCardNo=%s, NIDCardNo=%s, DrivingLicenseNo=%s, BloodGroup=%s, LastDateofBloodDonation=%s, Height=%s, Weight=%s, StateofOverWeight=%s, FacebookAccount=%s, Emailaddress=%s, home_district=%s, NextofKin=%s, Relationship=%s, ContactNumberofNextofKin=%s, NameofWife=%s, AddressofWife=%s, MobileNo=%s, Anyspecialinfowife=%s, ChildrenNumber=%s, ChildrenName=%s, DOBofChildren=%s, Anyspecialinfochildren=%s, FathersName=%s, FathersMobileNo=%s,FathersAddress=%s, MothersName=%s, MothersMobileNo=%s, MothersAddress=%s, FamilyCrisis=%s, SiblingNumber=%s, BrothersName=%s, BrothersMobileNo=%s, BrothersAddress=%s, highestEducation=%s, OngoingcivilEducation=%s, DateofJoiningService=%s, ServiceCategory=%s, Medicalcategory=%s, DateofLastPromotion=%s, DateofNextPromotion=%s, PresentEngagement=%s, NextREEngagementDue=%s, DateofNextIncrement=%s, NumberofGCB=%s, EffectivedateofexistingGCB=%s,DateofNextGCB=%s,DateofJoiningShip=%s, NameofShip=%s, UNMission=%s, GoodWillMission=%s, DAONumber=%s, PLeaveAvailed=%s, LastDateofPL=%s, PLeaveDue=%s , RecreationLeaveDue=%s, CLeaveAvailed=%s, CLeaveDue=%s, SickLeave=%s, ExBangladeshLeave=%s, Rl=%s, Sourceofdebt=%s, Amountofdebt=%s, ADOsRemark=%s, DivisionalOfficersRemark=%s, COsSpecialRemark=%s, AreaCommanderRemark=%s, ChoiceofAreaForPosting=%s, ChoiceofNextAppointment=%s, NameofImportantCourses=%s, NameofNextCourse=%s, ForeignCourse=%s, SpecialQualification=%s, ChoiceofNextCourse=%s, DateofProceedinginTyDuty=%s, TyBillet=%s, PurposetofTy=%s, TyDuration=%s, IfNotReturn=%s, DateofreturnfromTY=%s, TotalTyDuration=%s, TyHistorySummary=%s, DateoflastSecurityClearance=%s, ExtraCurricularActivities=%s, GamesAndSports=%s WHERE O_No=%s" ,(dic['O_No'],dic['usertype'],dic['pass'],dic['name'],dic['Branch'],dic['Rank'],dic['MobileNo_1'],dic['MobileNo_2'],dic['DateofBirth'],dic['PresentAddress'],dic['PermanentAddress'],dic['marrital_status'],dic['DateofMarriage'],dic['ServiceIdCardNo'],dic['NIDCardNo'],dic['DrivingLicenseNo'],dic['BloodGroup'],dic['LastDateofBloodDonation'],dic['Height'],dic['Weight'],dic['StateofOverWeight'],dic['FacebookAccount'],dic['Emailaddress'],dic['home_district'],dic['NextofKin'],dic['Relationship'],dic['ContactNumberofNextofKin'],dic['NameofWife'],dic['AddressofWife'],dic['MobileNo'],dic['Anyspecialinfowife'],dic['ChildrenNumber'],dic['ChildrenName'],dic['DOBofChildren'],dic['Anyspecialinfochildren'],dic['FathersName'],dic['FathersMobileNo'],dic['FathersAddress'],dic['MothersName'],dic['MothersMobileNo'],dic['MothersAddress'],dic['FamilyCrisis'],dic['SiblingNumber'],dic['BrothersName'],dic['BrothersMobileNo'],dic['BrothersAddress'],dic['highestEducation'],dic['OngoingcivilEducation'],dic['DateofJoiningService'],dic['ServiceCategory'],dic['Medicalcategory'],dic['DateofLastPromotion'],dic['DateofNextPromotion'],dic['PresentEngagement'],dic['NextREEngagementDue'],dic['DateofNextIncrement'],dic['NumberofGCB'],dic['EffectivedateofexistingGCB'],dic['DateofNextGCB'],dic['DateofJoiningShip'],dic['NameofShip'],dic['UNMission'],dic['GoodWillMission'],dic['DAONumber'],dic['PLeaveAvailed'],dic['LastDateofPL'],dic['PLeaveDue'],dic['RecreationLeaveDue'],dic['CLeaveAvailed'],dic['CLeaveDue'],dic['SickLeave'],dic['ExBangladeshLeave'],dic['Rl'],dic['Sourceofdebt'],dic['Amountofdebt'],dic['ADOsRemark'],dic['DivisionalOfficersRemark'],dic['COsSpecialRemark'],dic['AreaCommanderRemark'],dic['ChoiceofAreaForPosting'],dic['ChoiceofNextAppointment'],dic['NameofImportantCourses'],dic['NameofNextCourse'],dic['ForeignCourse'],dic['SpecialQualification'],dic['ChoiceofNextCourse'],dic['DateofProceedinginTyDuty'],dic['TyBillet'],dic['PurposetofTy'],dic['TyDuration'],dic['DateofreturnfromTY'] ,dic['IfNotReturn'],dic['TotalTyDuration'],dic['TyHistorySummary'],dic['DateoflastSecurityClearance'],dic['ExtraCurricularActivities'],dic['GamesAndSports'], id))
+            mcur.execute("UPDATE TY SET toty = %s WHERE idx = %s", (str(today), idx, ))
+            mysql.connection.commit()
+            mysql.connection.commit()
+            mcur.close()
+        except:
+            pass
         return redirect(url_for('tyhistory', id = id, login_status = login_status))
     else:
         login_status = False
@@ -897,12 +909,15 @@ def completety(id, idx):
 def adding_ty(id):
     if 'O_No' in session:
         if request.method =='POST':
+            try:
                 req = request.form
                 mcur = mysql.connection.cursor()
                 mcur.execute("insert into TY (fromty, toty , tybillet , purpose , duration , securityclearence , O_No) values (%s, %s, %s, %s, %s, %s, %s)", (req['fromty'], req['toty'], req['tybillet'], req['purpose'], req['duration'], req['securityclearence'], id,))
                 mysql.connection.commit()
                 mcur.close()
-                return redirect(url_for('tyhistory', id = id))
+            except:
+                pass
+            return redirect(url_for('tyhistory', id = id))
     else:
         return redirect(url_for('home'))
 
@@ -910,12 +925,15 @@ def adding_ty(id):
 def adding_leave(id):
     if 'O_No' in session:
         if request.method =='POST':
+            try:
                 req = request.form
                 mcur = mysql.connection.cursor()
                 mcur.execute("insert into LeaveHistory (type, froml , tol , O_No ) values (%s, %s, %s, %s)", (req['type'], req['froml'], req['tol'], id,))
                 mysql.connection.commit()
                 mcur.close()
-                return redirect(url_for('leavehistory', id = id))
+            except:
+                pass
+            return redirect(url_for('leavehistory', id = id))
     else:
         return redirect(url_for('home'))
 
@@ -923,7 +941,21 @@ def adding_leave(id):
 def leavehistory(id):
     if('O_No' in session):
         cur = mysql.connection.cursor()
+        cur.execute('select DateofJoiningService from Sailor where O_No = %s',(id, ))
+        rows_cur = cur.fetchall()
         cur.execute('select * from LeaveHistory where O_No = %s',(id, ))
+        print("date: ")
+        print(session['O_No'])
+        print(rows_cur)
+        print("hello")
+        if rows_cur[0][0] is None:
+            rows_cur[0][0]=''
+        if(rows_cur[0][0]==""):
+            print("Here")
+            servicejoindate = "NONE"
+        else:
+            servicejoindate = str(rows_cur[0][0])
+        print("sjskfjs: ",servicejoindate)
         rows = cur.fetchall()
         ret = []
         extra = {}
@@ -933,7 +965,13 @@ def leavehistory(id):
         extra['Recreation Leave Due'] = 0
         extra['C Leave Availed'] = 0
         extra['C Leave Due'] = 0
-
+        if servicejoindate=="NONE" :
+            extra['Recreation Leave Due'] = "N/A"
+        else:
+            temp = datetime.strptime(servicejoindate,'%Y-%m-%d')
+            temp = addyearmonth(temp,3,0)
+            extra['Recreation Leave Due']=str(temp.strftime('%Y-%m-%d'))
+        print(extra)
         for row in rows:
             temp = {}
             temp['idx'] = row[0]
@@ -995,23 +1033,26 @@ def remarks(id):
 def posting(id):        
     if('O_No' in session):
         if request.method == 'POST':
-            req = request.form
-            today = date.today()
-            mcur = mysql.connection.cursor()
-            if session['usertype'] == '1':
-                remarktext = req['remarkado']
-                mcur.execute("INSERT INTO ADO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
-            if session['usertype'] == '2':
-                remarktext = req['remarkdo']
-                mcur.execute("INSERT INTO DO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
-            if session['usertype'] == '3':
-                remarktext = req['remarkco']
-                mcur.execute("INSERT INTO CO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
-            if session['usertype'] == '5':
-                remarktext = req['remarkarea']
-                mcur.execute("INSERT INTO Area_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
-            mysql.connection.commit()
-            mcur.close()
+            try:
+                req = request.form
+                today = date.today()
+                mcur = mysql.connection.cursor()
+                if session['usertype'] == '1':
+                    remarktext = req['remarkado']
+                    mcur.execute("INSERT INTO ADO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
+                if session['usertype'] == '2':
+                    remarktext = req['remarkdo']
+                    mcur.execute("INSERT INTO DO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
+                if session['usertype'] == '3':
+                    remarktext = req['remarkco']
+                    mcur.execute("INSERT INTO CO_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
+                if session['usertype'] == '5':
+                    remarktext = req['remarkarea']
+                    mcur.execute("INSERT INTO Area_Remark (O_No_to, O_No_from, remarks, date) values (%s, %s, %s, %s)",(id, session['O_No'], remarktext, today,))
+                mysql.connection.commit()
+                mcur.close()
+            except:
+                pass
             return redirect(url_for('remarks', id = id))
     else:
         return redirect(url_for('home'))
@@ -1098,11 +1139,14 @@ def evaluation(id):
 def adding_monthly(id):
     if 'O_No' in session:
         if request.method == 'POST':
-            req = request.form
-            mcur = mysql.connection.cursor()
-            mcur.execute("insert into Evaluation (dateofevaluation, nameoftask , performance ,achivementpoint, special , O_No) values (%s, %s, %s, %s, %s, %s)", (req['dateofevaluation'], req['nameoftask'], req['performance'],req['achivementpoint'], req['special'], id,))
-            mysql.connection.commit()
-            mcur.close()
+            try:
+                req = request.form
+                mcur = mysql.connection.cursor()
+                mcur.execute("insert into Evaluation (dateofevaluation, nameoftask , performance ,achivementpoint, special , O_No) values (%s, %s, %s, %s, %s, %s)", (req['dateofevaluation'], req['nameoftask'], req['performance'],req['achivementpoint'], req['special'], id,))
+                mysql.connection.commit()
+                mcur.close()
+            except:
+                pass
             return redirect(url_for('evaluation', id = id))
 
     else:
