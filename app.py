@@ -42,53 +42,46 @@ Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Steward':['STWD-II','STWD-I','LSTWD','PO(STWD)','CPO(STWD)','SCPO(STWD)','MCPO(STWD)']
             }
 Marital_Status = ['-','Single', 'Married', 'Divorced']
-Leave_Category = ['-','P Leave','C Leave','Recreation Leave','Sick Leave','Ex Bangladesh Leave']
+Leave_Category = ['P Leave','C Leave','Recreation Leave','Sick Leave','Ex Bangladesh Leave']
 User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot', 'Sailor']
 Static_Search_list_for_database = ['StateofOverWeight' , 'Height' , 'Emailaddress', 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo','name','MobileNo_1','MobileNo_2','ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo','Emailaddress','MobileNo','FathersMobileNo','MothersMobileNo','Medicalcategory','NameofShip','AddressofWife','LastDateofBloodDonation', 'MLR']
 Static_Search_list_for_html = ['Name','Mobile No 1','Mobile No 2','Service Id CardNo' , 'NID Card No' , 'Driving License No','Email address','Wife Mobile No','Fathers Mobile No','Mothers Mobile No','Brothers Mobile No','Medical Category','Name of Ship']
 Column = ['O_No' ,'ADO_O_No', 'name' , 'Branch' , 'Rank' , 'BloodGroup', 'marrital_status', 'PresentAddress' , 'PermanentAddress' , 'DateofBirth' , 'DateofMarriage' , 'MobileNo_1' , 'MobileNo_2' , 'Weight' , 'StateofOverWeight' , 'Height' , 'Emailaddress', 'ServiceIdCardNo' , 'NIDCardNo' , 'DrivingLicenseNo', 'NextofKin' , 'Relationship' , 'ContactNumberofNextofKin' , 'NameofWife' , 'MobileNo', 'AddressofWife'  , 'Anyspecialinfowife'   , 'FathersName' , 'FathersMobileNo' , 'MothersName' , 'MothersMobileNo' , 'FathersAddress' , 'MothersAddress', 'FamilyCrisis', 'ServiceCategory', 'PresentEngagement' , 'NextREEngagementDue' , 'DateofNextIncrement' , 'DateofNextGCB', 'NumberofGCB' , 'EffectivedateofexistingGCB', 'DateofNextPromotion', 'Medicalcategory' , 'DateofLastPromotion' , 'DateofJoiningService' , 'DateofJoiningShip' , 'NameofShip' ,'NumberofDaysatSea', 'UNMission' , 'GoodWillMission' , 'DAONumber', 'highestEducation' , 'OngoingcivilEducation' ,'NameofImportantCourses' , 'NameofNextCourse' , 'ForeignCourse' , 'SpecialQualification' ,'ChoiceofAreaForPosting' , 'ChoiceofNextAppointment' , 'ChoiceofNextCourse' ,'ExtraCurricularActivities' , 'GamesAndSports', 'LastDateofBloodDonation', 'MLR' ]
 
-
 #mysql database creation and connection
 with app.app_context():
-    app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = 'hello'
-    cur = mysql.connection.cursor()
-    cur.execute("CREATE DATABASE IF NOT EXISTS navy")
-    mysql.connection.commit()
-    app.config['MYSQL_HOST'] = 'localhost'
-    app.config['MYSQL_DB'] = 'navy'
-    cur.execute('use navy')
-    
-    
-    cur.execute('CREATE TABLE IF NOT EXISTS System (O_No varchar(30) PRIMARY KEY, pass text)')
-    cur.execute('CREATE TABLE IF NOT EXISTS Comflot (O_No varchar(30) PRIMARY KEY, pass text, name text)')
-    cur.execute('CREATE TABLE IF NOT EXISTS Staff (O_No varchar(30) PRIMARY KEY, pass text, name text)')
-    cur.execute('CREATE TABLE IF NOT EXISTS Commanding (O_No varchar(30) PRIMARY KEY, pass text, name text, NameofShip text)')
-    cur.execute('CREATE TABLE IF NOT EXISTS Divisional (O_No varchar(30) PRIMARY KEY, pass text, name text, CO_O_No varchar(30), foreign key(CO_O_No) references Commanding(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS ADO (O_No varchar(30) PRIMARY KEY, pass text, name text, DO_O_No varchar(30), foreign key(DO_O_No) references Divisional(O_No))')
-    # cur.execute('CREATE TABLE IF NOT EXISTS TYHistory (idx int NOT NULL AUTO_INCREMENT, O_No varchar(30), TYBillet TEXT, PurposeofTY TEXT, TYfrom TEXT, TYto TEXT, foreign key(O_No) references UserInfo(O_No), PRIMARY KEY (idx))')
-    # cur.execute('CREATE TABLE IF NOT EXISTS Remarks (idx int NOT NULL AUTO_INCREMENT, O_No_from varchar(30), O_No_to varchar(30), remarks TEXT,date TEXT, special TEXT, foreign key(O_No_from) references UserInfo(O_No), foreign key(O_No_to) references UserInfo(O_No), PRIMARY KEY(idx))')
-    query = 'CREATE TABLE IF NOT EXISTS Sailor (O_No varchar(30) PRIMARY KEY, ADO_O_No varchar(30)'
-    for i in range(2, len(Column)):
-        query = query + ', ' + Column[i] + ' text'
-    query = query + ', foreign key(ADO_O_No) references ADO(O_No))'
-    cur.execute(query)
-    cur.execute('CREATE TABLE IF NOT EXISTS Sibling (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,SiblingName text, SiblingMobileNo text , SiblingAddress text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS  Children (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,ChildrenName text, DOBofChildren text , Anyspecialinfochildren text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Area_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Comflot(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS CO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Commanding(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS DO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Divisional(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS ADO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references ADO(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS TY (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, fromty TEXT, toty TEXT, tybillet TEXT, purpose TEXT, duration TEXT, securityclearence TEXT, O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS Evaluation (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,dateofevaluation text,nameoftask text,performance text,achivementpoint text,special text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    cur.execute('CREATE TABLE IF NOT EXISTS LeaveHistory (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,type text,froml text,tol text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
-    
     try:
-        #cur.execute("INSERT INTO UserInfo(O_No, usertype , pass) VALUES (%s, %s, %s)", ("admin",0,'123456'))
+        app.config['MYSQL_USER'] = 'root'
+        app.config['MYSQL_PASSWORD'] = 'hello'
+        cur = mysql.connection.cursor()
+        cur.execute("CREATE DATABASE IF NOT EXISTS navy")
+        mysql.connection.commit()
+        app.config['MYSQL_HOST'] = 'localhost'
+        app.config['MYSQL_DB'] = 'navy'
+        cur.execute('use navy')    
+        cur.execute('CREATE TABLE IF NOT EXISTS System (O_No varchar(30) PRIMARY KEY, pass text)')
+        cur.execute('CREATE TABLE IF NOT EXISTS Comflot (O_No varchar(30) PRIMARY KEY, pass text, name text, Branch text, Rank text)')
+        cur.execute('CREATE TABLE IF NOT EXISTS Staff (O_No varchar(30) PRIMARY KEY, pass text, name text, Branch text, Rank text)')
+        cur.execute('CREATE TABLE IF NOT EXISTS Commanding (O_No varchar(30) PRIMARY KEY, pass text, name text, NameofShip text, Branch text, Rank text)')
+        cur.execute('CREATE TABLE IF NOT EXISTS Divisional (O_No varchar(30) PRIMARY KEY, pass text, name text, Branch text, Rank text, CO_O_No varchar(30), foreign key(CO_O_No) references Commanding(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS ADO (O_No varchar(30) PRIMARY KEY, pass text, name text, Branch text, Rank text, DO_O_No varchar(30), foreign key(DO_O_No) references Divisional(O_No))')
+        query = 'CREATE TABLE IF NOT EXISTS Sailor (O_No varchar(30) PRIMARY KEY, ADO_O_No varchar(30)'
+        for i in range(2, len(Column)):
+            query = query + ', ' + Column[i] + ' text'
+        query = query + ', foreign key(ADO_O_No) references ADO(O_No))'
+        cur.execute(query)
+        cur.execute('CREATE TABLE IF NOT EXISTS Sibling (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,SiblingName text, SiblingMobileNo text , SiblingAddress text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS  Children (idx int NOT NULL AUTO_INCREMENT  PRIMARY KEY,ChildrenName text, DOBofChildren text , Anyspecialinfochildren text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS Area_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Comflot(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS CO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Commanding(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS DO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references Divisional(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS ADO_Remark (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, O_No_to varchar(30), O_No_from varchar(30), remarks TEXT, date TEXT, foreign key(O_No_to) references Sailor(O_No), foreign key(O_No_from) references ADO(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS TY (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY, fromty TEXT, toty TEXT, tybillet TEXT, purpose TEXT, duration TEXT, securityclearence TEXT, O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS Evaluation (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,dateofevaluation text,nameoftask text,performance text,achivementpoint text,special text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
+        cur.execute('CREATE TABLE IF NOT EXISTS LeaveHistory (idx int NOT NULL AUTO_INCREMENT PRIMARY KEY,type text,froml text,tol text,O_No varchar(30), foreign key(O_No) references Sailor(O_No))')
         cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
     except:
-        pass
+        print("Database Connection or Creation Problem Detected.")
     mysql.connection.commit()
     cur.close()
 #mysql database creation end
@@ -153,10 +146,62 @@ def calculateReEngagement(joiningdate,pengage,scat):
             rengdate = addyearmonth(joiningdate,34,8)
             return rengdate
 
+def getnotification():
+    notificationlist = []
+    e_list = eligiblelist_to_dictionary(eligiblelist())
+    today = datetime.strptime(str(date.today()),'%Y-%m-%d')
+    for row in e_list:
+        mcur = mysql.connection.cursor()
+        mcur.execute("Select * from ty where toty = '' and O_No = %s", (row['O_No'], ))
+        rows = mcur.fetchall()
+        
+        for trow in rows:
+            print(trow)
+            fromty = datetime.strptime(trow[1],'%Y-%m-%d')
+            returnty = fromty + timedelta(days = int(trow[5] ) - 1)
+            returntyalert = fromty + timedelta(days = int(trow[5]) - 3)
+            print(returnty, returntyalert)
+            if today >= returntyalert and today <= returnty:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "Return from TY for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(returnty)})
+            elif today >= returnty:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "Return from TY time is Over for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(returnty)})
+        mcur.close()
+
+        
+        if row['NextREEngagementDue'] != '':
+            nextreengagementdue = datetime.strptime(row['NextREEngagementDue'],'%Y-%m-%d')
+            nextreengagementduealert = nextreengagementdue - timedelta(days = 5)
+            if today >= nextreengagementduealert and today <= nextreengagementdue:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "Next Re Engagement Due for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(nextreengagementdue)})
+        
+        if row['DateofNextIncrement'] != '':
+            dateofnextincrement = datetime.strptime(row['DateofNextIncrement'],'%Y-%m-%d')
+            dateofnextincrementalert = dateofnextincrement - timedelta(days = 5)
+            if today >= dateofnextincrementalert and today <= dateofnextincrement:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "Date of Next Increment for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(nextreengagementdue)})
+        
+        if row['DateofNextGCB'] != '':
+            dateofnextgcb = datetime.strptime(row['DateofNextGCB'],'%Y-%m-%d')
+            dateofnextgcbalert = dateofnextgcb - timedelta(days = 120)
+            if today >= dateofnextgcbalert and today <= dateofnextgcb:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "Date of Next GCB for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(nextreengagementdue)})
+        if row['DateofJoiningService'] != '':
+            rldue = datetime.strptime(row['DateofJoiningService'],'%Y-%m-%d')
+            rlduealert = rldue - timedelta(days = 30)
+            if today >= dateofnextgcbalert and today <= dateofnextgcb:
+                notificationlist.append({'O_No': row['O_No'], "Notification" : "RL Due for O_No : " + row['O_No'] + ", Name : " + row['name'] + ", Name of Ship : " + row['NameofShip'] + ", Branch : " + row['Branch'] + ", Rank : " + row['Rank'] + " on " + str(rldue)})
+        
+
+    return notificationlist
+
+
 @app.route('/')
 def home():
     if('O_No' in session):
         login_status = True
+        notifications = getnotification()
+        if len(notifications):
+            session['notifications'] = True
         return render_template("index.html",login_status=login_status)
     else:
         return redirect(url_for('login_page'))
@@ -164,6 +209,7 @@ def home():
 @app.route('/login_page')
 def login_page():
     if 'O_No' in session:
+        session['notifications'] = False
         return redirect(url_for('home'))
     else:
         return render_template('login_page.html')
@@ -180,6 +226,7 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '0'
+                session['usertype1'] = 'System Admin'
                 session['O_No'] = result['O_No']
         cur.close()
         cur = mysql.connection.cursor()
@@ -189,6 +236,7 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '5'
+                session['usertype1'] = 'Comflot'
                 session['O_No'] = result['O_No']
         cur.close()
         cur = mysql.connection.cursor()
@@ -198,6 +246,7 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '4'
+                session['usertype1'] = 'Staff Officer'
                 session['O_No'] = result['O_No']
         
         cur.close()
@@ -208,6 +257,7 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '3'
+                session['usertype1'] = 'Commanding Officer'
                 session['O_No'] = result['O_No']
         
         cur.close()
@@ -218,6 +268,7 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '2'
+                session['usertype1'] = 'Divisional Officer'
                 session['O_No'] = result['O_No']
         
         cur.close()
@@ -228,51 +279,208 @@ def login():
         for row in rows:
             if row[0] == result['password']:
                 session['usertype'] = '1'
+                session['usertype1'] = 'ADO'
                 session['O_No'] = result['O_No']
-        
+        session['notifications'] = False
         cur.close()
 
     return redirect(url_for('home'))
 
+@app.route('/ownprofile')
+def ownprofile():
+    if 'O_No' in session:
+        if session['usertype'] == '0':
+            query = "select * from System where O_No = %s"
+        if session['usertype'] == '1':
+            query = "select * from ADO where O_No = %s"
+        if session['usertype'] == '2':
+            query = "select * from Divisional where O_No = %s"
+        if session['usertype'] == '3':
+            query = "select * from Commanding where O_No = %s"
+        if session['usertype'] == '4':
+            query = "select * from Staff where O_No = %s"
+        if session['usertype'] == '5':
+            query = "select * from Comflot where O_No = %s"
+        mcur = mysql.connection.cursor()
+        mcur.execute(query, (session['O_No'], ))
+        rows = mcur.fetchall()
+        print(rows)
+        mcur.close()
+        return render_template('ownprofile.html', rows  = rows[0], login_status = True)
+
 @app.route('/addadminlist')
 def addadminlist():
     if 'O_No' in session:
-        if session['usertype'] == '0':
-            return render_template("addadminlist.html", login_status = True)
+        mcur = mysql.connection.cursor()
+        if session['usertype'] == '2':
+            mcur.execute("Select * from ADO where DO_O_No = %s", (session['O_No'],))
+        elif session['usertype'] == '3':
+            mcur.execute("select ADO.O_No, ADO.pass, ADO.name, ADO.Branch, ADO.Rank, ADO.DO_O_No, Divisional.CO_O_No from ADO join Divisional on ADO.DO_O_No = Divisional.O_No where Divisional.CO_O_No = %s;", (session['O_No'], ))
+        else:
+            mcur.execute("Select * from ADO")
+        adolist = mcur.fetchall()
+        print(adolist)
+        mcur.close()
+        
+        mcur = mysql.connection.cursor()
+        if session['usertype'] == '3':
+            mcur.execute("Select * from Divisional where CO_O_No = %s", (session['O_No'], ))
+        else:
+            mcur.execute("Select * from Divisional")
+        dolist = mcur.fetchall()
+        mcur.close()
+
+        mcur = mysql.connection.cursor()
+        mcur.execute("Select * from Commanding")
+        colist = mcur.fetchall()
+        mcur.close()
+
+        mcur = mysql.connection.cursor()
+        mcur.execute("Select * from Staff")
+        stafflist = mcur.fetchall()
+        mcur.close()
+
+        mcur = mysql.connection.cursor()
+        mcur.execute("Select * from Comflot")
+        comflotlist = mcur.fetchall()
+        mcur.close()
+
+
+        mcur = mysql.connection.cursor()
+        mcur.execute("Select * from System")
+        systemlist = mcur.fetchall()
+        mcur.close()
+        return render_template("addadminlist.html", systemlist = systemlist, comflotlist = comflotlist, stafflist = stafflist, colist = colist, dolist = dolist, adolist = adolist, login_status = True)
     return redirect(url_for("home"))
+
+@app.route('/addadminlist/updateadmin/<string:uid>/<string:admintype>')
+def updateadmin(uid, admintype):
+    if 'O_No' in session:
+        mcur = mysql.connection.cursor()
+        if admintype == '0':
+            mcur.execute("Select * from System where O_No = %s", (uid,))
+            rows = mcur.fetchall()
+        if admintype == '5':
+            mcur.execute("Select * from Comflot where O_No = %s", (uid,))
+            rows = mcur.fetchall()
+        if admintype == '4':
+            mcur.execute("Select * from Staff where O_No = %s", (uid,))
+            rows = mcur.fetchall()
+        if admintype == '3':
+            mcur.execute("Select * from Commanding where O_No = %s", (uid,))
+            rows = mcur.fetchall()
+        if admintype == '2':
+            mcur.execute("Select * from Divisional where O_No = %s", (uid,))
+            rows = mcur.fetchall()
+        if admintype == '1':
+            mcur.execute("Select * from ADO")
+            rows = mcur.fetchall()
+        row = rows[0]
+        mcur.close()
+        return render_template('updateadmin.html',row = row, uid = uid, id = int(admintype), login_status = True, Name_of_Ship = Name_of_Ship,Branch_key = Branch, Branch = json.dumps(Branch))
+
+@app.route('/addadminlist/updateadmin/<string:uid>/<string:admintype>/updatingadmin', methods = ['POST', 'GET'])
+def updatingadmin(uid, admintype):
+    if 'O_No' in session:
+        if request.method == 'POST':
+            req = request.form.to_dict(flat=False)
+            mcur = mysql.connection.cursor()
+            if admintype == '0':
+                 query = "UPDATE System SET "
+            if admintype == '1':
+                query = "UPDATE ADO SET "
+            if admintype == '2':
+                 query = "UPDATE Divisional SET "
+            if admintype == '3':
+                 query = "UPDATE Commanding SET "
+            if admintype == '4':
+                 query = "UPDATE Staff SET "
+            if admintype == '5':
+                 query = "UPDATE Comflot SET "
+            param = ()
+            first = True
+            for key in req:
+                if first:
+                    query += key + " = %s "
+                else:
+                    query += ", "+ key + " = %s "
+                first = False
+                param = param +( req[key][0], )
+            query += "WHERE O_No = %s"
+            param = param + (uid, )
+            mcur.execute(query, param)
+            mcur.connection.commit()
+            mcur.close()
+        
+            return redirect(url_for('addadminlist'))
+    return redirect(url_for('home'))
+
+@app.route('/addadminlist/handover/<string:admintype>', methods = ['POST', 'GET'])
+def handover(admintype):
+    if 'O_No' in session:
+        if request.method == 'POST':
+            req = request.form
+            mcur = mysql.connection.cursor()
+            if admintype == 'ADO':
+                mcur.execute("UPDATE Sailor SET ADO_O_No = %s WHERE ADO_O_No = %s", (req['newado'], req['oldado'], ))
+            if admintype == "DO":
+                mcur.execute("UPDATE ADO SET DO_O_No = %s WHERE DO_O_No = %s", (req['newdo'], req['olddo'], ))
+            if admintype == "CO":
+                mcur.execute("UPDATE Divisional SET CO_O_No = %s WHERE CO_O_No = %s", (req['newco'], req['oldco'], ))
+            mcur.connection.commit()
+            mcur.close()
+            return redirect(url_for('addadminlist'))
+    return redirect(url_for('home'))
 
 @app.route('/addadminlist/addadmin/<int:id>')
 def addadmin(id):
     if 'O_No' in session:
-        if session['usertype'] == '0':
-            return render_template('addadmin.html', login_status = True, Name_of_Ship = Name_of_Ship, id = id)
+        return render_template('addadmin.html', login_status = True, Name_of_Ship = Name_of_Ship, id = id,Branch_key = Branch, Branch = json.dumps(Branch))
     return redirect(url_for("home"))
 
 @app.route('/adminlist/addadmin/<int:id>/addingadmin', methods = ['POST', 'GET'])
 def addingadmin(id):
     if 'O_No' in session:
-        if session['usertype'] == '0':
-            if request.method == 'POST':
-                try:
-                    req = request.form.to_dict(flat=False)
-                    mcur = mysql.connection.cursor()
-                    if id == 0:
-                        mcur.execute("INSERT INTO System (O_No, pass) VALUES(%s, %s)",(req['O_No0'][0], req['pass0'][0]))
-                    if id == 5:
-                        mcur.execute("INSERT INTO Comflot (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No5'][0], req['pass5'][0], req['name5'][0]))
-                    if id == 4:
-                        mcur.execute("INSERT INTO Staff (O_No, pass, name) VALUES(%s, %s, %s)",(req['O_No4'][0], req['pass4'][0], req['name4'][0]))
-                    if id == 3:
-                        mcur.execute("INSERT INTO Commanding (O_No, pass, name, NameofShip) VALUES(%s, %s, %s, %s)",(req['O_No3'][0], req['pass3'][0], req['name3'][0], req['NameofShip3']))
-                    if id == 2:
-                        mcur.execute("INSERT INTO Divisional (O_No, pass, name, CO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No2'][0], req['pass2'][0], req['name2'][0], req['CO_O_No2']))
-                    if id == 1:
-                        mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No) VALUES(%s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1']))
-                    
-                    mysql.connection.commit()
-                    mcur.close()
-                except:
-                    pass
+        if request.method == 'POST':
+            req = request.form.to_dict(flat=False)
+            mcur = mysql.connection.cursor()
+            if id == 0:
+                query = "INSERT INTO System ("
+            if id == 5:
+                query = "INSERT INTO Comflot ("
+            if id == 4:
+                query = "INSERT INTO Staff ("
+            if id == 3:
+                query = "INSERT INTO Commanding ("
+            if id == 2:
+                query = "INSERT INTO Divisional ("
+            if id == 1:
+                query = "INSERT INTO ADO ("
+            param = ()
+            first = True
+            for key in req:
+                if first:
+                    query += key
+                else:
+                    query += ", "+ key
+                first = False
+                param = param +( req[key][0], )
+            query += ") VALUES ("
+            first = True
+            for key in req:
+                if first:
+                    query += "%s"
+                else:
+                    query += ", %s"
+                first = False
+            query += ")"
+            #return query
+            mcur.execute(query, param)
+            #mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No, Branch, Rank) VALUES(%s, %s, %s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1'], req['Branch'][0], req['Rank'][0],))
+            
+            mysql.connection.commit()
+            mcur.close()
+
             return redirect(url_for('addadminlist'))
     return redirect(url_for('home'))
 
@@ -281,6 +489,7 @@ def logout():
     if 'O_No' in session:
         session.pop('O_No', None)
         session.pop('usertype', None)
+        session['notifcations'] = False
         session['logged_in']=False
     return redirect(url_for('home'))
 
@@ -374,80 +583,14 @@ def show():
     else:
         login_status = False
 
+
+
 @app.route('/notification')
 def notification():
     if 'O_No' in session:
-        if session['usertype'] == '1':
-            mcur = mysql.connection.cursor()
-            mcur.execute("Select O_No, NextREEngagementDue, DateofNextIncrement, DateofNextGCB, DateofJoiningService from Sailor where ADO_O_No = %s", (session['O_No'], ))
-            rows = mcur.fetchall()
-            mcur.close()
-            ret = []
-            for row in rows:
-                today = str(date.today())
-                d1 = datetime.strptime(today, "%Y-%m-%d")
-                
-                if row[1] != '':
-                    d2 = datetime.strptime(row[1], "%Y-%m-%d")
-                    dif = (d2 - d1).days
-                    if int(dif) >= 0:
-                        temp = []
-                        temp.append(row[0])
-                        temp.append("Next ReEngagement Due " + row[1] + " for O No " + row[0])
-                        ret.append(temp)
-                if row[2] != '':
-                    d2 = datetime.strptime(row[2], "%Y-%m-%d")
-                    dif = (d2 - d1).days
-                    if int(dif) >= 0:
-                        temp = []
-                        temp.append(row[0])
-                        temp.append("Date of Next Increment "+ row[2] +" for  O No " + row[0])
-                        ret.append(temp)
-                if row[3] != '':
-                    d2 = datetime.strptime(row[3], "%Y-%m-%d")
-                    dif = (d2 - d1).days
-                    ###
-                    dif -= 120
-                    if int(dif) <= 0:
-                        temp = []
-                        temp.append(row[0])
-                        temp.append("Date of Next GCB "+ row[3] +" for O No " + row[0])
-                        ret.append(temp)
-                if row[4] != '':
-                    d1 = datetime.strptime(today, "%Y-%m-%d")
-                    for i in range(40):
-                        datett = datetime.strptime(row[4],'%Y-%m-%d')
-                        d2 = addyearmonth(datett,i * 3, 0)
-                        dif = (d2 - d1).days
-                        if dif >= 0:
-                            if int(dif) <= 30:
-                                temp = []
-                                temp.append(row[0])
-                                temp.append("Date of Next RL "+ row[4] +" for O No " + row[0])
-                                ret.append(temp)
-                            break
-                    
-                mcur = mysql.connection.cursor()
-                mcur.execute("Select O_No, fromty, duration from TY where O_No = %s", (row[0],))
-                rows2 = mcur.fetchall()
-                print(rows2)
-                for row2 in rows2:
-                    if row2[1] != '' and row2[2] != '':
-                        fromdate = datetime.strptime(row2[1],'%Y-%m-%d')
-                        todate = fromdate + timedelta(days = int(row2[2]))
-                        d1 = datetime.strptime(today, "%Y-%m-%d")
-                        print(d1,todate)
-                        #d2 = datetime.strptime(str(todate), "%Y-%m-%d")
-                        dif = (todate - d1).days
-                        print(dif)
-                        if (dif == 1) or (dif == 2):
-                            temp = []
-                            temp.append(row[0])
-                            temp.append("Date for Returned from TY "+str(todate.strftime('%Y-%m-%d'))+" for O_No " + row2[0])
-                            ret.append(temp)
-
-            mcur.close()
-            return render_template('notification.html', login_status = True, rows = ret)
+        if session['usertype'] == '1' or session['usertype'] == '2' or session['usertype'] == '3':
+            notifications = getnotification()
+            return render_template('notification.html', login_status = True, rows = notifications)
     return redirect(url_for('home'))
 
 @app.route('/show/search', methods = ['POST', 'GET'])
@@ -470,11 +613,11 @@ def search_static():
                 l = len(rows)
                 for i in range(l):
                     if(len(rows[i])==1):
-                        if req['field'][0] in rows[i][0]:
+                        if req['field'][0].lower() in rows[i][0].lower():
                             if row not in ret:
                                 ret.append(row)
                 for value in Static_Search_list_for_database:
-                    if req['field'][0] in row[value]:
+                    if req['field'][0].lower() in row[value].lower():
                         if row not in ret:
                             ret.append(row) 
             e_list = eligiblelist_to_list(ret)
@@ -518,7 +661,6 @@ def profile(id):
         temprow = {}
         for i in range(len(rows[0])):
             temprow[Column[i]]=rows[0][i]
-            # temprow.append(rows[0][i])
         childrenrow = []
         print(childrenrows)
         for row in childrenrows:
@@ -534,8 +676,6 @@ def profile(id):
             temp.append(row[2])
             temp.append(row[3])
             siblingrow.append(temp)
-
-            #temprow[Column[i]] = rows[0][i]
         return render_template('profile.html', id = id,siblingrow = siblingrow,childrenrow = childrenrow, rows = temprow, login_status = login_status, Column = Column)
         #return render_template('profile.html',id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
     else:
@@ -548,83 +688,80 @@ def editprofile(id):
     else:
         login_status = False
         return redirect(url_for('home'))
-    e_list = eligiblelist()
-    ok = False
-    for row in e_list:
-        if row[0] == id:
-            ok = True
-    if 'O_No' in session and ok == True:
-        with app.app_context():
-                cur = mysql.connection.cursor()
-                sql_select_query = """select * from Sailor where O_No = %s"""
-                cur.execute(sql_select_query, (id, ))
-                rows = cur.fetchall()
-                cur.close()
-                cur = mysql.connection.cursor()
-                sql_select_query = """select * from Children where O_No = %s"""
-                cur.execute(sql_select_query, (id, ))
-                childrenrows = cur.fetchall()
-                cur.close()
-                cur = mysql.connection.cursor()
-                sql_select_query = """select * from Sibling where O_No = %s"""
-                cur.execute(sql_select_query, (id, ))
-                siblingrows = cur.fetchall()
-                cur.close()
-        usertype = int(session['usertype'])
-        temprow = {}
-        for i in range(len(rows[0])):
-            temprow[Column[i]] = rows[0][i]
-        
-        childrenrow = []
-        for row in childrenrows:
-            temp = []
-            temp.append(row[1])
-            temp.append(row[2])
-            temp.append(row[3])
-            childrenrow.append(temp)
-        siblingrow = []
-        for row in siblingrows:
-            temp = []
-            temp.append(row[1])
-            temp.append(row[2])
-            temp.append(row[3])
-            siblingrow.append(temp)
-        return render_template('editprofile.html',childrenrow = childrenrow, siblingrow = siblingrow ,id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
-    else:
-        return redirect(url_for('home'))
+    if session['usertype'] != '4':
+        e_list = eligiblelist()
+        ok = False
+        for row in e_list:
+            if row[0] == id:
+                ok = True
+        if 'O_No' in session and ok == True:
+            with app.app_context():
+                    cur = mysql.connection.cursor()
+                    sql_select_query = """select * from Sailor where O_No = %s"""
+                    cur.execute(sql_select_query, (id, ))
+                    rows = cur.fetchall()
+                    cur.close()
+                    cur = mysql.connection.cursor()
+                    sql_select_query = """select * from Children where O_No = %s"""
+                    cur.execute(sql_select_query, (id, ))
+                    childrenrows = cur.fetchall()
+                    cur.close()
+                    cur = mysql.connection.cursor()
+                    sql_select_query = """select * from Sibling where O_No = %s"""
+                    cur.execute(sql_select_query, (id, ))
+                    siblingrows = cur.fetchall()
+                    cur.close()
+            usertype = int(session['usertype'])
+            temprow = {}
+            for i in range(len(rows[0])):
+                temprow[Column[i]] = rows[0][i]
+            
+            childrenrow = []
+            for row in childrenrows:
+                temp = []
+                temp.append(row[1])
+                temp.append(row[2])
+                temp.append(row[3])
+                childrenrow.append(temp)
+            siblingrow = []
+            for row in siblingrows:
+                temp = []
+                temp.append(row[1])
+                temp.append(row[2])
+                temp.append(row[3])
+                siblingrow.append(temp)
+            return render_template('editprofile.html',childrenrow = childrenrow, siblingrow = siblingrow ,id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
+
+    return redirect(url_for('profile',id = id))
 
 @app.route('/adduser')
 def adduser():
     if 'O_No' in session:
-        if session['usertype'] == '1':
-            return render_template('adduser.html',Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=True)
+        return render_template('adduser.html',Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=True)
     return redirect(url_for('home'))
 
 @app.route('/adduser/adding_user',methods=['POST','GET'])
 def adding_user():
      if 'O_No' in session:
-        if session['usertype'] == '1':
-            if request.method =='POST':
-                req = request.form.to_dict(flat=False)
-                dic=dict()
-                for col in Column:
-                    if col in req:
-                        #print(req[col])
-                        if(req[col][0]=='- - -'):
-                            req[col][0]=''
-                        if(req[col][0]!=''):
-                            dic[col]=req[col][0]
-            debug_var = 0
-        # try:
-        try:
+        if request.method =='POST':
+            req = request.form.to_dict(flat=False)
+            dic=dict()
+            for col in Column:
+                if col in req:
+                    #print(req[col])
+                    if(req[col][0]=='- - -'):
+                        req[col][0]=''
+                    if(req[col][0]!=''):
+                        dic[col]=req[col][0]
+            #try:
             if('Weight' in dic and 'Height' in dic):
-                dic['StateofOverWeight']=float(dic['Weight']*dic['Weight'])/float(dic['Height'])
+                dic['StateofOverWeight']=round(float(dic['Weight'])*float(dic['Weight'])/float(dic['Height']),2)
             #nextreengagement calculation
             if('DateofJoiningShip' in dic):
                 dateofjoiningship = dic['DateofJoiningShip']
-                if('PresentEngagement' in dic):
+                if('PresentEngagement' in dic and dic['PresentEngagement'] != '-'):
                     presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
-                    if('ServiceCategory' in dic):
+                    if('ServiceCategory' in dic and dic['ServiceCategory'] != '-'):
                         servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
                         dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
                         dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
@@ -634,54 +771,19 @@ def adding_user():
                 effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
                 dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
                 dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
-                print(dic['DateofNextGCB'])
-            debug_var+=1 
-            # if('PLeaveAvailed' in dic):
-            #     PLeaveAvailed = dic['PLeaveAvailed']
-            #     PLeaveDue = 60 - int(PLeaveAvailed)
-            #     dic['PLeaveDue'] = PLeaveDue
-            # debug_var+=1 
-
-            #RL Due Calculation
-            # if('DateofJoiningService' in dic):
-            #     DateofJoiningService = dic['DateofJoiningService']
-            #     DateofJoiningService = datetime.strptime(DateofJoiningService,'%Y-%m-%d')
-            #     dic['RecreationLeaveDue'] = addyearmonth(DateofJoiningService,3,0)
-            #     dic['RecreationLeaveDue'] = dic['RecreationLeaveDue'].strftime("%Y-%m-%d")
-            # debug_var+=1 
-
-            # #C leave due
-            # if('CLeaveAvailed' in dic):
-            #     CLeaveAvailed = dic['CLeaveAvailed']
-            #     dic['CLeaveDue'] = 20 - int(CLeaveAvailed)
-            # debug_var+=1 
-            # #Date of return from ty
-            # if('DateofProceedinginTyDuty' in dic):
-            #     DateofProceedinginTyDuty = dic['DateofProceedinginTyDuty']
-            #     if('TyDuration' in dic):
-            #         dic['DateofreturnfromTY'] = datetime.strptime(DateofProceedinginTyDuty,'%Y-%m-%d').date() + timedelta(days=int(dic['TyDuration']))
-            #         dic['DateofreturnfromTY'] = dic['DateofreturnfromTY'].strftime("%Y-%m-%d")
-            # debug_var+=1 
-            # if('TyDuration' in dic):
-            #     tyduration = int(dic['TyDuration'])
-            #     if('IfNotReturn' in dic):
-            #         ifnotreturn = dic['IfNotReturn']
-            #         if(ifnotreturn=="0"):
-            #             tyduration+=1
-            #         dic['TyDuration']=tyduration
-            # debug_var+=1 
             #date of next increment
             if('DateofJoiningShip' in dic):
                 DateofJoiningShip = dic['DateofJoiningShip']
                 DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
                 dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
                 dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
+            if 'ADO_O_No' not in dic:
+                dic['ADO_O_No'] = session['O_No']
             for col in Column:
                 if(col not in dic):
                     dic[col]=''
                 else:
                     dic[col]=str(dic[col])
-            dic['ADO_O_No'] = session['O_No']
             query = "INSERT INTO Sailor (O_No "
             for i in range(1,len(Column)):
                 query = query + ', ' + Column[i]
@@ -697,7 +799,6 @@ def adding_user():
             mcur.execute(query, param)
             mysql.connection.commit()
             mcur.close()
-
             ret = []
             req = request.form
             mcur = mysql.connection.cursor()
@@ -709,9 +810,109 @@ def adding_user():
                     if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
                         pass
                     else:
-                        # cur.execute("INSERT INTO System (O_No, pass) VALUES (%s, %s)", ("admin", '123456'))
                         mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        
+                        ret.append((req[id1], req[id2], req[id3]))
+            mysql.connection.commit()
+            mcur.close()
+
+            ret = []
+            req = request.form
+            mcur = mysql.connection.cursor()
+            for i in range(1,100):
+                id1 = 'ChildrenName' + str(i)
+                id2 = 'DOBofChildren' + str(i)
+                id3 = 'Anyspecialinfochildren' + str(i)
+                if id1 in req:
+                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                        pass
+                    else:
+                        mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
+                        ret.append((req[id1], req[id2], req[id3]))
+            mysql.connection.commit()
+            mcur.close()
+            #except:
+                #pass
+        
+     return redirect(url_for('show'))    
+
+@app.route('/profile/<string:id>/updating_user', methods = ['POST', 'GET'])
+def updating_user(id):
+    if 'O_No' in session:
+        
+        if request.method =='POST':
+            req = request.form.to_dict(flat=False)
+            dic=dict()
+            for col in Column:
+                if col in req:
+                    if(req[col][0]=='- - -'):
+                        req[col][0]=''
+                    if(req[col][0]!=''):
+                        dic[col]=req[col][0]
+            print(req)
+
+        if('Weight' in dic and 'Height' in dic):
+            dic['StateofOverWeight']=round(float(float(dic['Weight'])*float(dic['Weight']))/float(dic['Height']),2)
+        if('DateofJoiningShip' in dic):
+            dateofjoiningship = dic['DateofJoiningShip']
+            if('PresentEngagement' in dic and dic['PresentEngagement'] != '-'):
+                presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
+                if('ServiceCategory' in dic and dic['ServiceCategory'] != '-'):
+                    servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
+                    dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
+                    dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
+                    dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")       
+        if('EffectivedateofexistingGCB' in dic):
+            effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
+            effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
+            dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
+            dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
+            print(dic['DateofNextGCB'])
+
+        if('DateofJoiningShip' in dic):
+            DateofJoiningShip = dic['DateofJoiningShip']
+            DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
+            dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
+            dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
+        try:
+            mcur = mysql.connection.cursor()
+            query = "UPDATE Sailor SET "
+            first = True
+            print(dic)
+            for col in Column:
+                if col in dic:
+                    if first == False:
+                        query += ", "
+                    first = False
+                    query += col + "=" + "%s"
+            query += " WHERE O_No = %s"
+            param = ()
+            for col in Column:
+                if col in dic:
+                    param = param +( dic[col], )
+            param = param + (dic['O_No'], )
+            mcur.execute(query, param)
+            mysql.connection.commit()
+            mcur.close()
+            ret = []
+            req = request.form
+            mcur = mysql.connection.cursor()
+            mcur.execute("DELETE FROM Sibling WHERE O_No = %s", (req['O_No'],))
+            mcur.connection.commit()
+            mcur.close()
+            mcur = mysql.connection.cursor()
+            mcur.execute("DELETE FROM Children WHERE O_No = %s", (req['O_No'],))
+            mcur.connection.commit()
+            mcur.close()
+            mcur = mysql.connection.cursor()
+            for i in range(1,100):
+                id1 = 'SiblingName' + str(i)
+                id2 = 'SiblingMobileNo' + str(i)
+                id3 = 'SiblingAddress' + str(i)
+                if id1 in req:
+                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                        pass
+                    else:
+                        mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
                         ret.append((req[id1], req[id2], req[id3]))
             mysql.connection.commit()
             mcur.close()
@@ -732,111 +933,7 @@ def adding_user():
             mysql.connection.commit()
             mcur.close()
         except:
-            pass
-        
-     return redirect(url_for('show'))    
-
-@app.route('/profile/<string:id>/updating_user', methods = ['POST', 'GET'])
-def updating_user(id):
-    if 'O_No' in session:
-        if session['usertype'] == '1':
-            if request.method =='POST':
-                req = request.form.to_dict(flat=False)
-                dic=dict()
-                for col in Column:
-                    if col in req:
-                        if(req[col][0]=='- - -'):
-                            req[col][0]=''
-                        if(req[col][0]!=''):
-                            dic[col]=req[col][0]
-            if('Weight' in dic and 'Height' in dic):
-                dic['StateofOverWeight']=float(dic['Weight']*dic['Weight'])/float(dic['Height'])
-            if('DateofJoiningShip' in dic):
-                dateofjoiningship = dic['DateofJoiningShip']
-                if('PresentEngagement' in dic):
-                    presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
-                    if('ServiceCategory' in dic):
-                        servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
-                        dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
-                        dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
-                        dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")       
-            if('EffectivedateofexistingGCB' in dic):
-                effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
-                effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
-                dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
-                dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
-                print(dic['DateofNextGCB'])
-
-            if('DateofJoiningShip' in dic):
-                DateofJoiningShip = dic['DateofJoiningShip']
-                DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
-                dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
-                dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
-
-            for col in Column:
-                if(col not in dic):
-                    dic[col]=''
-                else:
-                    dic[col]=str(dic[col])
-            try:
-                mcur = mysql.connection.cursor()
-                query = "UPDATE Sailor SET "
-                first = True
-                for col in Column:
-                    if first == False:
-                        query += ", "
-                    first = False
-                    query += col + "=" + "%s"
-                query += " WHERE O_No = %s"
-                param = ()
-                for col in Column:
-                    param = param +( dic[col], )
-                param = param + (dic['O_No'], )
-                mcur.execute(query, param)
-                mysql.connection.commit()
-                mcur.close()
-                ret = []
-                req = request.form
-                mcur = mysql.connection.cursor()
-                mcur.execute("DELETE FROM Sibling WHERE O_No = %s", (req['O_No'],))
-                mcur.connection.commit()
-                mcur.close()
-                mcur = mysql.connection.cursor()
-                mcur.execute("DELETE FROM Children WHERE O_No = %s", (req['O_No'],))
-                mcur.connection.commit()
-                mcur.close()
-                mcur = mysql.connection.cursor()
-                for i in range(1,100):
-                    id1 = 'SiblingName' + str(i)
-                    id2 = 'SiblingMobileNo' + str(i)
-                    id3 = 'SiblingAddress' + str(i)
-                    if id1 in req:
-                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                            pass
-                        else:
-                            mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                            ret.append((req[id1], req[id2], req[id3]))
-                mysql.connection.commit()
-                mcur.close()
-
-                ret = []
-                req = request.form
-                mcur = mysql.connection.cursor()
-                for i in range(1,100):
-                    id1 = 'ChildrenName' + str(i)
-                    id2 = 'DOBofChildren' + str(i)
-                    id3 = 'Anyspecialinfochildren' + str(i)
-                    if id1 in req:
-                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                            pass
-                        else:
-                            mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                            ret.append((req[id1], req[id2], req[id3]))
-                mysql.connection.commit()
-                mcur.close()
-            except:
-                print("Passed Not Updated")
-                pass
+            return "Can't Update"
         return redirect(url_for('profile', id = id))
     else:
         return redirect(url_for('home'))
@@ -862,11 +959,12 @@ def tyhistory(id):
             temp['securityclearence'] = row[6]
             temp['O_No'] = row[7]
             temp['TotalDuration'] = '0'
-            
             if temp['toty'] is None or temp['toty'] == '':
                 #today to from dif
                 today = str(today)
                 d1 = datetime.strptime(today, "%Y-%m-%d")
+                print(temp['fromty'])
+    
                 d2 = datetime.strptime(temp['fromty'], "%Y-%m-%d")
                 dif = abs((d2 - d1).days) 
                 temp['TotalDuration'] = dif
@@ -960,11 +1058,11 @@ def leavehistory(id):
         ret = []
         extra = {}
         extra['P Leave Availed'] = 0
-        extra['P Due'] = 0
+        extra['P Due'] = 60
         extra['Recreation Leave'] = 0
         extra['Recreation Leave Due'] = 0
         extra['C Leave Availed'] = 0
-        extra['C Leave Due'] = 0
+        extra['C Leave Due'] = 20
         if servicejoindate=="NONE" :
             extra['Recreation Leave Due'] = "N/A"
         else:
@@ -1002,32 +1100,57 @@ def leavehistory(id):
 
 @app.route('/profile/<string:id>/Remarks')
 def remarks(id):
-    if('O_No' in session):
+    if 'O_No' in session:
         cur = mysql.connection.cursor()
-        cur.execute("Select * from ADO_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        cur.execute("Select idx, O_No_to, O_No_from, remarks, date, Branch, Rank, name from ADO_Remark join ADO ON O_No_from = O_No WHERE O_No_to = %s ORDER BY idx DESC", (id,))
         ADO_Remark = cur.fetchall()
         cur.close()
 
         cur = mysql.connection.cursor()
-        cur.execute("Select * from DO_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        cur.execute("Select idx, O_No_to, O_No_from, remarks, date, Branch, Rank, name from DO_Remark join Divisional ON O_No_from = O_No WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        
+        #cur.execute("Select * from DO_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
         DO_Remark = cur.fetchall()
         cur.close()
 
         cur = mysql.connection.cursor()
-        cur.execute("Select * from CO_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        cur.execute("Select idx, O_No_to, O_No_from, remarks, date, Branch, Rank, name from CO_Remark join Commanding ON O_No_from = O_No WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        
+        #cur.execute("Select * from CO_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
         CO_Remark = cur.fetchall()
         cur.close()
 
         cur = mysql.connection.cursor()
-        cur.execute("Select * from Area_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        cur.execute("Select idx, O_No_to, O_No_from, remarks, date, Branch, Rank, name from Area_Remark join Comflot ON O_No_from = O_No WHERE O_No_to = %s ORDER BY idx DESC", (id,))
+        
+        #cur.execute("Select * from Area_Remark WHERE O_No_to = %s ORDER BY idx DESC", (id,))
         Area_Remark = cur.fetchall()
         cur.close()
 
-
-        print(DO_Remark)
         return render_template('remarks.html', login_status = True, id = id, rowsado = ADO_Remark, rowsdo = DO_Remark, rowsco = CO_Remark, rowsarea = Area_Remark)
     else:
         return redirect(url_for('home'))
+
+@app.route('/profile/<string:id>/Remarks/updateremark/<string:postid>/<string:admintype>', methods = ['POST', 'GET'])
+def updateremark(id, postid, admintype):
+    if 'O_No' in session:
+        if request.method == 'POST':
+            req = request.form.to_dict(flat=False)
+            mcur = mysql.connection.cursor()
+            if admintype == '1':
+                mcur.execute('UPDATE ADO_Remark SET remarks = %s WHERE idx = %s', (req['remarkado'][0], postid, ))
+            if admintype == '2':
+                mcur.execute('UPDATE DO_Remark SET remarks = %s WHERE idx = %s', (req['remarkdo'][0], postid, ))
+            if admintype == '3':
+                mcur.execute('UPDATE CO_Remark SET remarks = %s WHERE idx = %s', (req['remarkco'][0], postid, ))
+            if admintype == '5':
+                mcur.execute('UPDATE Area_Remark SET remarks = %s WHERE idx = %s', (req['remarkarea'][0], postid, ))
+            
+            mysql.connection.commit()
+            mcur.close()
+                
+            return redirect(url_for('remarks', id = id))
+    return redirect(url_for('home'))
 
 @app.route('/profile/<string:id>/Remarks/posting', methods = ['POST', 'GET'])
 def posting(id):        
@@ -1101,12 +1224,12 @@ def evaluation(id):
                 prevavg.append(0)
             else:
                 sum = sum / cnt
-                prevavg.append(sum)
+                prevavg.append(round(sum, 2))
         print(totalsum, totalcnt)
         if totalcnt == 0:
             prevavg.append(0)
         else:
-            prevavg.append(totalsum/totalcnt)
+            prevavg.append(round(totalsum/totalcnt, 2))
 
 
         curavg = [0]
@@ -1124,12 +1247,13 @@ def evaluation(id):
                 curavg.append(0)
             else:
                 sum = sum / cnt
-                curavg.append(sum)
-        print(totalsum, totalcnt)
+                x = round(sum, 2)
+                print(x)
+                curavg.append(x)
         if totalcnt == 0:
             curavg.append(0)
         else:
-            curavg.append(totalsum/totalcnt)
+            curavg.append(round(totalsum/totalcnt, 2))
         
         return render_template('monthlyevaluation.html',login_status=True,id=id, cur = ret1, prev = ret2, prevavg = prevavg, curavg = curavg, )
     else:
@@ -1295,8 +1419,6 @@ def SelectPersonnelForTY():
                     else:
                         row_height = int(row_height)
                     req_height = req['Height'][0]
-                    print("He   Row: ",row_height)
-                    print("Hegi Req: ",req_height)
                     if int(req_height) > row_height :
                         ok = False 
                 print("After Height: ",ok)  
@@ -1305,11 +1427,11 @@ def SelectPersonnelForTY():
                         ok = False   
                 print("after medi: ",ok) 
                 if req['Course'][0]!='':
-                    if (req['Course'][0] not in row['NameofImportantCourses']) or (req['Course'][0] not in row['ForeignCourse']):
+                    if (req['Course'][0].lower() not in row['NameofImportantCourses'].lower()) or (req['Course'][0].lower() not in row['ForeignCourse'].lower()):
                         ok = False
                 print("After Course: ",ok)
                 if req['SpecialQualification'][0]!='':
-                    if req['SpecialQualification'][0] not in row['SpecialQualification']:
+                    if req['SpecialQualification'][0].lower() not in row['SpecialQualification'].lower():
                         ok = False
                 temp_id = row['O_No']
                 cur = mysql.connection.cursor()

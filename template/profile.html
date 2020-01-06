@@ -1,5 +1,5 @@
 {%extends 'templatebase.html'%}
-{% set active_page = "profile" %}
+
 
 {% block head %}
 <style>
@@ -45,9 +45,11 @@
 {% endblock %}
 
 {%block body%}
-<div class="row" style="margin-left: 5%;">
-  <div class="span12">
-    <table  class="table table-hover table-bordered" style="text-align: center;">
+<div align="center">
+
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
+    <table  class="table table-hover table-bordered" style="text-align: center;font-size: 1vw;">
       <tr>
         <td style="text-align:center;">
           <form action="{{url_for('profile', id = id)}}">
@@ -149,8 +151,8 @@
           <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="MobileNo_2" value="{{rows['MobileNo_2']}}" ></td>
       </tr>
       <tr>
-          <td >Weight</td>
-          <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="Weight" value="{{rows['Weight']}}"></td>
+          <td >Weight(in kg)</td>
+          <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="number" min = "0" name="Weight" value="{{rows['Weight']}}"></td>
       </tr>
           
       <tr>
@@ -158,8 +160,8 @@
           <td ><input class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text" name="StateofOverWeight" value="{{rows['StateofOverWeight']}}"></td>
       </tr>
       <tr>
-          <td >Height</td>
-          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="Height" value="{{rows['Height']}}"></td>
+          <td >Height(in inches)</td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly type="number" min = "0"  name="Height" value="{{rows['Height']}}"></td>
       </tr>
       <tr>
           <td >Email Address</td>
@@ -306,15 +308,15 @@
         </tr>
         <tr>
             <td>Next RE-Engagement Due</td>
-            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NextREEngagementDue" value="{{rows['NextREEngagementDue']}}"></td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="NextREEngagementDue" value="{{rows['NextREEngagementDue']}}"></td>
         </tr>
         <tr>
           <td>Date of Next Increment</td>
-          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DateofNextIncrement" value="{{rows['DateofNextIncrement']}}"></td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofNextIncrement" value="{{rows['DateofNextIncrement']}}"></td>
         </tr>
         <tr>
           <td>Date of Next GCB</td>
-          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="DateofNextGCB" value="{{rows['DateofNextGCB']}}"></td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofNextGCB" value="{{rows['DateofNextGCB']}}"></td>
         </tr>
     
         <tr>
@@ -447,6 +449,7 @@
       </div>
     
   </div>
+</div>
 </div>
 <script>
   function openPage(pageName,elmnt,color) {

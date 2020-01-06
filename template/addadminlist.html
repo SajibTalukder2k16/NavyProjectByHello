@@ -10,33 +10,317 @@
 
 
 {% block body %}
-    <div class="row" style="margin-left: 5%;">
-        <div class="span12">
-    <ul class="nav topnav">
-
-    <li>
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;  color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 0)}}">System Admin</a>
-    </li>
-    <li >
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 5)}}">Comflot Officer</a>
-    </li>
-    <li >
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 4)}}">Staff Officer</a>
-    </li>
-    <li >
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 3)}}">Commanding Officer</a>
-    </li>
-    <li >
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 2)}}">Divisional Officer</a>
-    </li>
-    <li >
-      <a style ="width: 20%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 1)}}">ADO</a>
-    </li>
-
+<div align="center">
+  <div class="row">
+    <div class="span12" style="width: 90%;">
+      <div>
+        <div style="float: left; width: 50%;">
+              <h3>Add User</h3>
+              <ul class="nav topnav">
+                {% if session['usertype'] == '0' %}
+              <li>
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;  color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 0)}}">System Admin</a>
+              </li>
+              {% endif %}
+              {% if session['usertype'] == '0' %}
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 5)}}">Comflot Officer</a>
+              </li>
+              {% endif %}
+              {% if session['usertype'] == '0' or session['usertype'] == '5'%}
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 4)}}">Staff Officer</a>
+              </li>
+              {% endif %}
+              {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4'%}
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 3)}}">Commanding Officer</a>
+              </li>
+              {% endif %}
+              {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4' or session['usertype'] == '3' %}
     
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 2)}}">Divisional Officer</a>
+              </li>
+              {% endif %}
+              {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4' or session['usertype'] == '3' or session['usertype'] == '2' %}
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('addadmin', id = 1)}}">ADO</a>
+              </li>
+              {% endif %}
+              <li >
+                <a style ="width: 50%; background-color: #4CAF50;border: white; border-style: solid; border-radius: 5px;color: white;padding: 15px 32px;text-align: center;text-decoration: none;" href="{{url_for('adduser')}}">Sailor</a>
+              </li>
+
+              
+              
+            </ul>
+        </div>
+        <div style="float: right;width: 50%;text-align: left;">
+          {% if session['usertype'] == '0'%}
+          <h3>Handover Admin Sailor's</h3>
+          <div class="accordion" id="accordion2">
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  <i class="icon-plus"></i>Handover/Transfer ADO Account</a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse">
+                      <div class="accordion-inner">
+
+                        <form method="POST" action="{{url_for('handover', admintype = 'ADO')}}">
+                          <table>
+                            <tr><td><input type="text" name="oldado" placeholder="Old ADO"></td></tr>
+                            <tr><td><input type="text" name="newado" placeholder="New ADO"></td></tr>
+                            <tr><td><input type="submit" class="btn btn-primary btn-lg " value="Handover/Transer"></td></tr>
+                          </table>
+                        </form>                  
+          
+          
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  <i class="icon-plus"></i>Handover/Transfer DO Account</a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                      <div class="accordion-inner">
+
+                        <form method="POST" action="{{url_for('handover', admintype = 'DO')}}">
+                          <table>
+                            <tr><td><input type="text" name="olddo" placeholder="Old DO"></td></tr>
+                            <tr><td><input type="text" name="newdo" placeholder="New DO"></td></tr>
+                            <tr><td><input type="submit" class="btn btn-primary btn-lg " value="Handover/Transer"></td></tr>
+                          </table>
+                        </form>                  
+          
+          
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="accordion-group">
+                    <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  <i class="icon-plus"></i>Handover/Transfer CO Account</a>
+                    </div>
+                    <div id="collapseThree" class="accordion-body collapse">
+                      <div class="accordion-inner">
+
+                        <form method="POST" action="{{url_for('handover', admintype = 'CO')}}">
+                          <table>
+                            <tr><td><input type="text" name="oldco" placeholder="Old CO"></td></tr>
+                            <tr><td><input type="text" name="newco" placeholder="New CO"></td></tr>
+                            <tr><td><input type="submit" class="btn btn-primary btn-lg " value="Handover/Transer"></td></tr>
+                          </table>
+                        </formmethod="POST" action="{{url_for('handover', admintype = 'ADO')}}">                  
+          
+          
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          {% endif %}
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span12" align="center" style="margin-bottom: 100px;">
+    {% if session['usertype'] == '0' %}
+    {% if systemlist|length %}
+      <h3 style="margin-top: 10px;">System Adminstrator's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+        </tr>
+      {%for row in systemlist%}
+        <tr>
+          <td>
+          <a  href="{{url_for('updateadmin', uid = row[0], admintype = '0')}}">{{row[0]}}</a>
+          </td>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
     
-  </ul>
+    {% if session['usertype'] == '0' %}
+    {% if comflotlist|length %}
+      <h3 style="margin-top: 10px;">Comflot Officer's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+          <th>Name </th>
+          <th>Branch</th>
+          <th>Rank</th>
+        </tr>
+      {%for row in comflotlist%}
+        <tr>
+          <td>
+          <a  href="{{url_for('updateadmin', uid = row[0], admintype = '5')}}">{{row[0]}}</a>
+          </td>
+          <td>
+            {{row[2]}}
+          </td>
+          <td>
+            {{row[3]}}
+          </td>
+          <td>
+            {{row[4]}}
+          </td>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
+  
+    {% if session['usertype'] == '0' or session['usertype'] == '5'%}
+    {% if stafflist|length %}
+      <h3 style="margin-top: 10px;">Staff Officer's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+          <th>Name </th>
+          <th>Branch</th>
+          <th>Rank</th>
+        </tr>
+      {%for row in stafflist%}
+        <tr>
+          <td>
+          <a  href="{{url_for('updateadmin', uid = row[0], admintype = '4')}}">{{row[0]}}</a>
+          </td>
+            <td>
+              {{row[2]}}
+            </td>
+            <td>
+              {{row[3]}}
+            </td>
+            <td>
+              {{row[4]}}
+            </td>
+          </tr>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
+  
+    {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4'%}
+    {% if colist|length %}
+      <h3 style="margin-top: 10px;">Commanding Officer's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+          <th>Name </th>
+          <th>Name of Ship</th>
+          <th>Branch</th>
+          <th>Rank</th>
+        </tr>
+      {%for row in colist%}
+        <tr>
+          <td>
+          <a  href="{{url_for('updateadmin', uid = row[0], admintype = '3')}}">{{row[0]}}</a>
+          </td>
+            <td>
+              {{row[2]}}
+            </td>
+            <td>
+              {{row[3]}}
+            </td>
+            <td>
+              {{row[4]}}
+            </td>
+            <td>
+              {{row[5]}}
+            </td>
+          </tr>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
+  
+    {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4' or session['usertype'] == '3' %}
+    {% if dolist|length %}
+      <h3 style="margin-top: 10px;">DO's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+          <th>Name </th>
+          <th>Branch</th>
+          <th>Rank</th>
+          <th>CO O No</th>
+        </tr>
+      {%for row in dolist%}
+        <tr>
+          <td>
+          <a  href="{{url_for('updateadmin', uid = row[0], admintype = '2')}}">{{row[0]}}</a>
+          </td>
+        
+            <td>
+              {{row[2]}}
+            </td>
+            <td>
+              {{row[3]}}
+            </td>
+            <td>
+              {{row[4]}}
+            </td>
+            <td>
+              {{row[5]}}
+            </td>
+          </tr>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
+  
+    {% if session['usertype'] == '0' or session['usertype'] == '5' or session['usertype'] == '4' or session['usertype'] == '3' or session['usertype'] == '2' %}
+    {% if adolist|length %}
+      <h3 style="margin-top: 10px;">ADO's</h3>
+      <table border="1px" style="width: 50%; text-align: center;">
+        <tr>
+          <th>O No / UserID</th>
+          <th>Name </th>
+          <th>Branch</th>
+          <th>Rank</th>
+          <th>DO O No</th>
+        </tr>
+      {%for row in adolist%}
+      
+          <tr>
+            <td>
+            <a  href="{{url_for('updateadmin', uid = row[0], admintype = '1')}}">{{row[0]}}</a>
+            </td>
+            <td>
+              {{row[2]}}
+            </td>
+            <td>
+              {{row[3]}}
+            </td>
+            <td>
+              {{row[4]}}
+            </td>
+            <td>
+              {{row[5]}}
+            </td>
+          </tr>
+        </tr>
+      {%endfor%}
+      </table>
+    {% endif %}
+    {% endif %}
+  
+  </div>
 </div>
-</div>
+
 
 {% endblock %}

@@ -44,9 +44,11 @@
 {% endblock %}
 
 {%block body%}
-<div class="row" style="margin-left: 5%;">
-  <div class="span12">
-    <table  class="table table-hover table-bordered" style="text-align: center;">
+<div align="center">
+
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
+    <table  class="table table-hover table-bordered" style="text-align: center;font-size: 1vw;">
       <tr>
         <td style="text-align:center;">
           <form action="{{url_for('profile', id = id)}}">
@@ -155,36 +157,15 @@
       </tr>
       <tr>
         <td >Present Address</td>
-        <td >
-            <select  class="form-control mr-sm-2" name="PresentAddress">
-                {%for i in range(Home_District|length) %}
-                  {%if Home_District[i] == rows['PresentAddress']%}
-                      <option  value="{{Home_District[i]}}" selected="selected">{{Home_District[i]}}</option>
-                  {% else %}
-                      <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
-                  {%endif%}
-  
-                {%endfor%}
-  
-            </select>
-        </td>
-    </tr>
-    <tr>
-      <td >Permanent Address</td>
-      <td >
-          <select  class="form-control mr-sm-2" name="PermanentAddress">
-              {%for i in range(Home_District|length) %}
-                {%if Home_District[i] == rows['PermanentAddress']%}
-                    <option  value="{{Home_District[i]}}" selected="selected">{{Home_District[i]}}</option>
-                {% else %}
-                    <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
-                {%endif%}
-
-              {%endfor%}
-
-          </select>
-      </td>
-  </tr>
+        <td ><input type="text" class="form-control mr-sm-2" name="PresentAddress"  value="{{rows['PresentAddress']}}"></td>
+      </tr>
+      <tr>
+        <td >Permanent Address</td>
+        <td ><input type="text" class="form-control mr-sm-2" name="PermanentAddress"  value="{{rows['PermanentAddress']}}"></td>
+      </tr>
+      
+      
+    
   <tr>
       <td >Date of Birth</td>
       <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
@@ -202,7 +183,7 @@
       <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2" value="{{rows['MobileNo_2']}}" ></td>
   </tr>
   <tr>
-      <td >Weight</td>
+      <td >Weight(in kg)</td>
       <td ><input class="form-control mr-sm-2"  type="text" name="Weight" value="{{rows['Weight']}}"></td>
   </tr>
       
@@ -211,7 +192,7 @@
       <td >{{rows['StateofOverWeight']}}</td>
   </tr>
   <tr>
-      <td >Height</td>
+      <td >Height(in inches)</td>
       <td ><input class="form-control mr-sm-2"  type="text" name="Height" value="{{rows['Height']}}"></td>
   </tr>
   <tr>
@@ -675,6 +656,7 @@
     cell3.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="SiblingAddress'+(table.rows.length - 1)+'">';
   }
   </script>
+</div>
 </div>
 </div>
 {%endblock%}

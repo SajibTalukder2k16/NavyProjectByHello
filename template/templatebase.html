@@ -27,6 +27,8 @@
   <meta name="description" content="Clean responsive bootstrap website template">
   <meta name="author" content="">
   <!-- styles -->
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bootstrap-theme.min.css') }}"> -->
   <link href="{{url_for('static', filename ='assets/css/bootstrap.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename ='assets/css/bootstrap-responsive.css')}}" rel="stylesheet">
   <link href="{{url_for('static', filename ='assets/css/docs.css')}}" rel="stylesheet">
@@ -62,7 +64,7 @@
 
             <div class="span4">
               <!-- logo -->
-              <a class="logo" href="index.html">
+              <a class="logo" href="{{url_for('home')}}">
                 <h1>COMFLOT WEST</h1>
                 <!-- <img src="assets/img/logo.png" alt="" /> -->
               </a>
@@ -70,49 +72,63 @@
             </div>
 
             <div class="span8">
+            
               <!-- top menu -->
+              {% if (login_status==True):%}
               <div class="navbar">
                 <div class="navbar-inner">
                   <nav>
                     <ul class="nav topnav">
-                      {% if (login_status==True):%}
+                      
                       <li class="{{ 'dropdown active' if active_page == 'home' else 'dropdown' }}">
                         <a href="{{url_for('home')}}">Home</a>
                       </li>
-                      {% if session['usertype'] == '0' %}
-                        <li class="{{ 'dropdown active' if active_page == 'addadmin' else 'dropdown' }}">
-                          <a href="{{url_for('addadminlist')}}">Add Admin</a>
-                        </li>
+                      {% if session['usertype'] != '1' %}
+                      <li class="{{ 'dropdown active' if active_page == 'addadmin' else 'dropdown' }}">
+                        <a href="{{url_for('addadminlist')}}">Administrator</a>
+                      </li>
                       {% endif %}
                       {% if session['usertype'] == '1' %}
                         <li class="{{ 'dropdown active' if active_page == 'adduser' else 'dropdown' }}">
                           <a href="{{url_for('adduser')}}">Add Sailor</a>
                         </li>
+                        
                       {% endif %}
                       {% if session['usertype'] != '1' %}
                         <li class="{{ 'dropdown active' if active_page == 'search' else 'dropdown' }}">
                           <a href="{{url_for('search')}}">CAT</a>
                         </li>
                       {% endif %}
-                      <!-- <li class="{{ 'dropdown active' if active_page == 'profile' else 'dropdown' }}">
-                        <a href="{{url_for('profile',id=user)}}">Profile</a>
-                      </li> -->
                       <li class="{{ 'dropdown active' if active_page == 'show' else 'dropdown' }}">
                         <a href="{{url_for('show')}}">List</a>
                       </li>
-                      <li class="{{ 'dropdown active' if active_page == 'notification' else 'dropdown' }}">
-                        <a href="{{url_for('notification')}}">Notification</a>
+                      
+                      {% if session['usertype'] == '1' or session['usertype'] == '2' or session['usertype'] == '3'%}
+                        {% if session['notifications'] == True %}
+                        <li class="{{ 'dropdown active' if active_page == 'notification' else 'dropdown' }}">
+                          <a style="color: red;" href="{{url_for('notification')}}">Notification</a>
+                        </li>
+                        {%else%}
+                        <li class="{{ 'dropdown active' if active_page == 'notification' else 'dropdown' }}">
+                          <a href="{{url_for('notification')}}">Notification</a>
+                        </li>
+                        {% endif %}
+                      {% endif %}
+                      <li class="{{ 'dropdown active' if active_page == 'ownprofile' else 'dropdown' }}">
+                        <a href="{{url_for('ownprofile')}}">Profile</a>
                       </li>
                       <li class="dropdown">
                         <a href="{{url_for('logout')}}">Log Out</a>
                       </li>
-                      {%endif%}
+                      
                       
                       
                     </ul>
                   </nav>
                 </div>
+                
               </div>
+              {%endif%}
               <!-- end menu -->
             </div>
 
@@ -123,19 +139,13 @@
   </header>
   <!-- Subhead
 ================================================== -->
-  <section id="subintro">
-    <!-- <div class="container">
-      <div class="row">
-          <h3>COMMAND ASSISTING TOOl(CAT) </strong></h3>
-      </div>
-    </div>  -->
-  </section>
 
-  <section id="maincontent">
+
+  <section id="maincontent" style="margin-top: 7%;">
     {%block body%}
 
     {%endblock%}
-</div>
+
   </section>
   <!-- Footer
  ================================================== -->
@@ -160,6 +170,16 @@
   <script src="{{url_for('static', filename ='assets/js/jquery.refineslide.js')}}"></script>
   <script src="{{url_for('static', filename ='assets/js/animate.js')}}"></script>
   <script src="{{url_for('static', filename ='assets/js/jquery.ui.totop.js')}}"></script>
+<!-- 
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='{{ url_for('static', filename = 'js/vendor/jquery-1.11.2.min.js') }}'><\/script>")</script>
+
+<script src="{{ url_for('static', filename = 'js/vendor/bootstrap.min.js') }}"></script>
+
+<script src="{{ url_for('static', filename = 'js/datepicker.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/plugins.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/main.js') }}"></script> -->
+
 
   <!-- Template Custom Javascript File -->
   <script src="{{url_for('static', filename ='assets/js/custom.js')}}"></script>

@@ -2,9 +2,11 @@
 {%block head%}
 {%endblock%}
 {%block body%}
-<div class="row" style="margin-left: 5%;" >
-    <div class="span12">
-        <table  class="table table-hover table-bordered" style="text-align: center;">
+<div align="center">
+
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
+        <table  class="table table-hover table-bordered" style="text-align: center;font-size: 1vw;">
             <tr>
               <td style="text-align:center;">
                 <form action="{{url_for('profile', id = id)}}">
@@ -154,19 +156,19 @@
           </tr>
           <tr>
             <td>Date of Evaluation</td>
-            <td><input type="date" name="dateofevaluation"></td>
+            <td><input required type="date" name="dateofevaluation"></td>
           </tr>
           <tr>
             <td>Name of Task</td>
-            <td><input type="text" name="nameoftask"></td>
+            <td><input  required type="text" name="nameoftask"></td>
           </tr>
           <tr>
             <td>Performance</td>
-            <td><input type="text" name="performance"></td>
+            <td><input required type="text" name="performance"></td>
           </tr>
           <tr>
             <td>Achieved Point</td>
-            <td><input type="number" name="achivementpoint" value="0"></td>
+            <td><input required type="number" name="achivementpoint" value="0"></td>
           </tr>
           <tr>
             <td>Special Achivements</td>
@@ -179,6 +181,7 @@
         </table>
 
     </form>
+</div>
 </div>
 </div>
 {%endblock%}

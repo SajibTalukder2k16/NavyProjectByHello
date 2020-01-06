@@ -2,8 +2,10 @@
 {%block head%}
 {%endblock%}
 {%block body%}
-<div class="row" style="margin-left: 5%;" >
-    <div class="span12">
+<div align="center">
+
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
         <table  class="table table-hover table-bordered" style="text-align: center;">
             <tr>
               <td style="text-align:center;">
@@ -78,19 +80,19 @@
           </tr>
           <tr>
             <td>Date of proceeding in TY</td>
-            <td><input type="date" name="fromty"></td>
+            <td><input type="date" name="fromty" required></td>
           </tr>
           <tr>
             <td>TY Billet</td>
-            <td><input type="text" name="tybillet"></td>
+            <td><input type="text" name="tybillet" required></td>
           </tr>
           <tr>
             <td>Purpose of TY</td>
-            <td><input type="text" name="purpose"></td>
+            <td><input type="text" name="purpose" required></td>
           </tr>
           <tr>
-            <td>TY Duration</td>
-            <td><input type="text" name="duration"></td>
+            <td>TY Duration (In days) </td>
+            <td><input type="text" name="duration" required></td>
           </tr>
           <tr>
             <td>Date of Return (Leave Empty for not returned)</td>
@@ -108,6 +110,7 @@
         </table>
 
     </form>
+</div>
 </div>
 </div>
 {%endblock%}

@@ -17,9 +17,12 @@
     width: 20%;
   }
 
-  .tablink:hover {
-  background-color: #bfb391;
+  /* .tablink:hover {
+  background-color: #0d0d0e;
   }
+ */
+
+
 
   /* Style the tab content (and add height:100% for full page content) */
   .tabcontent {
@@ -28,6 +31,10 @@
     width: 80%;
     margin-left: 5%;
 
+  }
+  .form-control{
+    width: 90%;
+    /* margin-right:2%; */
   }
   body,
   html {
@@ -40,7 +47,7 @@
       color:rgb(80, 72, 68);
   }
   td{
-      text-align: center;;
+      text-align: left;
       /* padding: 1%;; */
       /* color:white; */
   }
@@ -52,9 +59,10 @@
 {%block body%}
 
     
+<div align="center">
 
-    <div class="row" style="margin-left: 5%;">
-      <div class="span12">
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
 <div>
     <button class="tablink" onclick="openPage('BasicParticulars', this, 'grey')" id="defaultOpen">Basic Particulars</button>
     <button class="tablink" onclick="openPage('FamilyParticulars', this, 'grey')" >Family Particulars</button>
@@ -67,10 +75,26 @@
   <div id="BasicParticulars" class="tabcontent" align="center;">
     <h1>Basic Particulars</h1> 
     <table class="table-bordered table-sm table-hover" style="width:100%;">
+      <tr>
+        <th style="align-content: left;"></th>
+        <th style="text-align: center;"></th>
+      </tr>
         <tr>
             <td>O. No</td>
-            <td ><input class=" form-control mr-sm-2" type="text" name="O_No" ></td>
+            <td ><input class=" form-control" type="text" name="O_No" ></td>
         </tr>
+        {% if session['usertype'] == '1'%}
+        <tr>
+          <td >ADO O. No</td>
+          <td ><input class=" form-control" type="text" readonly name="ADO_O_No" value="{{session['O_No']}}"></td>
+        </tr>
+        {% else %}
+        <tr>
+          <td >ADO O. No</td>
+          <td ><input class=" form-control mr-sm-2" type="text" name="ADO_O_No"></td>
+        </tr>
+        {% endif %}
+        
         <tr>
           <td >Name</td>
           <td ><input type="text" class="form-control mr-sm-2" name="name"  ></td>
@@ -108,26 +132,16 @@
               </select>
           </td>
         </tr>
+
         <tr>
           <td >Present Address</td>
-          <td >
-            <select  class="form-control mr-sm-2" name="PresentAddress">{%for i in range(Home_District|length) %}
-                    <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
-                {%endfor%}
-
-            </select>
-          </td>
+          <td ><input type="text" class="form-control mr-sm-2" name="PresentAddress"  ></td>
         </tr>
         <tr>
-            <td >Permanent Address</td>
-            <td >
-              <select  class="form-control mr-sm-2" name="PermanentAddress">{%for i in range(Home_District|length) %}
-                      <option  value="{{Home_District[i]}}">{{Home_District[i]}}</option>
-                  {%endfor%}
-  
-              </select>
-            </td>
+          <td >Permanent Address</td>
+          <td ><input type="text" class="form-control mr-sm-2" name="PermanentAddress" ></td>
         </tr>
+        
         <tr>
             <td >Date of Birth</td>
             <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth"></td>
@@ -145,16 +159,16 @@
             <td ><input  class="form-control mr-sm-2"  type="text" name="MobileNo_2"></td>
         </tr>
         <tr>
-          <td >Weight</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="Weight"></td>
+          <td >Weight(in kg)</td>
+          <td ><input class="form-control mr-sm-2"  type="number" name="Weight"></td>
         </tr>
         <tr>
-          <td >Height</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="Height"></td>
+          <td >Height(in inches)</td>
+          <td ><input class="form-control mr-sm-2"  type="number" name="Height"></td>
         </tr>
         <tr>
           <td >Email Address</td>
-          <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress  "></td>
+          <td ><input class="form-control mr-sm-2"  type="text" name="Emailaddress"></td>
         </tr>
         <tr>
             <td >Service Id Card No</td>
@@ -174,7 +188,6 @@
 
     </table>
   </div>
-
   <div id="FamilyParticulars" class="tabcontent">
     <h1>Family Particulars</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
@@ -380,40 +393,6 @@
     </table>
 
   </div>
-
-  <!-- <div id="LeaveParticulars" class="tabcontent">
-    <h1>Leave Particulars</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
-      <tr>
-          <td >P Leave Availed</td>
-          <td ><input class="form-control mr-sm-2"  type="number" name="PLeaveAvailed"></td>
-      </tr>
-      <tr>
-          <td >Last Date of PL</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofPL"></td>
-      </tr>
-      <tr>
-        <td >C Leave Availed</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="CLeaveAvailed"></td>
-      </tr>
-
-      <tr>
-        <td >Sick Leave</td>
-        <td ><input class="form-control mr-sm-2"  type="number" name="SickLeave"></td>
-      </tr>
-      <tr>
-        <td >Ex Bangladesh Leave</td>
-        <td ><input class="form-control mr-sm-2"  type="text" name="ExBangladeshLeave"></td>
-      </tr>
-      <tr>
-        <td >RL</td>
-        <td ><input class="form-control mr-sm-2" type="text" name="Rl"></td>
-      </tr>
-    </table>
-  </div> -->
-
-
-
   <div id="CourseInformation" class="tabcontent">
     <h1>Course Information</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
@@ -436,8 +415,6 @@
 
     </table>
   </div>
-
-
   <div id="OptionalData" class="tabcontent">
     <h1>Additional Data</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
@@ -493,6 +470,7 @@
 
 </form>
 
+</div>
 </div>
 </div>
 <script>

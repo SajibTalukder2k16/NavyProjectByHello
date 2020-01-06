@@ -1,0 +1,158 @@
+{% extends 'templatebase.html'%}
+{% set active_page = "ownprofile" %}
+{% block head%}
+{% endblock %}
+{% block body%}
+
+<div align="center">
+
+    <div class="row" style="width: 80%;">
+        <div class="span12" style="width: 100%;">
+
+        {% if session['usertype'] == '0' %}
+              <table>
+                <tr>
+                  <td style="width: 50%;">O No / UserID </td>
+                  <td><input readonly type="text" name="O_No" value="{{rows[0]}}"></td>
+                </tr>
+              </table>
+          {% endif %}
+          {% if session['usertype'] == '5' %}
+              <table>
+                <tr>
+                  <td>O No / UserID </td>
+                  <td><input readonly type="text" name="O_No" value ="{{rows[0]}}"></td>
+                </tr>
+                <tr>
+                  
+                    <td>Name </td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[2]}}"></td>
+                </tr>
+                <tr>
+                  <td >Branch</td>
+                  <td><input readonly type="text" name="name"  value ="{{rows[3]}}"></td>
+                </tr>
+                <tr>
+                    <td >Rank</td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[4]}}"></td>
+                  </tr>
+              </table>
+
+          {% endif %}
+          {% if session['usertype'] == '4' %}
+            
+              <table>
+                <tr>
+                    <td>O No / UserID </td>
+                    <td><input readonly type="text" name="O_No" value ="{{rows[0]}}"></td>
+                  </tr>
+                  <tr>
+                    
+                      <td>Name </td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[2]}}"></td>
+                  </tr>
+                <tr>
+                    <td >Branch</td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[3]}}"></td>
+                  </tr>
+                  <tr>
+                      <td >Rank</td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[4]}}"></td>
+                    </tr>
+            
+              </table>
+          {% endif %}
+          {% if session['usertype'] == '3' %}
+            
+              <table>
+                <tr>
+                    <td>O No / UserID </td>
+                    <td><input readonly type="text" name="O_No" value ="{{rows[0]}}"></td>
+                  </tr>
+                  <tr>
+                    
+                      <td>Name </td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[2]}}"></td>
+                  </tr>
+                  <tr>
+                    <td >Branch</td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[4]}}"></td>
+                  </tr>
+                  <tr>
+                      <td >Rank</td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[5]}}"></td>
+                    </tr>
+                    <tr>
+                        <td >Name of Ship</td>
+                        <td><input readonly type="text" name="name"  value ="{{rows[3]}}"></td>
+                      </tr>
+                
+              </table>
+          {% endif %}
+        
+          {% if session['usertype'] == '2' %}
+            
+              <table>
+                <tr>
+                    <td>O No / UserID </td>
+                    <td><input readonly type="text" name="O_No" value ="{{rows[0]}}"></td>
+                  </tr>
+                  <tr>
+                    
+                      <td>Name </td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[2]}}"></td>
+                  </tr>
+                  <tr>
+                    <td >Branch</td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[3]}}"></td>
+                  </tr>
+                  <tr>
+                      <td >Rank</td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[4]}}"></td>
+                    </tr>
+                <tr>
+                    <td>Commanding Officer O No</td>
+                    <td><input readonly type="text" name="CO_O_No" value ="{{rows[5]}}"></td>
+                </tr>
+              </table>
+
+          {% endif %}
+        
+          {% if session['usertype'] == '1' %}
+            
+              <table>
+                <tr>
+                    <td>O No / UserID </td>
+                    <td><input readonly type="text" name="O_No" value ="{{rows[0]}}"></td>
+                  </tr>
+                  <tr>
+                    
+                      <td>Name </td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[2]}}"></td>
+                  </tr>
+                  <tr>
+                    <td >Branch</td>
+                    <td><input readonly type="text" name="name"  value ="{{rows[3]}}"></td>
+                  </tr>
+                  <tr>
+                      <td >Rank</td>
+                      <td><input readonly type="text" name="name"  value ="{{rows[4]}}"></td>
+                    </tr>
+                <tr>
+                  <tr>
+                    <td>Divisional Officer O No</td>
+                    <td><input readonly type="text" name="DO_O_No" value ="{{rows[5]}}"></td>
+                </tr>
+                
+              </table>
+            
+          {% endif %}
+          
+
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock%}

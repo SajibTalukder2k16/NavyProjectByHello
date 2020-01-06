@@ -1,16 +1,21 @@
 {% extends 'templatebase.html'%}
+{% set active_page = "notification" %}
 {% block head%}
 {% endblock %}
 {% block body%}
-<div class="row" style="margin-left: 5%;">
-  <div class="span12">
-    <ul class="nav topnav">
+
+<div align="center">
+
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
+    <ul>
     {% for row in rows%}
-    <li style="width: 40%;text-align: center;">
-      <label style="background-color: white;"><a href="{{url_for('profile', id = row[0])}}">{{row[1]}}</a></label>
+    <li style="text-align: left; font-size: medium;">
+      <a href="{{url_for('profile', id = row['O_No'])}}">{{row['Notification']}}</a>
     </li>
     {% endfor %}
-  </ul>
+    </ul>
   </div>
+</div>
 </div>
 {% endblock %}

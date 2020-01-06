@@ -3,10 +3,11 @@
 {% endblock %}
 
 {% block body %}
+<div align="center">
 
-<div class="row" style="margin-left: 5%;">
-    <div class="span12" style="min-height: 50vh;">
-      <table  class="table table-hover table-bordered" style="text-align: center;">
+  <div class="row" style="width: 80%;">
+      <div class="span12" style="width: 100%;">
+      <table  class="table table-hover table-bordered" style="text-align: center;font-size: 1vw;">
         <tr>
           <td style="text-align:center;">
             <form action="{{url_for('profile', id = id)}}">
@@ -41,7 +42,7 @@
         </tr>
       </table>
 
-      <div class="accordion" id="accordion2">
+      <div class="accordion" id="accordion2" style="text-align: left;">
         <div class="accordion-group">
           <div class="accordion-heading">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
@@ -52,7 +53,7 @@
                                              {% if type == '1'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Post a New Remarks</a></h3>
+                                                                              <h3><a>Post a New Remarks</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -67,9 +68,7 @@
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
-                                                                                  <input style = "width: 80%; display:inline-block;
-                                                                                  padding:15px 10px;
-                                                                                  line-height:140%;" type="text" name = "remarkado"  placeholder="Say Something ...">
+                                                                                  <input required style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" type="text" name = "remarkado"  placeholder="Say Something ...">
                                                                                   </p>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
@@ -81,7 +80,7 @@
                                   
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                              <h3><a>Remarks form {{row[7]}}</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -89,15 +88,24 @@
                                                                                   <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                 </div>
                                                                                 <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{"Date : " + row[4]}}</span></li><br>
+                                                                                
+                                                                                  <li><i class="icon-list-alt"></i><span>{{"O_No: " + row[2]}}</span></li><br>
+                                                                                  <li><i class="icon-list-alt"></i><span>{{"Branch: " + row[5]}}</span></li><br>
+                                                                                  <li><i class="icon-list-alt"></i><span>Rank: {{ row[6]}}</span></li><br>
                                                                                   </ul>
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <p>
-                                                                                  {{row[3]}}
-                                                                                </p>
+                                                                                <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '1')}}">
+                                                                                  <input required name = "remarkado" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'adoFunction('+row[0]|string+')'}}" readonly id = "{{'ado'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                  <input type="submit" class="btn btn-color btn-rounded" value="Update">
+                                                                                </form>
+                                                                                  <script>
+                                                                                  function adoFunction(id) {
+                                                                                    document.getElementById("{{'ado'}}" + id).readOnly = false;
+                                                                                  }
+                                                                                  </script>
                                                                               </div>
                                                                             </div>
                                                                           </article>
@@ -119,7 +127,7 @@
                                           {% if type == '2'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Post a New Remarks</a></h3>
+                                                                              <h3><a>Post a New Remarks</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -134,7 +142,7 @@
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
-                                                                                  <input style = "width: 80%; display:inline-block;
+                                                                                  <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkdo"  placeholder="Say Something ...">
                                                                                   </p>
@@ -149,7 +157,7 @@
 
                                                                             <article class="blog-post">
                                                                               <div class="post-heading">
-                                                                                <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                                <h3><a>Remarks form {{row[7]}}</a></h3>
                                                                               </div>
                                                                               <div class="row">
                                                                                 <div class="span3">
@@ -157,15 +165,26 @@
                                                                                     <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                   </div>
                                                                                   <ul class="post-meta">
-                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
-                                                                                    <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{"Date : " + row[4]}}</span></li><br>
+                                                                                  
+                                                                                    <li><i class="icon-list-alt"></i><span>{{"O_No: " + row[2]}}</span></li><br>
+                                                                                    <li><i class="icon-list-alt"></i><span>{{"Branch: " + row[5]}}</span></li><br>
+                                                                                    <li><i class="icon-list-alt"></i><span>Rank: {{ row[6]}}</span></li><br>
                                                                                     </ul>
                                                                                   <div class="clear"></div>
                                                                                 </div>
                                                                                 <div class="span5">
-                                                                                  <p>
-                                                                                    {{row[3]}}
-                                                                                  </p>
+                                                                                  <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '2')}}">
+                                                                                    <input required name = "remarkdo" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'doFunction('+row[0]|string+')'}}" readonly id = "{{'do'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                    <input type="submit" class="btn btn-color btn-rounded" value="Update">
+                                                                                  </form>
+                                                                                    <script>
+                                                                                    function doFunction(id) {
+                                                                                      document.getElementById("{{'do'}}" + id).readOnly = false;
+                                                                                    }
+                                                                                    </script>
+                                                                            
+                                                                                  
                                                                                 </div>
                                                                               </div>
                                                                             </article>
@@ -186,7 +205,7 @@
                                             {% if type == '3'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Post a New Remarks</a></h3>
+                                                                              <h3><a>Post a New Remarks</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -201,7 +220,7 @@
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
-                                                                                  <input style = "width: 80%; display:inline-block;
+                                                                                  <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkco"  placeholder="Say Something ...">
                                                                                   </p>
@@ -216,7 +235,7 @@
 
                                                                             <article class="blog-post">
                                                                               <div class="post-heading">
-                                                                                <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                                <h3><a>Remarks form {{row[7]}}</a></h3>
                                                                               </div>
                                                                               <div class="row">
                                                                                 <div class="span3">
@@ -224,15 +243,27 @@
                                                                                     <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                   </div>
                                                                                   <ul class="post-meta">
-                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
-                                                                                    <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                    <li class="first"><i class="icon-calendar"></i><span>{{"Date : " + row[4]}}</span></li><br>
+                                                                                  
+                                                                                    <li><i class="icon-list-alt"></i><span>{{"O_No: " + row[2]}}</span></li><br>
+                                                                                    <li><i class="icon-list-alt"></i><span>{{"Branch: " + row[5]}}</span></li><br>
+                                                                                    <li><i class="icon-list-alt"></i><span>Rank: {{ row[6]}}</span></li><br>
                                                                                     </ul>
                                                                                   <div class="clear"></div>
                                                                                 </div>
                                                                                 <div class="span5">
-                                                                                  <p>
-                                                                                    {{row[3]}}
-                                                                                  </p>
+
+                                                                                  <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '3')}}">
+                                                                                    <input required name = "remarkco" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'coFunction('+row[0]|string+')'}}" readonly id = "{{'co'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                    <input type="submit" class="btn btn-color btn-rounded" value="Update">
+                                                                                  </form>
+                                                                                    <script>
+                                                                                    function coFunction(id) {
+                                                                                      document.getElementById("{{'co'}}" + id).readOnly = false;
+                                                                                    }
+                                                                                    </script>
+                                                                            
+                                                                                  
                                                                                 </div>
                                                                               </div>
                                                                             </article>
@@ -252,7 +283,7 @@
                                             {% if type == '5'%}
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Post a New Remarks</a></h3>
+                                                                              <h3><a>Post a New Remarks</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -267,7 +298,7 @@
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
                                                                                   <p>
-                                                                                  <input style = "width: 80%; display:inline-block;
+                                                                                  <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkarea"  placeholder="Say Something ...">
                                                                                   </p>
@@ -282,7 +313,7 @@
 
                                                                           <article class="blog-post">
                                                                             <div class="post-heading">
-                                                                              <h3><a href="#">Remarks form {{row[2]}}</a></h3>
+                                                                              <h3><a>Remarks form {{row[7]}}</a></h3>
                                                                             </div>
                                                                             <div class="row">
                                                                               <div class="span3">
@@ -290,15 +321,24 @@
                                                                                   <i class="icon-bg-dark icon-circled icon-quote-left icon-3x active"></i>
                                                                                 </div>
                                                                                 <ul class="post-meta">
-                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{row[4]}}</span></li>
-                                                                                  <li><i class="icon-list-alt"></i><span>{{row[2]}}</span></li>
+                                                                                  <li class="first"><i class="icon-calendar"></i><span>{{"Date : " + row[4]}}</span></li><br>
+                                                                                
+                                                                                  <li><i class="icon-list-alt"></i><span>{{"O_No: " + row[2]}}</span></li><br>
+                                                                                  <li><i class="icon-list-alt"></i><span>{{"Branch: " + row[5]}}</span></li><br>
+                                                                                  <li><i class="icon-list-alt"></i><span>Rank: {{ row[6]}}</span></li><br>
                                                                                   </ul>
                                                                                 <div class="clear"></div>
                                                                               </div>
                                                                               <div class="span5">
-                                                                                <p>
-                                                                                  {{row[3]}}
-                                                                                </p>
+                                                                                <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '5')}}">
+                                                                                  <input required name = "remarkarea" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'areaFunction('+row[0]|string+')'}}" readonly id = "{{'area'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                  <input type="submit" class="btn btn-color btn-rounded" value="Update">
+                                                                                </form>
+                                                                                  <script>
+                                                                                  function areaFunction(id) {
+                                                                                    document.getElementById("{{'area'}}" + id).readOnly = false;
+                                                                                  }
+                                                                                  </script>
                                                                               </div>
                                                                             </div>
                                                                           </article>
@@ -311,4 +351,5 @@
 
     </div>
 </div>  
+</div>
 {% endblock %}
