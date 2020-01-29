@@ -67,9 +67,8 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
-                                                                                  <p>
-                                                                                  <input required style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" type="text" name = "remarkado"  placeholder="Say Something ...">
-                                                                                  </p>
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  placeholder="Say Something" name = "remarkado"  ></textarea>
+                                                                                  
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
                                                                               </div>

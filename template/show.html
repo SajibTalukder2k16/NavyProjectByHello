@@ -38,19 +38,25 @@
   <table style="margin-bottom: 100px;" class="table table-hover table-bordered" style="text-align: center;">
       <thead class="thead-light">
         <tr>
-          <th scope="col">Ser</th>
+          <th scope="col" style="text-align: center;">Ser</th>
           <th scope="col">Office Number</th>
           <th scope="col">Name</th>
+          <th scope="col">Branch</th>
+          <th scope="col">Rank</th>
+          <th scope="col">Ship Name</th>
         </tr>
       </thead>
           
       <tbody">
           {% for i in range(rows|length):%}
           <tr>
-              <td style="color: black;">{{i+1}}</td>
+              <td style="color: black; text-align: center;">{{i+1}}</td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][0]}}</a></td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][2]}}</a></td>
-          </tr>
+              <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][3]}}</a></td>
+              <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][4]}}</a></td>
+              <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][46]}}</a></td>
+            </tr>
           {%endfor%}
       </tbody>
     </table>

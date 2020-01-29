@@ -152,7 +152,7 @@ def getnotification():
     today = datetime.strptime(str(date.today()),'%Y-%m-%d')
     for row in e_list:
         mcur = mysql.connection.cursor()
-        mcur.execute("Select * from ty where toty = '' and O_No = %s", (row['O_No'], ))
+        mcur.execute("Select * from TY where toty = '' and O_No = %s", (row['O_No'], ))
         rows = mcur.fetchall()
         
         for trow in rows:
@@ -442,44 +442,47 @@ def addadmin(id):
 def addingadmin(id):
     if 'O_No' in session:
         if request.method == 'POST':
-            req = request.form.to_dict(flat=False)
-            mcur = mysql.connection.cursor()
-            if id == 0:
-                query = "INSERT INTO System ("
-            if id == 5:
-                query = "INSERT INTO Comflot ("
-            if id == 4:
-                query = "INSERT INTO Staff ("
-            if id == 3:
-                query = "INSERT INTO Commanding ("
-            if id == 2:
-                query = "INSERT INTO Divisional ("
-            if id == 1:
-                query = "INSERT INTO ADO ("
-            param = ()
-            first = True
-            for key in req:
-                if first:
-                    query += key
-                else:
-                    query += ", "+ key
-                first = False
-                param = param +( req[key][0], )
-            query += ") VALUES ("
-            first = True
-            for key in req:
-                if first:
-                    query += "%s"
-                else:
-                    query += ", %s"
-                first = False
-            query += ")"
-            #return query
-            mcur.execute(query, param)
-            #mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No, Branch, Rank) VALUES(%s, %s, %s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1'], req['Branch'][0], req['Rank'][0],))
-            
-            mysql.connection.commit()
-            mcur.close()
+            try:
+                req = request.form.to_dict(flat=False)
+                mcur = mysql.connection.cursor()
+                if id == 0:
+                    query = "INSERT INTO System ("
+                if id == 5:
+                    query = "INSERT INTO Comflot ("
+                if id == 4:
+                    query = "INSERT INTO Staff ("
+                if id == 3:
+                    query = "INSERT INTO Commanding ("
+                if id == 2:
+                    query = "INSERT INTO Divisional ("
+                if id == 1:
+                    query = "INSERT INTO ADO ("
+                param = ()
+                first = True
+                for key in req:
+                    if first:
+                        query += key
+                    else:
+                        query += ", "+ key
+                    first = False
+                    param = param +( req[key][0], )
+                query += ") VALUES ("
+                first = True
+                for key in req:
+                    if first:
+                        query += "%s"
+                    else:
+                        query += ", %s"
+                    first = False
+                query += ")"
+                #return query
+                mcur.execute(query, param)
+                #mcur.execute("INSERT INTO ADO (O_No, pass, name, DO_O_No, Branch, Rank) VALUES(%s, %s, %s, %s, %s, %s)",(req['O_No1'][0], req['pass1'][0], req['name1'][0], req['DO_O_No1'], req['Branch'][0], req['Rank'][0],))
+                
+                mysql.connection.commit()
+                mcur.close()
+            except:
+                pass
 
             return redirect(url_for('addadminlist'))
     return redirect(url_for('home'))

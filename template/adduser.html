@@ -42,15 +42,37 @@
       background-color: white;
   }
   h1{
-      font-size: 400%;
+      font-size: 250%;
       text-align: center;
       color:rgb(80, 72, 68);
   }
   td{
       text-align: left;
+      font-size: 130%;;
+      font-weight: bold;
+      padding-left: 2%;
+      height: 100%;
       /* padding: 1%;; */
       /* color:white; */
   }
+  input:focus[type=text],[type=number]{
+    font-size:large ;
+    background-color: white ;
+    color:black;
+  }
+  tr:hover{
+    background-color: rgba(0, 36, 24, 0.267);;
+  }
+  input[type=text],[type=number]{
+    font-size: large;
+    width: 100%;
+    padding: 3.5% 2.5%;
+    margin: 2% 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 </style>
 {% endblock %}
 
@@ -74,13 +96,13 @@
 <form method="POST" action="{{url_for('adding_user')}}">
   <div id="BasicParticulars" class="tabcontent" align="center;">
     <h1>Basic Particulars</h1> 
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
+    <table  style="width:100%; height: 100%; ">
       <tr>
         <th style="align-content: left;"></th>
         <th style="text-align: center;"></th>
       </tr>
         <tr>
-            <td>O. No</td>
+            <td style="width: 40%; height: 100%;" >O. No</td>
             <td ><input class=" form-control" type="text" name="O_No" ></td>
         </tr>
         {% if session['usertype'] == '1'%}
@@ -144,7 +166,7 @@
         
         <tr>
             <td >Date of Birth</td>
-            <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth"></td>
+            <td ><input  class="form-control mr-sm-2"  type="date" date-month-format="DD MM YYYY" name="DateofBirth"></td>
         </tr>
         <tr>
             <td >Date of Marriage</td>
@@ -190,9 +212,9 @@
   </div>
   <div id="FamilyParticulars" class="tabcontent">
     <h1>Family Particulars</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
+    <table  style="width:100%;">
       <tr>
-          <td >Next of Kin</td>
+          <td style="width: 40%;" >Next of Kin</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="NextofKin"></td>
       </tr>
       <tr>
@@ -221,22 +243,31 @@
       </tr>
       <tr>
         <td>Chilren Information</td>
-        <td class="form-control mr-sm-2">
-          <table id="ChildTable">
+        <td>
+          <table style="width: 100%; height: 100%;" id="ChildTable">
             <tr>
               <th>Children Name</th>
               <th>DOB of Children</th>
               <th>Any special info</th>
             </tr>
             <tr>
-              <td><input class="form-control mr-sm-2"  type="text" name="ChildrenName1"></td>
-              <td><input class="form-control mr-sm-2"  type="date" name="DOBofChildren1"></td>
-              <td><input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren1"></td>
+              <td><input  type="text" name="ChildrenName1"></td>
+              <td><input  type="date" name="DOBofChildren1"></td>
+              <td><input  type="text" name="Anyspecialinfochildren1"></td>
             </tr>
           </table>
           <button type="button" class="btn btn-primary btn-lg " onclick="ChildFunction()">Add more Chilren Info</button>
         </td>
       </tr>
+
+      <!-- <tr>
+        <td>
+          <br>
+        </td>
+        <td>
+          <br>
+        </td>
+      </tr> -->
     
       <tr>
           <td >Father's Name</td>
@@ -266,22 +297,30 @@
 
       <tr>
         <td>Sibling Information</td>
-        <td class="form-control mr-sm-2">
-          <table id="SiblingTable">
+        <td >
+          <table id="SiblingTable" style="width: 100%;">
             <tr>
               <th>Sibling's Name</th>
               <th>Sibling's Mobile No</th>
               <th>Sibling's Address</th>
             </tr>
             <tr>
-              <td><input class="form-control mr-sm-2"  type="text" name="SiblingName1"></td>
-              <td><input class="form-control mr-sm-2"  type="text" name="SiblingMobileNo1"></td>
-              <td><input class="form-control mr-sm-2"  type="text" name="SiblingAddress1"></td>
+              <td><input  type="text" name="SiblingName1"></td>
+              <td><input  type="text" name="SiblingMobileNo1"></td>
+              <td><input  type="text" name="SiblingAddress1"></td>
             </tr>
           </table>
           <button type="button" class="btn btn-primary btn-lg " onclick="SiblingFunction()">Add more Sibling Info</button>
-        </td>
+        </td >
       </tr>
+      <!-- <tr>
+        <td>
+          <br>
+        </td>
+        <td>
+          <br>
+        </td>
+      </tr> -->
           <td >Family Crisis(If any)</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="FamilyCrisis"></td>
       </tr>
@@ -291,7 +330,7 @@
     <h1>Service Information</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
       <tr>
-        <td >Service Category</td>
+        <td style="width: 40%;">Service Category</td>
         <td >
             <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
                     <option  value="{{Service_Category[i]}}">{{Service_Category[i]}}</option>
@@ -397,7 +436,7 @@
     <h1>Course Information</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
       <tr>
-          <td >Name of important courses</td>
+          <td style="width: 40%;"  >Name of important courses</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="NameofImportantCourses"></td>
       </tr>
       <tr>
@@ -419,7 +458,7 @@
     <h1>Additional Data</h1>
     <table class="table-bordered table-sm table-hover" style="width:100%;">
       <tr>
-        <td >Choice of Area for Posting</td>
+        <td>Choice of Area for Posting</td>
         <td >
           <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
                   <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>
@@ -439,7 +478,7 @@
         </td>
       </tr>
       <tr>
-        <td >Choice of next course</td>
+        <td style="width: 40%;" >Choice of next course</td>
         <td ><input class="form-control mr-sm-2"  type="text" name="ChoiceofNextCourse"></td>
       </tr>
       <tr>
@@ -461,7 +500,7 @@
       </tr>
       <tr>
         <td></td>
-        <td style="width:50%; "><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
+        <td><input class="btn btn-primary btn-lg " type="submit" value="Add User"></td>
       </tr>
 
       

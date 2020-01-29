@@ -37,16 +37,12 @@
             <td><input type="text" name="name"></td>
         </tr>
         <tr>
-          <td >Branch & Rank</td>
-          <td >
-            <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-            <option>- - -</option>
-            {%for key in Branch_key %}
-                <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-
-           </select>
-           <span id="slist2"></span> <div id="scontent"></div></td>
+          <td>Branch</td>
+          <td><input type="text" name="Branch"></td>
+        </tr>
+        <tr>
+          <td>Rank</td>
+          <td><input type="text" name="Rank"></td>
         </tr>
         <tr>
           <td>Password</td>
@@ -71,16 +67,12 @@
             <td><input type="text" name="name"></td>
         </tr>
         <tr>
-          <td >Branch & Rank</td>
-          <td >
-            <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-            <option>- - -</option>
-            {%for key in Branch_key %}
-                <option value="{{key}}">{{key}}</option>
-            {%endfor%}
-
-           </select>
-           <span id="slist2"></span> <div id="scontent"></div></td>
+          <td>Branch</td>
+          <td><input type="text" name="Branch"></td>
+        </tr>
+        <tr>
+          <td>Rank</td>
+          <td><input type="text" name="Rank"></td>
         </tr>
         <tr>
           <td>Password</td>
@@ -103,19 +95,15 @@
         <tr>
             <td>Name </td>
             <td><input type="text" name="name"></td>
-          </tr>
-          <tr>
-            <td >Branch & Rank</td>
-            <td >
-              <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-              <option>- - -</option>
-              {%for key in Branch_key %}
-                  <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-  
-             </select>
-             <span id="slist2"></span> <div id="scontent"></div></td>
-          </tr>
+        </tr>
+        <tr>
+          <td>Branch</td>
+          <td><input type="text" name="Branch"></td>
+        </tr>
+        <tr>
+          <td>Rank</td>
+          <td><input type="text" name="Rank"></td>
+        </tr>
         <tr>
             <td>Name of Ship</td>
             <td >
@@ -149,16 +137,12 @@
             <td><input type="text" name="name"></td>
           </tr>
           <tr>
-            <td >Branch & Rank</td>
-            <td >
-              <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-              <option>- - -</option>
-              {%for key in Branch_key %}
-                  <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-  
-             </select>
-             <span id="slist2"></span> <div id="scontent"></div></td>
+            <td>Branch</td>
+            <td><input type="text" name="Branch"></td>
+          </tr>
+          <tr>
+            <td>Rank</td>
+            <td><input type="text" name="Rank"></td>
           </tr>
         
         <tr>
@@ -189,16 +173,12 @@
             <td><input type="text" name="name"></td>
           </tr>
           <tr>
-            <td >Branch & Rank</td>
-            <td >
-              <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
-              <option>- - -</option>
-              {%for key in Branch_key %}
-                  <option value="{{key}}">{{key}}</option>
-              {%endfor%}
-  
-             </select>
-             <span id="slist2"></span> <div id="scontent"></div></td>
+            <td>Branch</td>
+            <td><input type="text" name="Branch"></td>
+          </tr>
+          <tr>
+            <td>Rank</td>
+            <td><input type="text" name="Rank"></td>
           </tr>
           <tr>
             <td>Divisional Officer O No</td>
@@ -220,30 +200,4 @@
   </div>
 </div>
 </div>
-
-<script>
-        var SList = new Object(); 
-        var txtsl2 = '';
-        SList.slist2 = JSON.parse('{{ Branch|safe }}')
-        SList.getSelect = function(slist, option) {
-          document.getElementById('scontent').innerHTML = '';
-        
-          if(SList[slist][option]) {
-            if(slist == 'scontent') document.getElementById('scontent').innerHTML = SList[slist][option];
-            else if(slist == 'slist2') {
-              var addata = '<option>- - -</option>';
-              for(var i=0; i<SList[slist][option].length; i++) {
-                addata += '<option value="'+SList[slist][option][i]+'">'+SList[slist][option][i]+'</option>';
-              }
-        
-              document.getElementById('slist2').innerHTML = txtsl2+' <select class="form-control mr-sm-2" name="Rank" onchange="SList.getSelect(\'scontent\', this.value);">'+addata+'</select>';
-            }
-          }
-          else if(slist == 'slist2') {
-            document.getElementById('slist2').innerHTML = '';
-          }
-        }
-
-        
-</script>
 {% endblock %}
