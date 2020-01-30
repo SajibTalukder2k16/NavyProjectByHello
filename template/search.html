@@ -99,9 +99,14 @@
                             <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
                                 <option>- - -</option>
                                 {%for key in Branch_key %}
-                                    <option value={{key}}>{{key}}</option>
+                                    <option value={{key}}>{{Branch_Value[loop.index]}}</option>
                                 {%endfor%}
-                            </select>  
+                            </select> 
+                            <!-- <label>Test </label>
+                            <select  class="form-control mr-sm-2" name="test">{%for i in range(Branch_Value|length) %}
+                              <option  value="{{Branch_Value[i]}}">{{Branch_Value[i]}}</option>
+                              {%endfor%}
+                            </select>  -->
                             <span id="slist2"></span> <div id="scontent"></div>
                             <!-- <input class="form-control form-control-lg form-control-borderless" type="search" name="rank"placeholder="Search Sailor's data by rank"> -->
 
@@ -133,11 +138,13 @@
                     <label>Select Branch and Rank</label>
                     <select  name="Branch" class="form-control mr-sm-2" onchange="SList3.getSelect('slist31', this.value);">
                       <option>- - -</option>
+                      {% set i=0%}
                       {%for key in Branch_key %}
-                          <option value={{key}}>{{key}}</option>
+                          <option value={{key}}>{{Branch_Value[loop.index]}}</option>
                       {%endfor%}
                       </select>  
                     <span id="slist31"></span> <div id="scontent2"></div>
+                    
                     <label>Search by Course</label>
                     <input class="form-control form-control-lg form-control-borderless" type="search" name="Course"placeholder="Course">
                     <label>Search by Special Qualification</label>
@@ -201,7 +208,7 @@
             <select  name="Branch" class="form-control mr-sm-2" onchange="SList2.getSelect('slist21', this.value);">
               <option>- - -</option>
               {%for key in Branch_key %}
-                  <option value={{key}}>{{key}}</option>
+                  <option value={{key}}>{{Branch_Value[loop.index]}}</option>
               {%endfor%}
             </select>  
           <span id="slist21"></span> <div id="scontent1"></div>

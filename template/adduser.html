@@ -42,7 +42,9 @@
       background-color: white;
   }
   h1{
-      font-size: 250%;
+      font-weight: bold;
+      font-size: 220%;
+      text-decoration: underline;
       text-align: center;
       color:rgb(80, 72, 68);
   }
@@ -51,11 +53,12 @@
       font-size: 130%;;
       font-weight: bold;
       padding-left: 2%;
+      padding-right: 3%;
       height: 100%;
       /* padding: 1%;; */
       /* color:white; */
   }
-  input:focus[type=text],[type=number]{
+  input:focus[type=text],input:focus[type=number]input:focus[type=date]{
     font-size:large ;
     background-color: white ;
     color:black;
@@ -63,7 +66,7 @@
   tr:hover{
     background-color: rgba(0, 36, 24, 0.267);;
   }
-  input[type=text],[type=number]{
+  input[type=text],input[type=number],input[type=date]{
     font-size: large;
     width: 100%;
     padding: 3.5% 2.5%;
@@ -72,7 +75,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-}
+}   
 </style>
 {% endblock %}
 
@@ -128,7 +131,7 @@
             <select  name="Branch" class="form-control mr-sm-2" onchange="SList.getSelect('slist2', this.value);">
             <option>- - -</option>
             {%for key in Branch_key %}
-                <option value="{{key}}">{{key}}</option>
+                <option value="{{key}}">{{Branch_Value[loop.index]}}</option>
             {%endfor%}
 
            </select>
@@ -212,9 +215,9 @@
   </div>
   <div id="FamilyParticulars" class="tabcontent">
     <h1>Family Particulars</h1>
-    <table  style="width:100%;">
+    <table  style="width:100%;height: 100%;" frame="box">
       <tr>
-          <td style="width: 40%;" >Next of Kin</td>
+          <td style="width: 35%;" >Next of Kin</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="NextofKin"></td>
       </tr>
       <tr>
@@ -328,9 +331,9 @@
   </div>
   <div id="ServiceInformation" class="tabcontent">
     <h1>Service Information</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
+    <table style="width:100%;height: 100%;" frame="box">
       <tr>
-        <td style="width: 40%;">Service Category</td>
+        <td style="width: 35%;">Service Category</td>
         <td >
             <select  class="form-control mr-sm-2" name="ServiceCategory">{%for i in range(Service_Category|length) %}
                     <option  value="{{Service_Category[i]}}">{{Service_Category[i]}}</option>
@@ -434,9 +437,9 @@
   </div>
   <div id="CourseInformation" class="tabcontent">
     <h1>Course Information</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
+    <table style="width:100%;height: 100%;" frame="box">
       <tr>
-          <td style="width: 40%;"  >Name of important courses</td>
+          <td style="width: 35%;"  >Name of important courses</td>
           <td ><input class="form-control mr-sm-2"  type="text" name="NameofImportantCourses"></td>
       </tr>
       <tr>
@@ -456,9 +459,9 @@
   </div>
   <div id="OptionalData" class="tabcontent">
     <h1>Additional Data</h1>
-    <table class="table-bordered table-sm table-hover" style="width:100%;">
+    <table style="width:100%;height: 100%;" frame="box">
       <tr>
-        <td>Choice of Area for Posting</td>
+        <td style="width:35%">Choice of Area for Posting</td>
         <td >
           <select  class="form-control mr-sm-2" name="ChoiceofAreaForPosting">{%for i in range(Choice_of_Area_for_drafting|length) %}
                   <option  value="{{Choice_of_Area_for_drafting[i]}}">{{Choice_of_Area_for_drafting [i]}}</option>

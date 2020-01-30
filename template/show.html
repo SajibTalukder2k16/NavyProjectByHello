@@ -50,10 +50,19 @@
       <tbody">
           {% for i in range(rows|length):%}
           <tr>
+              {%set temp_branch=rows[i][3]%}
+              {% if rows[i][3]=='RadioElectrical': %}
+                {%set temp_branch= 'Radio Electrical'%}
+              {% endif %}
+              {% if rows[i][3]=='EngineRoom': %}
+                {%set temp_branch= 'Engine Room'%}
+              {% endif %}
+            
+          
               <td style="color: black; text-align: center;">{{i+1}}</td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][0]}}</a></td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][2]}}</a></td>
-              <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][3]}}</a></td>
+              <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{temp_branch}}</a></td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][4]}}</a></td>
               <td> <a style="text-decoration: none;color: black;" href="{{url_for('profile',id=rows[i][0])}}">{{rows[i][46]}}</a></td>
             </tr>

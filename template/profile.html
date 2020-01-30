@@ -23,8 +23,8 @@
   .tabcontent {
   display: none;
   padding: 100px 20px;
-  width: 65%;
-  margin-left: 15%;
+  width: 80%;
+  margin-left: 5%;
   }
   body,
   html {
@@ -32,15 +32,40 @@
       background-color: white;
   }
   h1{
-      font-size: 400%;
+      font-weight: bold;
+      font-size: 220%;
+      text-decoration: underline;
       text-align: center;
       color:rgb(80, 72, 68);
   }
   td{
-      text-align: center;
+      text-align: left;
+      font-size: 130%;;
+      font-weight: bold;
+      padding-left: 2%;
+      padding-right: 3%;
+      height: 100%;
       /* padding: 1%;; */
       /* color:white; */
   }
+  input:focus[type=text],input:focus[type=number]input:focus[type=date]{
+    font-size:large ;
+    background-color: white ;
+    color:black;
+  }
+  tr:hover{
+    background-color: rgba(0, 36, 24, 0.267);;
+  }
+  input[type=text],input[type=number],input[type=date]{
+    font-size: large;
+    width: 100%;
+    padding: 3.5% 2.5%;
+    margin: 2% 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 </style>
 {% endblock %}
 
@@ -92,13 +117,12 @@
           <button class="tablink" onclick="openPage('OptionalData', this, 'grey')">Additional Data</button>
 
       </div>
-      <div id="BasicParticulars" class="tabcontent">
+      <div id="BasicParticulars" class="tabcontent" >
         <h1>Basic Particulars</h1>
-        <table class="table-bordered table-sm table-hover" style="width:100%;">
+        <table  style="width:100%; height: 100%; " frame="box">
         <tr>
-            <td >O. No</td>
-            <td><input class=" form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly type="text"  name="O_No" value="{{rows['O_No']}}" ></td>
-            <b></b></td>
+            <td style="width: 35%; height: 100%;">O. No</td>
+            <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly type="text"  name="O_No" value="{{rows['O_No']}}" ></td>
         </tr>
         <tr>
           <td >ADO O. No</td>
@@ -190,9 +214,9 @@
     
       <div id="FamilyParticulars" class="tabcontent">
         <h1>Family Particulars</h1>
-        <table class="table-bordered table-sm table-hover" style="width:100%;">
+        <table style="width:100%; height: 100%; " frame="box">
           <tr>
-              <td >Next of Kin</td>
+              <td style="width: 35%;">Next of Kin</td>
               <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="NextofKin" value="{{rows['NextofKin']}}"></td>
           </tr>
           <tr>
@@ -223,8 +247,8 @@
     
           <tr>
             <td>Chilren Information</td>
-            <td class="form-control mr-sm-2">
-              <table id="ChildTable">
+            <td>
+              <table style="width: 100%; height: 100%;" id="ChildTable">
                 <tr>
                   <th>Children Name</th>
                   <th>DOB of Children</th>
@@ -232,14 +256,15 @@
                 </tr>
                 {%for i in range(childrenrow|length) %}
                 <tr>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][0]}}" name="{{'ChildrenName' + (i+1)|string}}"></td>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][2]}}" name="{{'Anyspecialinfochildren' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][0]}}" name="{{'ChildrenName' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="date" value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][2]}}" name="{{'Anyspecialinfochildren' + (i+1)|string}}"></td>
                 </tr>
                 {%endfor%}
               </table>
             </td>
           </tr>
+
     
     
           <tr>
@@ -269,8 +294,8 @@
     
           <tr>
             <td>Sibling Information</td>
-            <td class="form-control mr-sm-2">
-              <table id="SiblingTable">
+            <td >
+              <table id="SiblingTable" style="width: 100%; height: 100%;">
                 <tr>
                   <th>Sibling's Name</th>
                   <th>Sibling's Mobile No</th>
@@ -278,9 +303,9 @@
                 </tr>
                 {%for i in range(siblingrow|length) %}
                 <tr>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][0]}}" name="{{'SiblingName' + (i+1)|string}}"></td>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][1]}}" name="{{'SiblingMobileNo' + (i+1)|string}}"></td>
-                  <td><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][2]}}" name="{{'SiblingAddress' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][0]}}" name="{{'SiblingName' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][1]}}" name="{{'SiblingMobileNo' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{siblingrow[i][2]}}" name="{{'SiblingAddress' + (i+1)|string}}"></td>
                 </tr>
                 {%endfor%}
               </table>
@@ -296,9 +321,9 @@
       
       <div id="ServiceInformation" class="tabcontent">
         <h1>Service Information</h1>
-        <table class="table-bordered table-sm table-hover"  style="width:100%;">
+        <table style="width:100%; height: 100%; " frame="box">
           <tr>
-              <td >Service Category</td>
+              <td style="width: 35%;">Service Category</td>
               <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text" name="ServiceCategory" value="{{rows['ServiceCategory']}}"></td>
           </tr>
     
@@ -388,9 +413,9 @@
     
       <div id="CourseInformation" class="tabcontent">
         <h1>Course Information</h1>
-        <table class="table-bordered table-sm table-hover" style="width:100%;">
+        <table style="width:100%; height: 100%; " frame="box">
           <tr>
-              <td >Name of important courses</td>
+              <td style="width: 35%;">Name of important courses</td>
               <td ><input class="form-control mr-sm-2"  type="text" style= "text-align: center;font-weight: bold;" readonly   name="NameofImportantCourses" value="{{rows['NameofImportantCourses']}}"></td>
           </tr>
           <tr>
@@ -412,9 +437,9 @@
     
       <div id="OptionalData" class="tabcontent">
         <h1>Additional Data</h1>
-        <table class="table-bordered table-sm table-hover" style="width:100%;">
+        <table style="width:100%; height: 100%; " frame="box">
           <tr>
-            <td >Choice of Area for Posting</td>
+            <td style="width: 35%;" >Choice of Area for Posting</td>
             <td ><input class="form-control mr-sm-2"  type="text"  style= "text-align: center;font-weight: bold;" readonly  name="ChoiceofAreaForPosting" value="{{rows['ChoiceofAreaForPosting']}}"></td>
 
   

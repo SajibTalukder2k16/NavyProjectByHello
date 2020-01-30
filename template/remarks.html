@@ -97,7 +97,8 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '1')}}">
-                                                                                  <input required name = "remarkado" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'adoFunction('+row[0]|string+')'}}" readonly id = "{{'ado'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  name = "remarkado" onclick="{{'adoFunction('+row[0]|string+')'}}" readonly id = "{{'ado'+row[0]|string}}" type="text"  >{{row[3]}}</textarea>
+                                                                                  <!-- <input required name = "remarkado" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'adoFunction('+row[0]|string+')'}}" readonly id = "{{'ado'+row[0]|string}}" type="text" value = "{{row[3]}}"> -->
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Update">
                                                                                 </form>
                                                                                   <script>
@@ -140,11 +141,12 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
-                                                                                  <p>
+                                                                                  <!-- <p>
                                                                                   <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkdo"  placeholder="Say Something ...">
-                                                                                  </p>
+                                                                                  </p> -->
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  placeholder="Say Something" name = "remarkdo"  ></textarea>
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
                                                                               </div>
@@ -174,7 +176,8 @@
                                                                                 </div>
                                                                                 <div class="span5">
                                                                                   <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '2')}}">
-                                                                                    <input required name = "remarkdo" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'doFunction('+row[0]|string+')'}}" readonly id = "{{'do'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                    <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  name = "remarkdo" onclick="{{'doFunction('+row[0]|string+')'}}" readonly id = "{{'do'+row[0]|string}}" type="text"  >{{row[3]}}</textarea>
+                                                                                    <!-- <input required name = "remarkdo" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'doFunction('+row[0]|string+')'}}" readonly id = "{{'do'+row[0]|string}}" type="text" value = "{{row[3]}}"> -->
                                                                                     <input type="submit" class="btn btn-color btn-rounded" value="Update">
                                                                                   </form>
                                                                                     <script>
@@ -218,11 +221,12 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
-                                                                                  <p>
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  placeholder="Say Something" name = "remarkco"  ></textarea>
+                                                                                  <!-- <p>
                                                                                   <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkco"  placeholder="Say Something ...">
-                                                                                  </p>
+                                                                                  </p> -->
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
                                                                               </div>
@@ -253,7 +257,8 @@
                                                                                 <div class="span5">
 
                                                                                   <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '3')}}">
-                                                                                    <input required name = "remarkco" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'coFunction('+row[0]|string+')'}}" readonly id = "{{'co'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                    <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  name = "remarkco" onclick="{{'coFunction('+row[0]|string+')'}}" readonly id = "{{'co'+row[0]|string}}" type="text"  >{{row[3]}}</textarea>
+                                                                                    <!-- <input required name = "remarkco" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'coFunction('+row[0]|string+')'}}" readonly id = "{{'co'+row[0]|string}}" type="text" value = "{{row[3]}}"> -->
                                                                                     <input type="submit" class="btn btn-color btn-rounded" value="Update">
                                                                                   </form>
                                                                                     <script>
@@ -296,11 +301,12 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('posting', id = id)}}">
-                                                                                  <p>
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  placeholder="Say Something" name = "remarkarea"  ></textarea>
+                                                                                  <!-- <p>
                                                                                   <input required style = "width: 80%; display:inline-block;
                                                                                   padding:15px 10px;
                                                                                   line-height:140%;" type="text" name = "remarkarea"  placeholder="Say Something ...">
-                                                                                  </p>
+                                                                                  </p> -->
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Post">
                                                                                 </form>
                                                                               </div>
@@ -330,7 +336,8 @@
                                                                               </div>
                                                                               <div class="span5">
                                                                                 <form method="POST" action="{{url_for('updateremark', id = id, postid = row[0], admintype = '5')}}">
-                                                                                  <input required name = "remarkarea" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'areaFunction('+row[0]|string+')'}}" readonly id = "{{'area'+row[0]|string}}" type="text" value = "{{row[3]}}">
+                                                                                  <textarea rows = "5" cols = "60" required style = "width: 150%;height: 300%;"  name = "remarkarea" onclick="{{'areaFunction('+row[0]|string+')'}}" readonly id = "{{'area'+row[0]|string}}" type="text"  >{{row[3]}}</textarea>
+                                                                                  <!-- <input required name = "remarkarea" style = "width: 80%; display:inline-block; padding:15px 10px; line-height:140%;" onclick="{{'areaFunction('+row[0]|string+')'}}" readonly id = "{{'area'+row[0]|string}}" type="text" value = "{{row[3]}}"> -->
                                                                                   <input type="submit" class="btn btn-color btn-rounded" value="Update">
                                                                                 </form>
                                                                                   <script>

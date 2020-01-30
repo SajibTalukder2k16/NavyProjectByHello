@@ -41,6 +41,7 @@ Branch = {  'Seaman' : ['OD', 'AB', 'LS', 'PO', 'CPO', 'SCPO(X)', 'MCPO(X)'],
             'Provost':['PM-II','PM-I','LPN','PO(R)','MAA','SCPO(REG)','MCPO(REG)'],
             'Steward':['STWD-II','STWD-I','LSTWD','PO(STWD)','CPO(STWD)','SCPO(STWD)','MCPO(STWD)']
             }
+Branch_Value = ['- - -','Seaman','Electrical','Radio Electrical','Engine Room','Supply','Secretariat','Medical','Cook','Topaz','Ordnance','Shipwright','Provost','Steward']
 Marital_Status = ['-','Single', 'Married', 'Divorced']
 Leave_Category = ['P Leave','C Leave','Recreation Leave','Sick Leave','Ex Bangladesh Leave']
 User_Type = ['System Administrator', 'ADO', 'Divisional Officer', 'Commanding Officer', 'Staff Officer', 'Comflot', 'Sailor']
@@ -581,7 +582,7 @@ def show():
     if('O_No' in session):
         login_status = True
         e_list = eligiblelist()
-        return render_template("show.html",static_on = 1,Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
+        return render_template("show.html",Branch_Value = Branch_Value,static_on = 1,Static_Search_list_for_database = Static_Search_list_for_database,Static_Search_list_for_html = Static_Search_list_for_html, rows = e_list,login_status=login_status)
 
     else:
         login_status = False
@@ -733,14 +734,14 @@ def editprofile(id):
                 temp.append(row[2])
                 temp.append(row[3])
                 siblingrow.append(temp)
-            return render_template('editprofile.html',childrenrow = childrenrow, siblingrow = siblingrow ,id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
+            return render_template('editprofile.html',Branch_Value = Branch_Value, childrenrow = childrenrow, siblingrow = siblingrow ,id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
 
     return redirect(url_for('profile',id = id))
 
 @app.route('/adduser')
 def adduser():
     if 'O_No' in session:
-        return render_template('adduser.html',Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=True)
+        return render_template('adduser.html',Branch_Value = Branch_Value, Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=True)
     return redirect(url_for('home'))
 
 @app.route('/adduser/adding_user',methods=['POST','GET'])
@@ -1600,7 +1601,7 @@ def search():
             login_status = True
         else:
             login_status = False
-        return render_template("search.html",Name_of_Ship = Name_of_Ship ,Blood_Group = Blood_Group,Medical_Category = Medical_Category,login_status=login_status,Branch_key = Branch, Branch = json.dumps(Branch))
+        return render_template("search.html",Name_of_Ship = Name_of_Ship ,Blood_Group = Blood_Group,Medical_Category = Medical_Category,login_status=login_status,Branch_key = Branch,Branch_Value = Branch_Value, Branch = json.dumps(Branch))
     else:
         return redirect(url_for('home'))
 
