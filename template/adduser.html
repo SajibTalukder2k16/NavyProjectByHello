@@ -3,6 +3,15 @@
 
 
 {% block head%}
+<!-- <link href="{{url_for('static', filename ='datepicker/temp1.css')}}" rel="stylesheet" />
+<script  src="{{url_for('static', filename ='datepicker/temp2.js')}}"></script>
+<script  src="{{url_for('static', filename ='datepicker/temp3.js')}}"></script> -->
+
+<link href="/static/custom_date/temp1.css" rel="stylesheet" />
+<script src="/static/custom_date/temp2.js"></script>
+<script src="/static/custom_date/temp3.js"></script>
+
+
 
 <style>
   .tablink {
@@ -169,11 +178,12 @@
         
         <tr>
             <td >Date of Birth</td>
-            <td ><input  class="form-control mr-sm-2"  type="date" date-month-format="DD MM YYYY" name="DateofBirth"></td>
+            <td><input type="text" name="DateofBirth" id="tbDate" placeholder="dd-mm-yyyy"/></td>
+            <!-- <td ><input  class="form-control mr-sm-2"  type="text"  id="tbDate" date-month-format="DD MM YYYY" name="DateofBirth"></td> -->
         </tr>
         <tr>
             <td >Date of Marriage</td>
-            <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage"></td>
+            <td ><input  class="form-control mr-sm-2" type="text"  placeholder="dd-mm-yyyy" id="tbDate1" name="DateofMarriage"></td>
         </tr>
         <tr>
             <td >Mobile No - 1</td>
@@ -247,7 +257,7 @@
       <tr>
         <td>Chilren Information</td>
         <td>
-          <table style="width: 100%; height: 100%;" id="ChildTable">
+          <table style="width: 100%;" id="ChildTable">
             <tr>
               <th>Children Name</th>
               <th>DOB of Children</th>
@@ -262,6 +272,7 @@
           <button type="button" class="btn btn-primary btn-lg " onclick="ChildFunction()">Add more Chilren Info</button>
         </td>
       </tr>
+
 
       <!-- <tr>
         <td>
@@ -361,11 +372,11 @@
       </tr>
       <tr>
         <td >Effective date of existing GCB</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" placeholder="dd-mm-yyyy" id="tbDate2" name="EffectivedateofexistingGCB"></td>
       </tr>
       <tr>
         <td >Date of Next Promotion</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" placeholder="dd-mm-yyyy" id="tbDate3" name="DateofNextPromotion"></td>
       </tr>
       <tr>
         <td >Medical category</td>
@@ -378,15 +389,15 @@
       </tr>
       <tr>
         <td >Date of Last Promotion</td>
-        <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion"></td>
+        <td ><input class="form-control mr-sm-2" type="text" placeholder="dd-mm-yyyy"  id="tbDate4" name="DateofLastPromotion"></td>
       </tr>
       <tr>
           <td >Date of Joining Service</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService"></td>
+          <td ><input class="form-control mr-sm-2"  type="text" placeholder="dd-mm-yyyy" id="tbDate5" name="DateofJoiningService"></td>
       </tr>
       <tr>
           <td >Date of Joining Ship</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningShip"></td>
+          <td ><input class="form-control mr-sm-2"  type="text" placeholder="dd-mm-yyyy" id="tbDate6" name="DateofJoiningShip"></td>
       </tr>
       <tr>
         <td >Name of Ship</td>
@@ -495,7 +506,7 @@
       
       <tr>
         <td >Last Date of BloodDonation</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" placeholder="dd-mm-yyyy" id="tbDate7" name="LastDateofBloodDonation"></td>
       </tr>
       <tr>
         <td >MLR</td>
@@ -515,6 +526,94 @@
 </div>
 </div>
 </div>
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate1]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate2]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate3]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate4]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate5]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate6]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate7]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1950:2120",
+  });
+  });
+</script>
+
 <script>
     function openPage(pageName,elmnt,color) {
       var i, tabcontent, tablinks;
@@ -567,7 +666,7 @@
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
     cell1.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="ChildrenName'+(table.rows.length - 1)+'">'
-    cell2.innerHTML = '<input class="form-control mr-sm-2"  type="date" name="DOBofChildren'+(table.rows.length - 1)+'">';
+    cell2.innerHTML = '<input class="form-control mr-sm-2"  type="date"  name="DOBofChildren'+(table.rows.length - 1)+'">';
     cell3.innerHTML = '<input class="form-control mr-sm-2"  type="text" name="Anyspecialinfochildren'+(table.rows.length - 1)+'">';
   }
   </script>

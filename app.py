@@ -96,6 +96,16 @@ def inject_user():
         usertype = session['usertype']
     return dict(user=id, type = usertype)
 
+def dmyToymd(dmy):
+    tempDob = dmy.split('-')
+    ymd = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
+    return ymd
+
+def ymdTodmy(ymd):
+    tempDob=ymd.split('-')
+    dmy = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
+    return dmy
+
 def addyearmonth(joindate,addyear,addmonth):
     year = joindate.year
     month = joindate.month
@@ -587,8 +597,6 @@ def show():
     else:
         login_status = False
 
-
-
 @app.route('/notification')
 def notification():
     if 'O_No' in session:
@@ -666,7 +674,7 @@ def profile(id):
         for i in range(len(rows[0])):
             temprow[Column[i]]=rows[0][i]
         childrenrow = []
-        print(childrenrows)
+        # print(childrenrows)
         for row in childrenrows:
             temp = []
             temp.append(row[1])
@@ -680,6 +688,33 @@ def profile(id):
             temp.append(row[2])
             temp.append(row[3])
             siblingrow.append(temp)
+        # print("date: ",type(temprow['DateofBirth']),temprow['DateofBirth'])
+        if temprow['DateofBirth']!='':
+            temprow['DateofBirth']=ymdTodmy(temprow['DateofBirth'])
+        if temprow['DateofMarriage']!='':
+            temprow['DateofMarriage']=ymdTodmy(temprow['DateofMarriage'])
+        if temprow['EffectivedateofexistingGCB']!='':
+            temprow['EffectivedateofexistingGCB']=ymdTodmy(temprow['EffectivedateofexistingGCB'])
+        if temprow['DateofLastPromotion']!='':
+            temprow['DateofLastPromotion']=ymdTodmy(temprow['DateofLastPromotion'])
+        if temprow['DateofJoiningService']!='':
+            temprow['DateofJoiningService']=ymdTodmy(temprow['DateofJoiningService'])
+        if temprow['DateofJoiningShip']!='':
+            temprow['DateofJoiningShip']=ymdTodmy(temprow['DateofJoiningShip'])
+        if temprow['LastDateofBloodDonation']!='':
+            temprow['LastDateofBloodDonation']=ymdTodmy(temprow['LastDateofBloodDonation'])
+        if temprow['DateofNextPromotion']!='':
+            temprow['DateofNextPromotion']=ymdTodmy(temprow['DateofNextPromotion'])
+        if temprow['DateofNextGCB']!='':
+            temprow['DateofNextGCB']=ymdTodmy(temprow['DateofNextGCB'])
+        if temprow['DateofNextIncrement']!='':
+            temprow['DateofNextIncrement']=ymdTodmy(temprow['DateofNextIncrement'])
+        if temprow['DateofNextPromotion']!='':
+            temprow['DateofNextPromotion']=ymdTodmy(temprow['DateofNextPromotion'])
+        if temprow['NextREEngagementDue']!='':
+            temprow['NextREEngagementDue']=ymdTodmy(temprow['NextREEngagementDue'])
+            
+        # print("date: ",type(temprow['DateofBirth']),temprow['DateofBirth'])
         return render_template('profile.html', id = id,siblingrow = siblingrow,childrenrow = childrenrow, rows = temprow, login_status = login_status, Column = Column)
         #return render_template('profile.html',id = id, Column = Column,usertype = usertype,rows=temprow,Name_of_Ship = Name_of_Ship, Medical_Category = Medical_Category,YesNo = YesNo,Home_District = Home_District, Marital_Status = Marital_Status,Branch_key = Branch, Branch = json.dumps(Branch), Blood_Group = Blood_Group, Highest_Education = Highest_Education, Ongoing_Education = Ongoing_Education, Service_Category = Service_Category, Present_Engagement = Present_Engagement, Number_of_GCB = Number_of_GCB, Choice_of_Area_for_drafting = Choice_of_Area_for_drafting, Choice_of_Next_Appointment = Choice_of_Next_Appointment, User_Type = User_Type, login_status=login_status)
     else:
@@ -758,6 +793,29 @@ def adding_user():
                     if(req[col][0]!=''):
                         dic[col]=req[col][0]
             #try:
+            if 'DateofBirth' in dic:
+                # print("Before conversion: ",dic['DateofBirth'])
+                dic['DateofBirth']=dmyToymd(dic['DateofBirth'])
+                # print("After conversion: ",dic['DateofBirth'])
+                #req['DateofBirth'][0]=dmyToymd(req['DateofBirth'][0])
+            if 'DateofMarriage' in dic:
+                dic['DateofMarriage']=dmyToymd(dic['DateofMarriage'])
+            if 'EffectivedateofexistingGCB' in dic:
+                print("Before: ",dic['EffectivedateofexistingGCB'])
+                dic['EffectivedateofexistingGCB']=dmyToymd(dic['EffectivedateofexistingGCB'])
+                print("After gcb: ",dic['EffectivedateofexistingGCB'])
+            if 'DateofNextPromotion' in dic:
+                # print("Before: ",dic['DateofNextPromotion'])
+                dic['DateofNextPromotion']=dmyToymd(dic['DateofNextPromotion'])
+                # print("After: ",dic['DateofNextPromotion'])
+            if 'DateofLastPromotion' in dic:
+                dic['DateofLastPromotion']=dmyToymd(dic['DateofLastPromotion'])
+            if 'DateofJoiningService' in dic:
+                dic['DateofJoiningService']=dmyToymd(dic['DateofJoiningService'])
+            if 'DateofJoiningShip' in dic:
+                dic['DateofJoiningShip'] = dmyToymd(dic['DateofJoiningShip'])
+            if 'LastDateofBloodDonation' in dic:
+                dic['LastDateofBloodDonation'] = dmyToymd(dic['LastDateofBloodDonation'])
             if('Weight' in dic and 'Height' in dic):
                 dic['StateofOverWeight']=round(float(dic['Weight'])*float(dic['Weight'])/float(dic['Height']),2)
             #nextreengagement calculation

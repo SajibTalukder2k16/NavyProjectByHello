@@ -160,11 +160,11 @@
       </tr>
       <tr>
           <td >Date of Birth</td>
-          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
+          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly   type="text"   name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
       </tr>
       <tr>
           <td >Date of Marriage</td>
-          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="date" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
+          <td ><input  class="form-control mr-sm-2" style= "text-align: center;font-weight: bold;" readonly  type="text"   name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
       </tr>
       <tr>
           <td >Mobile No - 1</td>
@@ -257,7 +257,7 @@
                 {%for i in range(childrenrow|length) %}
                 <tr>
                   <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][0]}}" name="{{'ChildrenName' + (i+1)|string}}"></td>
-                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="date" value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
+                  <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text"   value="{{childrenrow[i][1]}}" name="{{'DOBofChildren' + (i+1)|string}}"></td>
                   <td><input   style= "text-align: center;font-weight: bold;" readonly   type="text" value="{{childrenrow[i][2]}}" name="{{'Anyspecialinfochildren' + (i+1)|string}}"></td>
                 </tr>
                 {%endfor%}
@@ -333,15 +333,15 @@
         </tr>
         <tr>
             <td>Next RE-Engagement Due</td>
-            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="NextREEngagementDue" value="{{rows['NextREEngagementDue']}}"></td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text"   name="NextREEngagementDue" value="{{rows['NextREEngagementDue']}}"></td>
         </tr>
         <tr>
           <td>Date of Next Increment</td>
-          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofNextIncrement" value="{{rows['DateofNextIncrement']}}"></td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text"   name="DateofNextIncrement" value="{{rows['DateofNextIncrement']}}"></td>
         </tr>
         <tr>
           <td>Date of Next GCB</td>
-          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="DateofNextGCB" value="{{rows['DateofNextGCB']}}"></td>
+          <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text"   name="DateofNextGCB" value="{{rows['DateofNextGCB']}}"></td>
         </tr>
     
         <tr>
@@ -350,7 +350,7 @@
         </tr>
           <tr>
             <td >Effective date of existing GCB</td>
-            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="date" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
+            <td ><input class="form-control mr-sm-2"  style= "text-align: center;font-weight: bold;" readonly   type="text"   name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
           </tr>
           <tr>
             <td >Date of Next Promotion</td>
@@ -362,19 +362,19 @@
           </tr>
           <tr>
             <td >Date of Last Promotion</td>
-            <td ><input class="form-control mr-sm-2" type="date"  style= "text-align: center;font-weight: bold;" readonly  name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
+            <td ><input class="form-control mr-sm-2" type="text"    style= "text-align: center;font-weight: bold;" readonly  name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
           </tr>
     
     
           <tr>
               <td >Date of Joining Service</td>
-              <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly  name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
+              <td ><input class="form-control mr-sm-2"  type="text"   style= "text-align: center;font-weight: bold;" readonly  name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
           </tr>
           
           <tr>
           <tr>
               <td >Date of Joining Ship</td>
-              <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly   name="DateofJoiningShip" value="{{rows['DateofJoiningShip']}}"></td>
+              <td ><input class="form-control mr-sm-2"  type="text"   style= "text-align: center;font-weight: bold;" readonly   name="DateofJoiningShip" value="{{rows['DateofJoiningShip']}}"></td>
           </tr>
     
           <tr>
@@ -463,7 +463,7 @@
           </tr>
           <tr>
             <td >Last Date of BloodDonation</td>
-            <td ><input class="form-control mr-sm-2"  type="date" style= "text-align: center;font-weight: bold;" readonly  name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
+            <td ><input class="form-control mr-sm-2"  type="text"   style= "text-align: center;font-weight: bold;" readonly  name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
         </tr>
         <tr>
           <td >MLR</td>
