@@ -1,6 +1,9 @@
 {%extends 'templatebase.html'%}
 
 {% block head %}
+<link href="/static/custom_date/temp1.css" rel="stylesheet" />
+<script src="/static/custom_date/temp2.js"></script>
+<script src="/static/custom_date/temp3.js"></script>
 <style>
   .tablink {
       background-color: #555;
@@ -123,7 +126,7 @@ input[type=submit]{
     <h1>Basic Particulars</h1>
     <table style="width:100%; height: 100%;"frame="box">
     <tr>
-        <td style="width: 35%;">O. No</td>
+        <td style="width: 35%;">O. No/P. No</td>
         <td ><input class=" form-control mr-sm-2" type="text" name="O_No" value="{{rows['O_No']}}" ></td>
     </tr>
     <tr>
@@ -196,11 +199,12 @@ input[type=submit]{
     
   <tr>
       <td >Date of Birth</td>
-      <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth" value="{{rows['DateofBirth']}}" ></td>
+      <td><input  name="DateofBirth" type="text" id="tbDate" value="{{rows['DateofBirth']}}" /></td>
+      <!-- <td ><input  class="form-control mr-sm-2"  type="date" name="DateofBirth"  ></td> -->
   </tr>
   <tr>
       <td >Date of Marriage</td>
-      <td ><input  class="form-control mr-sm-2" type="date" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
+      <td ><input  class="form-control mr-sm-2" type="text" id="tbDate1" name="DateofMarriage" value="{{rows['DateofMarriage']}}"></td>
   </tr>
   <tr>
       <td >Mobile No - 1</td>
@@ -423,11 +427,11 @@ input[type=submit]{
       </tr>
       <tr>
         <td >Effective date of existing GCB</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" id="tbDate2" name="EffectivedateofexistingGCB" value="{{rows['EffectivedateofexistingGCB']}}"></td>
       </tr>
       <tr>
         <td >Date of Next Promotion</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="DateofNextPromotion" value="{{rows['DateofNextPromotion']}}"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" id="tbDate3" name="DateofNextPromotion" value="{{rows['DateofNextPromotion']}}"></td>
       </tr>
       <tr>
         <td >Medical category</td>
@@ -446,19 +450,19 @@ input[type=submit]{
       </tr>
       <tr>
         <td >Date of Last Promotion</td>
-        <td ><input class="form-control mr-sm-2" type="date" name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
+        <td ><input class="form-control mr-sm-2" type="text" id="tbDate4" name="DateofLastPromotion" value="{{rows['DateofLastPromotion']}}"></td>
       </tr>
 
 
       <tr>
           <td >Date of Joining Service</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
+          <td ><input class="form-control mr-sm-2"  type="text" id="tbDate5" name="DateofJoiningService" value="{{rows['DateofJoiningService']}}"></td>
       </tr>
       
       <tr>
       <tr>
           <td >Date of Joining Ship</td>
-          <td ><input class="form-control mr-sm-2"  type="date" name="DateofJoiningShip" value="{{rows['DateofJoiningShip']}}"></td>
+          <td ><input class="form-control mr-sm-2"  type="text" id="tbDate6" name="DateofJoiningShip" value="{{rows['DateofJoiningShip']}}"></td>
       </tr>
 
       <tr>
@@ -601,7 +605,7 @@ input[type=submit]{
       </tr>
       <tr>
         <td >Last Date of BloodDonation</td>
-        <td ><input class="form-control mr-sm-2"  type="date" name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
+        <td ><input class="form-control mr-sm-2"  type="text" id="tbDate7" name="LastDateofBloodDonation" value="{{rows['LastDateofBloodDonation']}}"></td>
     </tr>
     <tr>
       <td >MLR</td>
@@ -615,6 +619,95 @@ input[type=submit]{
     </table>
   </div>
 </form>
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate1]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate2]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate3]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate4]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate5]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate6]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate7]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+
 <script>
     function openPage(pageName,elmnt,color) {
       var i, tabcontent, tablinks;

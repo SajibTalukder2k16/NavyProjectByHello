@@ -97,13 +97,17 @@ def inject_user():
     return dict(user=id, type = usertype)
 
 def dmyToymd(dmy):
-    tempDob = dmy.split('-')
-    ymd = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
+    ymd=dmy
+    if ymd[2]=='-':
+        tempDob = dmy.split('-')
+        ymd = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
     return ymd
 
 def ymdTodmy(ymd):
-    tempDob=ymd.split('-')
-    dmy = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
+    dmy=ymd
+    if dmy[2]!='-':
+        tempDob=ymd.split('-')
+        dmy = tempDob[2]+'-'+tempDob[1]+'-'+tempDob[0]
     return dmy
 
 def addyearmonth(joindate,addyear,addmonth):
@@ -754,7 +758,42 @@ def editprofile(id):
             temprow = {}
             for i in range(len(rows[0])):
                 temprow[Column[i]] = rows[0][i]
-            
+            if temprow['DateofBirth']!='':
+                if temprow['DateofBirth'][2]!='-':
+                    temprow['DateofBirth']=ymdTodmy(temprow['DateofBirth'])
+            if temprow['DateofMarriage']!='':
+                if temprow['DateofMarriage'][2]!='-':
+                    temprow['DateofMarriage']=ymdTodmy(temprow['DateofMarriage'])
+            if temprow['EffectivedateofexistingGCB']!='':
+                if temprow['EffectivedateofexistingGCB'][2]!='-':
+                    temprow['EffectivedateofexistingGCB']=ymdTodmy(temprow['EffectivedateofexistingGCB'])
+            if temprow['DateofLastPromotion']!='':
+                if temprow['DateofLastPromotion'][2]!='-':
+                    temprow['DateofLastPromotion']=ymdTodmy(temprow['DateofLastPromotion'])
+            if temprow['DateofJoiningService']!='':
+                if temprow['DateofJoiningService'][2]!='-':
+                    temprow['DateofJoiningService']=ymdTodmy(temprow['DateofJoiningService'])
+            if temprow['DateofJoiningShip']!='':
+                if temprow['DateofJoiningShip'][2]!='-':
+                    temprow['DateofJoiningShip']=ymdTodmy(temprow['DateofJoiningShip'])
+            if temprow['LastDateofBloodDonation']!='':
+                if temprow['LastDateofBloodDonation'][2]!='-':
+                    temprow['LastDateofBloodDonation']=ymdTodmy(temprow['LastDateofBloodDonation'])
+            if temprow['DateofNextPromotion']!='':
+                if temprow['DateofNextPromotion'][2]!='-':
+                    temprow['DateofNextPromotion']=ymdTodmy(temprow['DateofNextPromotion'])
+            if temprow['DateofNextGCB']!='':
+                if temprow['DateofNextGCB'][2]!='-':
+                    temprow['DateofNextGCB']=ymdTodmy(temprow['DateofNextGCB'])
+            if temprow['DateofNextIncrement']!='':
+                if temprow['DateofNextIncrement'][2]!='-':
+                    temprow['DateofNextIncrement']=ymdTodmy(temprow['DateofNextIncrement'])
+            if temprow['DateofNextPromotion']!='':
+                if temprow['DateofNextPromotion'][2]!='-':
+                    temprow['DateofNextPromotion']=ymdTodmy(temprow['DateofNextPromotion'])
+            if temprow['NextREEngagementDue']!='':
+                if temprow['NextREEngagementDue'][2]!='-':
+                    temprow['NextREEngagementDue']=ymdTodmy(temprow['NextREEngagementDue'])
             childrenrow = []
             for row in childrenrows:
                 temp = []
@@ -792,108 +831,115 @@ def adding_user():
                         req[col][0]=''
                     if(req[col][0]!=''):
                         dic[col]=req[col][0]
-            #try:
-            if 'DateofBirth' in dic:
-                # print("Before conversion: ",dic['DateofBirth'])
-                dic['DateofBirth']=dmyToymd(dic['DateofBirth'])
-                # print("After conversion: ",dic['DateofBirth'])
-                #req['DateofBirth'][0]=dmyToymd(req['DateofBirth'][0])
-            if 'DateofMarriage' in dic:
-                dic['DateofMarriage']=dmyToymd(dic['DateofMarriage'])
-            if 'EffectivedateofexistingGCB' in dic:
-                print("Before: ",dic['EffectivedateofexistingGCB'])
-                dic['EffectivedateofexistingGCB']=dmyToymd(dic['EffectivedateofexistingGCB'])
-                print("After gcb: ",dic['EffectivedateofexistingGCB'])
-            if 'DateofNextPromotion' in dic:
-                # print("Before: ",dic['DateofNextPromotion'])
-                dic['DateofNextPromotion']=dmyToymd(dic['DateofNextPromotion'])
-                # print("After: ",dic['DateofNextPromotion'])
-            if 'DateofLastPromotion' in dic:
-                dic['DateofLastPromotion']=dmyToymd(dic['DateofLastPromotion'])
-            if 'DateofJoiningService' in dic:
-                dic['DateofJoiningService']=dmyToymd(dic['DateofJoiningService'])
-            if 'DateofJoiningShip' in dic:
-                dic['DateofJoiningShip'] = dmyToymd(dic['DateofJoiningShip'])
-            if 'LastDateofBloodDonation' in dic:
-                dic['LastDateofBloodDonation'] = dmyToymd(dic['LastDateofBloodDonation'])
-            if('Weight' in dic and 'Height' in dic):
-                dic['StateofOverWeight']=round(float(dic['Weight'])*float(dic['Weight'])/float(dic['Height']),2)
-            #nextreengagement calculation
-            if('DateofJoiningShip' in dic):
-                dateofjoiningship = dic['DateofJoiningShip']
-                if('PresentEngagement' in dic and dic['PresentEngagement'] != '-'):
-                    presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
-                    if('ServiceCategory' in dic and dic['ServiceCategory'] != '-'):
-                        servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
-                        dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
-                        dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
-                        dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")     
-            if('EffectivedateofexistingGCB' in dic):
-                effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
-                effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
-                dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
-                dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
-            #date of next increment
-            if('DateofJoiningShip' in dic):
-                DateofJoiningShip = dic['DateofJoiningShip']
-                DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
-                dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
-                dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
-            if 'ADO_O_No' not in dic:
-                dic['ADO_O_No'] = session['O_No']
-            for col in Column:
-                if(col not in dic):
-                    dic[col]=''
-                else:
-                    dic[col]=str(dic[col])
-            query = "INSERT INTO Sailor (O_No "
-            for i in range(1,len(Column)):
-                query = query + ', ' + Column[i]
-            query += ')  VALUES ( %s'
-            for i in range(1,len(Column)):
-                query += ",%s"
-            query += ')'
-            param = ()
-            for col in Column:
-                param = param +( dic[col], )
-                
-            mcur = mysql.connection.cursor()
-            mcur.execute(query, param)
-            mysql.connection.commit()
-            mcur.close()
-            ret = []
-            req = request.form
-            mcur = mysql.connection.cursor()
-            for i in range(1,100):
-                id1 = 'SiblingName' + str(i)
-                id2 = 'SiblingMobileNo' + str(i)
-                id3 = 'SiblingAddress' + str(i)
-                if id1 in req:
-                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                        pass
+            try:
+                if 'DateofBirth' in dic and dic['DateofBirth'][2]=='-' :
+                    # print("Before conversion: ",dic['DateofBirth'])
+                    dic['DateofBirth']=dmyToymd(dic['DateofBirth'])
+                    # print("After conversion: ",dic['DateofBirth'])
+                    #req['DateofBirth'][0]=dmyToymd(req['DateofBirth'][0])
+                if 'DateofMarriage' in dic and dic['DateofMarriage'][2]=='-':
+                    dic['DateofMarriage']=dmyToymd(dic['DateofMarriage'])
+                if 'EffectivedateofexistingGCB' in dic :
+                    if dic['EffectivedateofexistingGCB'][2]=='-':
+                        print("Before: ",dic['EffectivedateofexistingGCB'])
+                        dic['EffectivedateofexistingGCB']=dmyToymd(dic['EffectivedateofexistingGCB'])
+                        print("After gcb: ",dic['EffectivedateofexistingGCB'])
+                if 'DateofNextPromotion' in dic :
+                    if dic['DateofNextPromotion'][2]=='-':
+                        # print("Before: ",dic['DateofNextPromotion'])
+                        dic['DateofNextPromotion']=dmyToymd(dic['DateofNextPromotion'])
+                        # print("After: ",dic['DateofNextPromotion'])
+                if 'DateofLastPromotion' in dic :
+                    if dic['DateofLastPromotion'][2]=='-':
+                        dic['DateofLastPromotion']=dmyToymd(dic['DateofLastPromotion'])
+                if 'DateofJoiningService' in dic:
+                    if dic['DateofJoiningService'][2]=='-':
+                        dic['DateofJoiningService']=dmyToymd(dic['DateofJoiningService'])
+                if 'DateofJoiningShip' in dic :
+                    if dic['DateofJoiningShip'][2]=='-':
+                        dic['DateofJoiningShip'] = dmyToymd(dic['DateofJoiningShip'])
+                if 'LastDateofBloodDonation' in dic:
+                    if dic['LastDateofBloodDonation'][2]=='-':
+                        dic['LastDateofBloodDonation'] = dmyToymd(dic['LastDateofBloodDonation'])
+                        
+                if('Weight' in dic and 'Height' in dic):
+                    dic['StateofOverWeight']=round(float(dic['Weight'])*float(dic['Weight'])/float(dic['Height']),2)
+                #nextreengagement calculation
+                if('DateofJoiningShip' in dic):
+                    dateofjoiningship = dic['DateofJoiningShip']
+                    if('PresentEngagement' in dic and dic['PresentEngagement'] != '-'):
+                        presentengagement = Present_Engagement.index(dic['PresentEngagement']) - 1
+                        if('ServiceCategory' in dic and dic['ServiceCategory'] != '-'):
+                            servicecategory = Service_Category.index(dic['ServiceCategory']) - 1
+                            dateofjoiningship = datetime.strptime(dateofjoiningship,'%Y-%m-%d')
+                            dic['NextREEngagementDue']=calculateReEngagement(dateofjoiningship,presentengagement,servicecategory)
+                            dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")     
+                if('EffectivedateofexistingGCB' in dic):
+                    effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
+                    effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
+                    dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
+                    dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
+                #date of next increment
+                if('DateofJoiningShip' in dic):
+                    DateofJoiningShip = dic['DateofJoiningShip']
+                    DateofJoiningShip = datetime.strptime(DateofJoiningShip,'%Y-%m-%d')
+                    dic['DateofNextIncrement'] = addyearmonth(DateofJoiningShip,0,11)
+                    dic['DateofNextIncrement'] = dic['DateofNextIncrement'].strftime("%Y-%m-%d")
+                if 'ADO_O_No' not in dic:
+                    dic['ADO_O_No'] = session['O_No']
+                for col in Column:
+                    if(col not in dic):
+                        dic[col]=''
                     else:
-                        mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        ret.append((req[id1], req[id2], req[id3]))
-            mysql.connection.commit()
-            mcur.close()
+                        dic[col]=str(dic[col])
+                query = "INSERT INTO Sailor (O_No "
+                for i in range(1,len(Column)):
+                    query = query + ', ' + Column[i]
+                query += ')  VALUES ( %s'
+                for i in range(1,len(Column)):
+                    query += ",%s"
+                query += ')'
+                param = ()
+                for col in Column:
+                    param = param +( dic[col], )
+                    
+                mcur = mysql.connection.cursor()
+                mcur.execute(query, param)
+                mysql.connection.commit()
+                mcur.close()
+                ret = []
+                req = request.form
+                mcur = mysql.connection.cursor()
+                for i in range(1,100):
+                    id1 = 'SiblingName' + str(i)
+                    id2 = 'SiblingMobileNo' + str(i)
+                    id3 = 'SiblingAddress' + str(i)
+                    if id1 in req:
+                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                            pass
+                        else:
+                            mcur.execute("INSERT INTO Sibling (SiblingName,SiblingMobileNo,SiblingAddress,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
+                            ret.append((req[id1], req[id2], req[id3]))
+                mysql.connection.commit()
+                mcur.close()
 
-            ret = []
-            req = request.form
-            mcur = mysql.connection.cursor()
-            for i in range(1,100):
-                id1 = 'ChildrenName' + str(i)
-                id2 = 'DOBofChildren' + str(i)
-                id3 = 'Anyspecialinfochildren' + str(i)
-                if id1 in req:
-                    if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
-                        pass
-                    else:
-                        mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
-                        ret.append((req[id1], req[id2], req[id3]))
-            mysql.connection.commit()
-            mcur.close()
-            #except:
-                #pass
+                ret = []
+                req = request.form
+                mcur = mysql.connection.cursor()
+                for i in range(1,100):
+                    id1 = 'ChildrenName' + str(i)
+                    id2 = 'DOBofChildren' + str(i)
+                    id3 = 'Anyspecialinfochildren' + str(i)
+                    if id1 in req:
+                        if (req[id1] is None and req[id2] is None and req[id3] is None) or( req[id1] == '' and req[id2] == '' and req[id3] == ''):
+                            pass
+                        else:
+                            mcur.execute("INSERT INTO Children (ChildrenName,DOBofChildren,Anyspecialinfochildren,O_No) VALUES (%s,%s,%s,%s)",(req[id1],req[id2],req[id3],req['O_No']))
+                            ret.append((req[id1], req[id2], req[id3]))
+                mysql.connection.commit()
+                mcur.close()
+            except:
+                pass
         
      return redirect(url_for('show'))    
 
@@ -910,8 +956,37 @@ def updating_user(id):
                         req[col][0]=''
                     if(req[col][0]!=''):
                         dic[col]=req[col][0]
-            print(req)
-
+            # print(req)
+        if 'DateofBirth' in dic :
+            if dic['DateofBirth'][2]=='-':
+                # print("Before conversion: ",dic['DateofBirth'])
+                dic['DateofBirth']=dmyToymd(dic['DateofBirth'])
+                # print("After conversion: ",dic['DateofBirth'])
+                #req['DateofBirth'][0]=dmyToymd(req['DateofBirth'][0])
+        if 'DateofMarriage' in dic and dic['DateofMarriage'][2]=='-':
+            dic['DateofMarriage']=dmyToymd(dic['DateofMarriage'])
+        if 'EffectivedateofexistingGCB' in dic :
+            if dic['EffectivedateofexistingGCB'][2]=='-':
+                print("Before: ",dic['EffectivedateofexistingGCB'])
+                dic['EffectivedateofexistingGCB']=dmyToymd(dic['EffectivedateofexistingGCB'])
+                print("After gcb: ",dic['EffectivedateofexistingGCB'])
+        if 'DateofNextPromotion' in dic :
+            if dic['DateofNextPromotion'][2]=='-':
+                # print("Before: ",dic['DateofNextPromotion'])
+                dic['DateofNextPromotion']=dmyToymd(dic['DateofNextPromotion'])
+                # print("After: ",dic['DateofNextPromotion'])
+        if 'DateofLastPromotion' in dic :
+            if dic['DateofLastPromotion'][2]=='-':
+                dic['DateofLastPromotion']=dmyToymd(dic['DateofLastPromotion'])
+        if 'DateofJoiningService' in dic:
+            if dic['DateofJoiningService'][2]=='-':
+                dic['DateofJoiningService']=dmyToymd(dic['DateofJoiningService'])
+        if 'DateofJoiningShip' in dic :
+            if dic['DateofJoiningShip'][2]=='-':
+                dic['DateofJoiningShip'] = dmyToymd(dic['DateofJoiningShip'])
+        if 'LastDateofBloodDonation' in dic:
+            if dic['LastDateofBloodDonation'][2]=='-':
+                dic['LastDateofBloodDonation'] = dmyToymd(dic['LastDateofBloodDonation'])
         if('Weight' in dic and 'Height' in dic):
             dic['StateofOverWeight']=round(float(float(dic['Weight'])*float(dic['Weight']))/float(dic['Height']),2)
         if('DateofJoiningShip' in dic):
@@ -925,7 +1000,9 @@ def updating_user(id):
                     dic['NextREEngagementDue'] = dic['NextREEngagementDue'].strftime("%Y-%m-%d")       
         if('EffectivedateofexistingGCB' in dic):
             effectivedateofexistinggcb = dic['EffectivedateofexistingGCB']
+            print("Hello check: ",dic['EffectivedateofexistingGCB'])
             effectivedateofexistinggcb = datetime.strptime(effectivedateofexistinggcb,'%Y-%m-%d')
+
             dic['DateofNextGCB'] = addyearmonth(effectivedateofexistinggcb,4,0)
             dic['DateofNextGCB'] = dic['DateofNextGCB'].strftime("%Y-%m-%d")
             print(dic['DateofNextGCB'])
@@ -1088,6 +1165,11 @@ def adding_leave(id):
             try:
                 req = request.form
                 mcur = mysql.connection.cursor()
+                print("hello",req)
+                if 'froml' in req:
+                    req['froml']=dmyToymd(req['tol'])
+                if 'tol' in req:
+                    req['tol'] = dmyToymd(req['tol'])
                 mcur.execute("insert into LeaveHistory (type, froml , tol , O_No ) values (%s, %s, %s, %s)", (req['type'], req['froml'], req['tol'], id,))
                 mysql.connection.commit()
                 mcur.close()
@@ -1125,7 +1207,7 @@ def leavehistory(id):
         extra['Recreation Leave Due'] = 0
         extra['C Leave Availed'] = 0
         extra['C Leave Due'] = 20
-        if servicejoindate=="NONE" :
+        if servicejoindate=='':
             extra['Recreation Leave Due'] = "N/A"
         else:
             temp = datetime.strptime(servicejoindate,'%Y-%m-%d')
@@ -1138,8 +1220,10 @@ def leavehistory(id):
             temp['type'] = row[1]
             temp['froml'] = row[2]
             temp['tol'] = row[3]
-            d1 = datetime.strptime(temp['tol'], "%Y-%m-%d")
-            d2 = datetime.strptime(temp['froml'], "%Y-%m-%d")
+            d1 = datetime.strptime(dmyToymd(temp['tol']), "%Y-%m-%d")
+            d2 = datetime.strptime(dmyToymd(temp['froml']), "%Y-%m-%d")
+            temp['froml']=ymdTodmy(temp['froml'])
+            temp['tol']=ymdTodmy(temp['tol'])
             dif = abs((d2 - d1).days)
             temp['duration'] = dif
             ret.append(temp)
@@ -1152,7 +1236,7 @@ def leavehistory(id):
                 extra['Recreation Leave'] = 0
             
             extra['C Leave Due'] = 20 - extra['C Leave Availed']
-            extra['Recreation Leave Due'] =  0
+            # extra['Recreation Leave Due'] =  0
             extra['P Due'] = 60 - extra['P Leave Availed']
 
 

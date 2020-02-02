@@ -1,5 +1,8 @@
 {% extends 'templatebase.html'%}
 {% block head%}
+  <link href="/static/custom_date/temp1.css" rel="stylesheet" />
+  <script src="/static/custom_date/temp2.js"></script>
+  <script src="/static/custom_date/temp3.js"></script>
 {% endblock %}
 {% block body%}
 <div align="center">
@@ -127,11 +130,11 @@
           </tr>
           <tr>
             <td>From Date</td>
-            <td><input required type="date" name="froml"></td>
+            <td><input required type="text" id="tbDate" placeholder="dd-mm-yyyy" name="froml"></td>
           </tr>
           <tr>
             <td>To Date</td>
-            <td><input required type="date" name="tol"></td>
+            <td><input required type="text"  placeholder="dd-mm-yyyy" id="tbDate1" name="tol"></td>
           </tr>
           <tr>
             <td></td>
@@ -148,4 +151,26 @@
   </div>
 </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+      $('input[id$=tbDate1]').datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "1850:2120",
+  });
+  });
+</script>
 {% endblock %}
